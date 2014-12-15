@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.fsk.mynotes;
+package com.fsk.mynotes.data.database;
 
 public enum DatabaseKeys {
 

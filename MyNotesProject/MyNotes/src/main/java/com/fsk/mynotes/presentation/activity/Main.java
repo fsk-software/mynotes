@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.fsk.mynotes;
+package com.fsk.mynotes.presentation.activity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,7 +41,18 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ToggleButton;
 
-import com.fsk.mynotes.ColorSelector.OnSelectListener;
+import com.fsk.mynotes.constants.NoteColors;
+import com.fsk.mynotes.presentation.components.note_view.NoteEventListener;
+import com.fsk.mynotes.presentation.components.note_view.NoteView;
+import com.fsk.mynotes.R;
+import com.fsk.mynotes.presentation.adapters.NotesViewAdapter;
+import com.fsk.mynotes.presentation.components.ColorSelector;
+import com.fsk.mynotes.presentation.components.ColorSelector.OnSelectListener;
+import com.fsk.mynotes.data.Note;
+import com.fsk.mynotes.data.database.DatabaseKeys;
+import com.fsk.mynotes.data.database.DatabaseManager;
+import com.fsk.mynotes.data.database.NotesTableManager;
+import com.fsk.mynotes.presentation.components.MultiColorSelector;
 
 public class Main extends Activity {
 	enum SortOptions {
@@ -191,7 +202,7 @@ public class Main extends Activity {
    	    Collections.sort(notes, new NoteComparator(mSortOption, 
    	    		                                   mGroupByColorToggleButton.isChecked()));
 
-        NotesViewAdapter noteAdapter = 
+        NotesViewAdapter noteAdapter =
             new NotesViewAdapter(this, notes, mNoteEventListener);
         mNotesView.setAdapter(noteAdapter); 
 

@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.fsk.mynotes;
+package com.fsk.mynotes.presentation.components;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -21,6 +21,9 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ToggleButton;
+
+import com.fsk.mynotes.constants.NoteColors;
+import com.fsk.mynotes.R;
 
 public class ColorButton extends ToggleButton {
 	

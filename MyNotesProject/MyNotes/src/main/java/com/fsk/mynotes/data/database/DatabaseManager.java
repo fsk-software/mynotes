@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.fsk.mynotes;
+package com.fsk.mynotes.data.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

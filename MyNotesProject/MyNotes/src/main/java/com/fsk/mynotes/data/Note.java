@@ -14,8 +14,10 @@
  * the License.
  */
 
-package com.fsk.mynotes;
+package com.fsk.mynotes.data;
 
+
+import com.fsk.mynotes.data.database.NotesTableManager;
 
 public class Note {
 

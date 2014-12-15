@@ -1,4 +1,4 @@
-package com.fsk.mynotes;
+package com.fsk.mynotes.constants;
 
 
 public enum ShareOptions {

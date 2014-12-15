@@ -34,7 +34,7 @@
 			android:paddingLeft="5dip"
 			android:paddingTop="5dip"
 			android:paddingBottom="5dip">
-			<com.fsk.mynotes.ColorSelector 
+			<com.fsk.mynotes.presentation.components.ColorSelector
 			    android:id="@+id/note_edit_colors"
        			android:layout_width="fill_parent"
        			android:layout_height="40dip"

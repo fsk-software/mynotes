@@ -14,12 +14,15 @@
  * the License.
  */
 
-package com.fsk.mynotes;
+package com.fsk.mynotes.presentation.components;
+
+import android.content.Context;
+import android.util.AttributeSet;
+
+import com.fsk.mynotes.constants.NoteColors;
 
 import java.util.EnumMap;
 import java.util.Iterator;
-import android.content.Context;
-import android.util.AttributeSet;
 
 public class MultiColorSelector extends ColorSelector {
 

@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.fsk.mynotes;
+package com.fsk.mynotes.presentation.adapters;
 
 import java.util.ArrayList;
 
@@ -21,6 +21,10 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.fsk.mynotes.presentation.components.note_view.NoteEventListener;
+import com.fsk.mynotes.presentation.components.note_view.NoteView;
+import com.fsk.mynotes.data.Note;
 
 public class NotesViewAdapter extends BaseAdapter {
 	

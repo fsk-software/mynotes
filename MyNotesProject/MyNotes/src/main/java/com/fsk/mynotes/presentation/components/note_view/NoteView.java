@@ -1,4 +1,4 @@
-package com.fsk.mynotes;
+package com.fsk.mynotes.presentation.components.note_view;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.fsk.mynotes.constants.NoteColors;
+import com.fsk.mynotes.R;
+import com.fsk.mynotes.data.Note;
 
 public class NoteView extends RelativeLayout {
 
@@ -33,7 +37,7 @@ public class NoteView extends RelativeLayout {
 	private void initialize() {		
         LayoutInflater inflater = 
         	(LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.grid_note, this);                 
+        inflater.inflate(R.layout.grid_note, this);
 
 		Typeface face =
 			Typeface.createFromAsset(getContext().getAssets(), 

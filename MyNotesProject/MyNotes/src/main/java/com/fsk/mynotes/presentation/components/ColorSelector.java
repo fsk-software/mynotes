@@ -14,10 +14,7 @@
  * the License.
  */
 
-package com.fsk.mynotes;
-
-import java.util.EnumMap;
-import java.util.Iterator;
+package com.fsk.mynotes.presentation.components;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -30,6 +27,12 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
+
+import com.fsk.mynotes.constants.NoteColors;
+import com.fsk.mynotes.R;
+
+import java.util.EnumMap;
+import java.util.Iterator;
 
 public class ColorSelector extends LinearLayout {
 	

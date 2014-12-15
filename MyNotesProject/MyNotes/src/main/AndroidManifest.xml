@@ -4,7 +4,7 @@
       android:versionName="2.1"  android:installLocation="auto" android:versionCode="6">
     <application android:label="@string/app_name"
                  android:icon="@drawable/my_icon">
-         <activity android:name=".Splash"
+         <activity android:name=".presentation.activity.Splash"
 				  android:configChanges="keyboard|keyboardHidden|orientation"
          		  android:screenOrientation="portrait">
             <intent-filter>
@@ -12,10 +12,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main"
+        <activity android:name=".presentation.activity.Main"
 				  android:configChanges="keyboard|keyboardHidden|orientation"/>
          		  
-        <activity android:name=".NoteEditActivity"
+        <activity android:name=".presentation.activity.NoteEditActivity"
         		  android:theme="@android:style/Theme.Dialog"
 				  android:configChanges="keyboard|keyboardHidden|orientation"/>
     </application>

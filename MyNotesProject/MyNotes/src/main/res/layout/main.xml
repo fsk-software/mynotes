@@ -49,7 +49,7 @@
      		android:gravity="center"
         	android:orientation="vertical"
   			android:background="@drawable/outline">
-	   	   	<com.fsk.mynotes.MultiColorSelector 
+	   	   	<com.fsk.mynotes.presentation.components.MultiColorSelector
 				android:id="@+id/main_color_filter"
 	    		android:layout_width="wrap_content"
 	        	android:layout_height="wrap_content"

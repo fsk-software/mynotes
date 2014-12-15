@@ -13,7 +13,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.fsk.mynotes;
+package com.fsk.mynotes.constants;
+
+import com.fsk.mynotes.R;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -22,7 +24,7 @@ import java.util.List;
 
 public enum NoteColors {
 
-	YELLOW ("Yellow", R.drawable.yellow_note, 
+	YELLOW ("Yellow", R.drawable.yellow_note,
 					  R.drawable.yellow_note_header,
 			          R.drawable.yellow_button_toggle),
 	BLUE   ("Blue",   R.drawable.blue_note, 

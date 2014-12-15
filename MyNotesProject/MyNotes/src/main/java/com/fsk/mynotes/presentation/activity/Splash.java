@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.fsk.mynotes;
+package com.fsk.mynotes.presentation.activity;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,6 +22,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
+
+import com.fsk.mynotes.R;
 
 public class Splash extends Activity{
 

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.fsk.mynotes;
+package com.fsk.mynotes.data.database;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,12 +25,15 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.fsk.mynotes.data.Note;
+import com.fsk.mynotes.constants.NoteColors;
+
 public class NotesTableManager {
 
 	public static final String DATABASE_NOTES_TABLE = "notes";
 
 	private static final String[] keys = 
-		new String[] {DatabaseKeys.NOTE_ID.getKeyName(),
+		new String[] { DatabaseKeys.NOTE_ID.getKeyName(),
 					  DatabaseKeys.NOTE_TEXT.getKeyName(),
 					  DatabaseKeys.NOTE_COLOR.getKeyName()};
 	
@@ -70,7 +73,7 @@ public class NotesTableManager {
     	return sSingleton;	
     }
 
-    private Note createData(Cursor cursor) 
+    private Note createData(Cursor cursor)
     {
     	long row = (long)cursor.getInt(cursor.getColumnIndex(DatabaseKeys.NOTE_ID.getKeyName()));
 		String name = cursor.getString(cursor.getColumnIndex(DatabaseKeys.NOTE_TEXT.getKeyName()));
