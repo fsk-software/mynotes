@@ -36,7 +36,7 @@ import java.util.Iterator;
 
 public class ColorSelector extends LinearLayout {
 	
-	interface OnSelectListener {
+	public interface OnSelectListener {
 		public void onColorSelectChange(ColorSelector view, NoteColors color);
 	}
 
