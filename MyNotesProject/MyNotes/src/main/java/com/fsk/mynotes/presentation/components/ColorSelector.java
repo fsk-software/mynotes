@@ -77,8 +77,9 @@ public class ColorSelector extends LinearLayout {
         			mMinChildDimY = (int)a.getDimension(attr, 50.0f);
         			break;
         	}
-            a.recycle();
-    	}	
+    	}
+
+        a.recycle();
 		initialize();
 	}
 

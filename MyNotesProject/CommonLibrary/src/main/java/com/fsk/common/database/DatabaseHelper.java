@@ -20,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * The database managed by this helper.
      */
-    private static Database sDatabase;
+    private static DatabaseModel sDatabaseModel;
 
 
     /**
@@ -33,6 +33,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * Get the singleton instance of the helper.
      *
      * @return the singleton instance of the helper.
+     *
+     * @throws java.lang.IllegalStateException
+     *         when {@link #needsInitializing()} is true.
      */
     public static DatabaseHelper getInstance() {
         if (needsInitializing()) {
@@ -40,7 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         if (sInstance == null) {
-            sInstance = new DatabaseHelper(sContext, sDatabase);
+            sInstance = new DatabaseHelper(sContext, sDatabaseModel);
         }
 
         return sInstance;
@@ -51,6 +54,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * Return an instance of the Database to use for modifying the tables.
      *
      * @return an instance of the Database to use for modifying the tables.
+     *
+     * @throws java.lang.IllegalStateException
+     *         when {@link #needsInitializing()} is true.
      */
     public static SQLiteDatabase getDatabase() {
         return getInstance().getWritableDatabase();
@@ -62,23 +68,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      *
      * @param context
      *         The context to use for creating the instance of this class.
-     * @param database
+     * @param databaseModel
      *         The database to manage with the
      *
      * @throws IllegalArgumentException
      *         when the context is null.
      */
     public static synchronized void initialize(@NonNull final Context context,
-                                               @NonNull final Database database) {
+                                               @NonNull final DatabaseModel databaseModel) {
         if (context == null) {
             throw new IllegalArgumentException("The context cannot be null");
         }
-        else if (database == null) {
+        else if (databaseModel == null) {
             throw new IllegalArgumentException("The database cannot be null");
         }
 
         sContext = context;
-        sDatabase = database;
+        sDatabaseModel = databaseModel;
     }
 
 
@@ -86,28 +92,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * Determines if the helper is initialized correctly.
      *
      * @return true if a call must be made to {@link #initialize(android.content.Context,
-     * Database)}.
+     * DatabaseModel)}.
      */
     public static synchronized boolean needsInitializing() {
-        return (sContext == null) || (sDatabase == null);
+        return (sContext == null) || (sDatabaseModel == null);
     }
 
 
-    private DatabaseHelper(@NonNull final Context context, @NonNull final Database database) {
-        super(context, database.getName(), database.getCursorFactory(), database.getVersion());
+    private DatabaseHelper(@NonNull final Context context,
+                           @NonNull final DatabaseModel databaseModel) {
+        super(context,
+              databaseModel.getName(),
+              databaseModel.getCursorFactory(),
+              databaseModel.getVersion());
     }
 
 
     @Override
     public void onCreate(final SQLiteDatabase db) {
-        sDatabase.onCreate(db);
+        sDatabaseModel.onCreate(db);
     }
 
 
     @Override
     public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
         if (oldVersion < newVersion) {
-            sDatabase.onUpgrade(db, oldVersion, newVersion);
+            sDatabaseModel.onUpgrade(db, oldVersion, newVersion);
         }
     }
 
@@ -115,7 +125,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onDowngrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
         if (newVersion < oldVersion) {
-            sDatabase.onDowngrade(db, oldVersion, newVersion);
+            sDatabaseModel.onDowngrade(db, oldVersion, newVersion);
         }
+    }
+
+
+    /**
+     * reset the static attributes to null.
+     * <p/>
+     * Do not call any of the following methods in production code.
+     */
+    static void reset() {
+        //todo: ideally this will throw an exception when called outside of the unit test
+        //environment, but I haven't found a reliable way to make that work yet.
+
+        sContext = null;
+        sDatabaseModel = null;
+        sInstance = null;
     }
 }

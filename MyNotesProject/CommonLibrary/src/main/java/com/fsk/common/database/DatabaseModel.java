@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 /**
  * Defines the common database management behaviors.
  */
-public interface Database {
+public interface DatabaseModel {
 
     /**
      * Called when the database is created for the first time.

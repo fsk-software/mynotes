@@ -16,152 +16,121 @@
 
 package com.fsk.mynotes.data.database;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.SQLException;
+
+import com.fsk.common.database.DatabaseHelper;
+import com.fsk.mynotes.constants.NoteColors;
+import com.fsk.mynotes.data.Note;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-
-import com.fsk.mynotes.data.Note;
-import com.fsk.mynotes.constants.NoteColors;
-
+@Deprecated
 public class NotesTableManager {
-
-	public static final String DATABASE_NOTES_TABLE = "notes";
-
-	private static final String[] keys = 
-		new String[] { DatabaseKeys.NOTE_ID.getKeyName(),
-					  DatabaseKeys.NOTE_TEXT.getKeyName(),
-					  DatabaseKeys.NOTE_COLOR.getKeyName()};
-	
-    /**
-     * Database creation sql statement
-     */
-    private static final String NOTES_TABLE_CREATE =
-        "create table " +
-        DATABASE_NOTES_TABLE + 
-        "(" +
-        DatabaseKeys.NOTE_ID.getKeyName() + " integer primary key autoincrement not null, " +
-        DatabaseKeys.NOTE_TEXT.getKeyName()  +  " text, " +
-        DatabaseKeys.NOTE_COLOR.getKeyName()  + " integer" +
-        ");";
-  
-    private static NotesTableManager sSingleton;
-	private SQLiteDatabase mDatabase; 
-
-    private NotesTableManager(SQLiteDatabase db) {
-    	mDatabase = db;
-    }
     
-    public static void createTable(SQLiteDatabase db) {
-    	if (sSingleton == null) {
-    		db.execSQL(NOTES_TABLE_CREATE);
-    		sSingleton = new NotesTableManager(db);
-    	}
+    private static final String[] keys =
+            new String[] { MyNotesDatabaseModel.Columns.NOTE_ID,
+                    MyNotesDatabaseModel.Columns.NOTE_TEXT,
+                    MyNotesDatabaseModel.Columns.NOTE_COLOR};
+
+    private final static NotesTableManager sSingleton = new NotesTableManager();
+
+    public static NotesTableManager getSingleton() {
+        return sSingleton;
     }
 
-    public static void openTable(SQLiteDatabase db) {
-    	if (sSingleton == null) {
-    		sSingleton = new NotesTableManager(db);
-    	}
-    }
-
-    public final static NotesTableManager getSingleton() {
-    	return sSingleton;	
-    }
-
-    private Note createData(Cursor cursor)
+    private static Note createData(Cursor cursor)
     {
-    	long row = (long)cursor.getInt(cursor.getColumnIndex(DatabaseKeys.NOTE_ID.getKeyName()));
-		String name = cursor.getString(cursor.getColumnIndex(DatabaseKeys.NOTE_TEXT.getKeyName()));
-		long color = (long)cursor.getInt(cursor.getColumnIndex(DatabaseKeys.NOTE_COLOR.getKeyName()));
-        return (new Note(row, name, color, this));
-    }
-    
-    public long createNote(String name, long color) {
-    	ContentValues initialValues = new ContentValues();
-    	initialValues.put(DatabaseKeys.NOTE_TEXT.getKeyName(), name);
-    	initialValues.put(DatabaseKeys.NOTE_COLOR.getKeyName(), color);
-
-   		return mDatabase.insert(DATABASE_NOTES_TABLE, null, initialValues);
+        long row = (long)cursor.getInt(cursor.getColumnIndex(MyNotesDatabaseModel.Columns.NOTE_ID));
+        String name = cursor.getString(cursor.getColumnIndex(MyNotesDatabaseModel.Columns.NOTE_TEXT));
+        long color = (long)cursor.getInt(cursor.getColumnIndex(MyNotesDatabaseModel.Columns.NOTE_COLOR));
+        return (new Note(row, name, color, sSingleton));
     }
 
-    public boolean deleteNote (long rowId) {
-        return mDatabase.delete(DATABASE_NOTES_TABLE, 
-        		                DatabaseKeys.NOTE_ID.getKeyName() + "=" + rowId, null) > 0;
-    }
-    
-    public boolean editNote (long rowId, String text, long color) {
-    	ContentValues args = new ContentValues();
-        args.put(DatabaseKeys.NOTE_TEXT.getKeyName(), text);
-        args.put(DatabaseKeys.NOTE_COLOR.getKeyName(), color);
+    public static long createNote(String name, long color) {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(MyNotesDatabaseModel.Columns.NOTE_TEXT, name);
+        initialValues.put(MyNotesDatabaseModel.Columns.NOTE_COLOR, color);
 
-        return mDatabase.update(
-        		DATABASE_NOTES_TABLE, args,
-        		DatabaseKeys.NOTE_ID.getKeyName() + "=" + rowId, null) > 0;
+        return DatabaseHelper.getDatabase().insert(MyNotesDatabaseModel.Tables.NOTES, null, initialValues);
     }
-    
-    public ArrayList<Note> fetchAllNotes() {
-    	Cursor cursor = 
-    		mDatabase.query(DATABASE_NOTES_TABLE, 
-   							keys, 
-    						null, null, null, null, null);
+
+    public static boolean deleteNote (long rowId) {
+        return DatabaseHelper.getDatabase().delete(MyNotesDatabaseModel.Tables.NOTES,
+                                MyNotesDatabaseModel.Columns.NOTE_ID + "=" + rowId, null) > 0;
+    }
+
+    public static boolean editNote (long rowId, String text, long color) {
+        ContentValues args = new ContentValues();
+        args.put(MyNotesDatabaseModel.Columns.NOTE_TEXT, text);
+        args.put(MyNotesDatabaseModel.Columns.NOTE_COLOR, color);
+
+        return DatabaseHelper.getDatabase().update(
+                MyNotesDatabaseModel.Tables.NOTES, args,
+                MyNotesDatabaseModel.Columns.NOTE_ID + "=" + rowId, null) > 0;
+    }
+
+    public static ArrayList<Note> fetchAllNotes() {
+        Cursor cursor =
+                DatabaseHelper.getDatabase().query(MyNotesDatabaseModel.Tables.NOTES,
+                                keys,
+                                null, null, null, null, null);
 
         ArrayList<Note> returnValue = new ArrayList<Note>();
-       	cursor.moveToFirst();
-       	for (int i=0; i<cursor.getCount(); ++i) {
-        	returnValue.add(createData(cursor));
-        	cursor.moveToNext();
+        cursor.moveToFirst();
+        for (int i=0; i<cursor.getCount(); ++i) {
+            returnValue.add(createData(cursor));
+            cursor.moveToNext();
         }
         cursor.close();
         return returnValue;
-    } 
+    }
 
-    public Note fetchNote(long rowId) throws SQLException {
+    public static Note fetchNote(long rowId) throws SQLException {
 
         Cursor cursor =
-            mDatabase.query(DATABASE_NOTES_TABLE, 
-            				keys, 
-            	            DatabaseKeys.NOTE_ID.getKeyName() + "=" + rowId, 
-            	            null, null, null, null, null);
+                DatabaseHelper.getDatabase().query(MyNotesDatabaseModel.Tables.NOTES,
+                                keys,
+                                MyNotesDatabaseModel.Columns.NOTE_ID + "=" + rowId,
+                                null, null, null, null, null);
         cursor.moveToFirst();
         Note returnValue = createData(cursor);
         cursor.close();
         return returnValue;
     }
 
-    public ArrayList<Note> fetchNotes(Map<NoteColors,Boolean> colors) {
-    	Iterator<NoteColors> iter = NoteColors.getIterator();
-    	String query = "";
-    	while (iter.hasNext()) {
-    		NoteColors color = iter.next();
-    		if (colors.get(color)) {
-    			if (query.length() > 0) {
-    				query = query + " OR "; 
-    			}
-    			query = query + 
-    			        DatabaseKeys.NOTE_COLOR.getKeyName() + "=" + color.ordinal();
-    		}
-    	}
-    	
-    	Cursor cursor = 
-    		mDatabase.query(DATABASE_NOTES_TABLE, 
-   							keys, 
-    					    query,
-    			            null, null, null, null);
+    public static ArrayList<Note> fetchNotes(Map<NoteColors,Boolean> colors) {
+        Iterator<NoteColors> iter = NoteColors.getIterator();
+        String query = "";
+        while (iter.hasNext()) {
+            NoteColors color = iter.next();
+            if (colors.get(color)) {
+                if (query.length() > 0) {
+                    query = query + " OR ";
+                }
+                query = query +
+                        MyNotesDatabaseModel.Columns.NOTE_COLOR + "=" + color.ordinal();
+            }
+        }
+
+        Cursor cursor =
+                DatabaseHelper.getDatabase().query(MyNotesDatabaseModel.Tables.NOTES,
+                                keys,
+                                query,
+                                null, null, null, null);
 
         ArrayList<Note> returnValue = new ArrayList<Note>();
-       	cursor.moveToFirst();
-       	for (int i=0; i<cursor.getCount(); ++i) {
-        	returnValue.add(createData(cursor));
-       		cursor.moveToNext();
-       	}
+        cursor.moveToFirst();
+        for (int i=0; i<cursor.getCount(); ++i) {
+            returnValue.add(createData(cursor));
+            cursor.moveToNext();
+        }
         cursor.close();
-        	
-       	return returnValue;
-    } 
- 
+
+        return returnValue;
+    }
+
 }

@@ -16,11 +16,6 @@
 
 package com.fsk.mynotes.presentation.activity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -41,18 +36,22 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ToggleButton;
 
-import com.fsk.mynotes.constants.NoteColors;
-import com.fsk.mynotes.presentation.components.note_view.NoteEventListener;
-import com.fsk.mynotes.presentation.components.note_view.NoteView;
 import com.fsk.mynotes.R;
+import com.fsk.mynotes.constants.NoteColors;
+import com.fsk.mynotes.data.Note;
+import com.fsk.mynotes.data.database.MyNotesDatabaseModel;
+import com.fsk.mynotes.data.database.NotesTableManager;
 import com.fsk.mynotes.presentation.adapters.NotesViewAdapter;
 import com.fsk.mynotes.presentation.components.ColorSelector;
 import com.fsk.mynotes.presentation.components.ColorSelector.OnSelectListener;
-import com.fsk.mynotes.data.Note;
-import com.fsk.mynotes.data.database.DatabaseKeys;
-import com.fsk.mynotes.data.database.DatabaseManager;
-import com.fsk.mynotes.data.database.NotesTableManager;
 import com.fsk.mynotes.presentation.components.MultiColorSelector;
+import com.fsk.mynotes.presentation.components.note_view.NoteEventListener;
+import com.fsk.mynotes.presentation.components.note_view.NoteView;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 
 public class Main extends Activity {
 	enum SortOptions {
@@ -191,13 +190,13 @@ public class Main extends Activity {
     
     private void edit(long id) {
         Intent i = new Intent(this, NoteEditActivity.class);
-        i.putExtra(DatabaseKeys.NOTE_ID.getKeyName(), id);
+        i.putExtra(MyNotesDatabaseModel.Columns.NOTE_ID, id);
         startActivityForResult(i, ACTIVITY_EDIT_NOTE);
     }
     
     private void fill() {
     	ArrayList<Note> notes = 
-    		mNotesTableManager.fetchNotes(mColorFilter.getColorsSelected());
+    		NotesTableManager.fetchNotes(mColorFilter.getColorsSelected());
         
    	    Collections.sort(notes, new NoteComparator(mSortOption, 
    	    		                                   mGroupByColorToggleButton.isChecked()));
@@ -223,7 +222,6 @@ public class Main extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
-    	DatabaseManager.openDatabase(getApplicationContext());
     	mNotesTableManager = NotesTableManager.getSingleton();
 
     	requestWindowFeature(Window.FEATURE_NO_TITLE);

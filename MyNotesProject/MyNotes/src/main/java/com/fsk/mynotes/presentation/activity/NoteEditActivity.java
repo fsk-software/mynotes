@@ -30,10 +30,10 @@ import android.widget.Toast;
 
 import com.fsk.mynotes.constants.NoteColors;
 import com.fsk.mynotes.R;
+import com.fsk.mynotes.data.database.MyNotesDatabaseModel;
 import com.fsk.mynotes.presentation.components.ColorSelector;
 import com.fsk.mynotes.presentation.components.ColorSelector.OnSelectListener;
 import com.fsk.mynotes.data.Note;
-import com.fsk.mynotes.data.database.DatabaseKeys;
 import com.fsk.mynotes.data.database.NotesTableManager;
 
 public class NoteEditActivity extends Activity {
@@ -80,7 +80,7 @@ public class NoteEditActivity extends Activity {
         });
         	
         Bundle extras = getIntent().getExtras();
-		mRowId = extras != null ? extras.getLong(DatabaseKeys.NOTE_ID.getKeyName()): null;
+		mRowId = extras != null ? extras.getLong(MyNotesDatabaseModel.Columns.NOTE_ID): null;
 		populateFields();
     }
 
