@@ -14,13 +14,13 @@ public class MyNotesDatabaseModel implements DatabaseModel {
     /**
      * The database schema version.
      */
-    static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 1;
 
 
     /**
      * The name of the database.
      */
-    static final String DATABASE_NAME = "data";
+    public static final String DATABASE_NAME = "data";
 
 
     /**
@@ -104,7 +104,7 @@ public class MyNotesDatabaseModel implements DatabaseModel {
      * Remove the tables in {@link #TABLES}
      *
      * @param db
-     *         The database containing the tables to remove.
+     *         The database containing the tables to delete.
      */
     private void dropTables(SQLiteDatabase db) {
         try {

@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
         minSdkVersion 15
@@ -44,6 +44,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.2'
+    compile group: 'com.google.guava', name: 'guava', version: '18.0'
 
     //Unit test dependencies
     androidTestCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '1.3'

@@ -17,12 +17,9 @@ package com.fsk.mynotes.constants;
 
 import com.fsk.mynotes.R;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.Iterator;
-import java.util.List;
 
-public enum NoteColors {
+public enum NoteColor {
 
 	YELLOW ("Yellow", R.drawable.yellow_note,
 					  R.drawable.yellow_note_header,
@@ -40,55 +37,65 @@ public enum NoteColors {
 			          R.drawable.grey_note_header,
 			          R.drawable.grey_button_toggle);
 			   
-	private int mImageResource;			   
-	private int mToggleResource;   
-	private int mHeaderResource;
-	private String mName;
-	private static final EnumSet<NoteColors> sEnum = EnumSet.range(YELLOW, GREY);
+	private final int mImageResource;
+	private final int mToggleResource;
+	private final int mHeaderResource;
+	private final String mName;
+	private static final EnumSet<NoteColor> sEnum = EnumSet.range(YELLOW, GREY);
 
-	private NoteColors(String name, int imageResource, int headerResource, int toggleResource) {
+
+    /**
+     * Constructor
+     *
+     * @param name The fixed name of the note
+     * @param imageResource The resource id of the note body.
+     * @param headerResource The resource id of the note header.
+     * @param toggleResource The resource id of the toggle background.
+     */
+	private NoteColor(String name, int imageResource, int headerResource, int toggleResource) {
 		mImageResource = imageResource;
 		mToggleResource = toggleResource;
 		mHeaderResource = headerResource;
 		mName = name;
 	}
-	
+
+    @Deprecated
 	public final int getImageResource() {
 		return mImageResource;
 	}
 
+    @Deprecated
 	public final int getHeaderResource() {
 		return mHeaderResource;
 	}
 
+    @Deprecated
 	public final int getToggleResource() {
 		return mToggleResource;
 	}
 
+    @Deprecated
 	public final String getName() {
 		return mName;
 	}
-	
-	static public final int getCount() {
-		return 5;
-	}
-	
-	static public final NoteColors getColor(long index) {
-		NoteColors[] colors = NoteColors.values();
-		
-		for (int i = 0; i < colors.length; ++i) {
-			if (index == colors[i].ordinal()) {
-				return colors[i];
-			}
-		}
-		return null;
-	}
 
-	public static Iterator<NoteColors> getIterator() {
-		return sEnum.iterator();
-	}
 
-	public static final List<NoteColors> getList() {
-		return new ArrayList<NoteColors>(sEnum);
-	}
+    /**
+     * Get the {@link NoteColor} associated with the supplied ordinal.
+     *
+     * @param index
+     *         the ordinal of the {@link NoteColor} to retrieve.
+     *
+     * @return the {@link NoteColor} associated with the ordinal or null.
+     */
+    static public final NoteColor getColor(long index) {
+        NoteColor[] colors = NoteColor.values();
+
+        for (int i = 0; i < colors.length; ++i) {
+            if (index == colors[i].ordinal()) {
+                return colors[i];
+            }
+        }
+        return null;
+    }
 }

@@ -22,12 +22,12 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ToggleButton;
 
-import com.fsk.mynotes.constants.NoteColors;
+import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.R;
 
 public class ColorButton extends ToggleButton {
 	
-	private NoteColors mColor;
+	private NoteColor mColor;
 	private int mOffWidth = -1;
 	private int mOffHeight = -1;
 	
@@ -46,8 +46,7 @@ public class ColorButton extends ToggleButton {
         	int attr = a.getIndex(i);
         	switch (attr) {
         		case R.styleable.noteAttrs_colorType:
-        			setColor(NoteColors.getColor(a.getInt(attr, 
-        						            NoteColors.YELLOW.ordinal())));
+        			setColor(NoteColor.getColor(a.getInt(attr, NoteColor.YELLOW.ordinal())));
         			break;
         		case R.styleable.noteAttrs_offHeight:
         			mOffHeight = a.getDimensionPixelSize(attr, 0);
@@ -69,13 +68,13 @@ public class ColorButton extends ToggleButton {
     }
 	
 
-	public ColorButton(Context context, NoteColors color) {
+	public ColorButton(Context context, NoteColor color) {
 		super(context);	
 		mColor = color;
 		setBackgroundResource(mColor.getToggleResource());
 	}
 	
-	public ColorButton(Context context, NoteColors color, 
+	public ColorButton(Context context, NoteColor color,
 			           int offHeight, int offWidth,
 			           int onHeight, int onWidth) {
 		super(context);	
@@ -102,12 +101,12 @@ public class ColorButton extends ToggleButton {
 		resizeNote();
 	}
 	
-	public void setColor(NoteColors color) {
+	public void setColor(NoteColor color) {
 		mColor = color;
 		setBackgroundResource(mColor.getToggleResource());
 	}
     
-    public NoteColors getColor() {
+    public NoteColor getColor() {
     	return mColor;
     }
 

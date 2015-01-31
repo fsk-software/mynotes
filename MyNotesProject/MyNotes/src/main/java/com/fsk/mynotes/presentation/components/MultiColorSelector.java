@@ -19,11 +19,6 @@ package com.fsk.mynotes.presentation.components;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.fsk.mynotes.constants.NoteColors;
-
-import java.util.EnumMap;
-import java.util.Iterator;
-
 public class MultiColorSelector extends ColorSelector {
 
 	public MultiColorSelector(Context context, AttributeSet attrs) {
@@ -33,33 +28,33 @@ public class MultiColorSelector extends ColorSelector {
 	public MultiColorSelector(Context context) {
 		super(context);
 	}
-
-	@Override
-	protected void updateSelection(ColorButton button) {
-		if (mOnSelectListener != null) {
-			mOnSelectListener.onColorSelectChange(this, button.getColor());
-		}
-	}
-
-	public final EnumMap<NoteColors, Boolean> getColorsSelected() {
-		EnumMap<NoteColors, Boolean> map = new EnumMap<NoteColors, Boolean>(
-				NoteColors.class);
-
-		Iterator<NoteColors> colorIter = NoteColors.getIterator();
-		while (colorIter.hasNext()) {
-			NoteColors color = colorIter.next();
-			Boolean selected = mColorButtons.get(color).isChecked();
-			map.put(color, selected);
-		}
-		return map;
-	}
-
-	public final void setColorsSelected(EnumMap<NoteColors, Boolean> map) {
-		Iterator<NoteColors> colorIter = NoteColors.getIterator();
-		while (colorIter.hasNext()) {
-			NoteColors color = colorIter.next();
-			Boolean selected = mColorButtons.get(color).isChecked();
-			map.put(color, selected);
-		}
-	}
+//
+//	@Override
+//	protected void updateSelection(ColorButton button) {
+//		if (mOnSelectListener != null) {
+//			mOnSelectListener.onColorSelectChange(this, button.getColor());
+//		}
+//	}
+//
+//	public final EnumMap<NoteColor, Boolean> getColorsSelected() {
+//		EnumMap<NoteColor, Boolean> map = new EnumMap<NoteColor, Boolean>(
+//				NoteColor.class);
+//
+//		Iterator<NoteColor> colorIter = NoteColor.getIterator();
+//		while (colorIter.hasNext()) {
+//			NoteColor color = colorIter.next();
+//			Boolean selected = mColorButtons.get(color).isChecked();
+//			map.put(color, selected);
+//		}
+//		return map;
+//	}
+//
+//	public final void setColorsSelected(EnumMap<NoteColor, Boolean> map) {
+//		Iterator<NoteColor> colorIter = NoteColor.getIterator();
+//		while (colorIter.hasNext()) {
+//			NoteColor color = colorIter.next();
+//			Boolean selected = mColorButtons.get(color).isChecked();
+//			map.put(color, selected);
+//		}
+//	}
 }

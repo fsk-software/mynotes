@@ -8,9 +8,9 @@ import android.database.sqlite.SQLiteQuery;
 import android.test.AndroidTestCase;
 
 /**
- * Unit Tests for the {@link DatabaseModelHelperTest}
+ * Unit Tests for the {@link com.fsk.common.database.DatabaseHelper}
  */
-public class DatabaseModelHelperTest extends AndroidTestCase {
+public class DatabaseHelperTest extends AndroidTestCase {
 
     private static final String NULL_CONTEXT_MESSAGE = "The context cannot be null";
 

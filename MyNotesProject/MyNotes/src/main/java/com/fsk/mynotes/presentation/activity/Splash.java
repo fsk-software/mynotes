@@ -40,7 +40,7 @@ public class Splash extends Activity{
 			@Override
 			public void run() {
 				finish();
-				Intent mainIntent = new Intent().setClass(Splash.this, Main.class);
+				Intent mainIntent = new Intent().setClass(Splash.this, MainActivity.class);
 				startActivity(mainIntent);
 			}
     	};

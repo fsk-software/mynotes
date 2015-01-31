@@ -15,65 +15,64 @@
  */
 package com.fsk.mynotes.presentation.adapters;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.fsk.mynotes.presentation.components.note_view.NoteEventListener;
-import com.fsk.mynotes.presentation.components.note_view.NoteView;
 import com.fsk.mynotes.data.Note;
+import com.fsk.mynotes.presentation.components.note_view.NoteEventListener;
+
+import java.util.ArrayList;
 
 public class NotesViewAdapter extends BaseAdapter {
-	
+
 	private ArrayList<Note> mNotes;
 	private NoteEventListener mListener;
-	
-    public NotesViewAdapter(Activity activity, ArrayList<Note> notes, NoteEventListener listener) {		
+
+    public NotesViewAdapter(Activity activity, ArrayList<Note> notes, NoteEventListener listener) {
     	mNotes = notes;
     	mListener = listener;
     }
-        
+//
     public View getView(int position, View convertView, ViewGroup parent) {
-        Note note = mNotes.get(position);
-    	ViewHolder viewHolder = null;
-        
-    	if (convertView == null) {
-        	viewHolder = new ViewHolder();
-        	viewHolder.mNoteView =
-        		new NoteView(parent.getContext(), note, mListener);
-        	convertView = viewHolder.mNoteView;
-        	convertView.setTag(viewHolder);
-        }
-    	else {
-    		viewHolder = (ViewHolder) convertView.getTag();
-        	viewHolder.mNoteView.setNote(note);
-    	}
+//        Note note = mNotes.get(position);
+//    	ViewHolder viewHolder = null;
+//
+//    	if (convertView == null) {
+//        	viewHolder = new ViewHolder();
+//        	viewHolder.mNoteView =
+//        		new NoteView(parent.getContext(), note, mListener);
+//        	convertView = viewHolder.mNoteView;
+//        	convertView.setTag(viewHolder);
+//        }
+//    	else {
+//    		viewHolder = (ViewHolder) convertView.getTag();
+//        	viewHolder.mNoteView.setNote(note);
+//    	}
     	return convertView;
     }
-    
+
     @Override
     public Note getItem(int position) {
     	return mNotes.get(position);
     }
-    
+
     @Override
     public long getItemId(int position) {
-    	return mNotes.get(position).getRow();
+    	return mNotes.get(position).getId();
     }
-    
-    protected final ArrayList<Note> getArrayList() {
-    	return mNotes;
-    }
+
+//    protected final ArrayList<Note> getArrayList() {
+//    	return mNotes;
+//    }
 
 	@Override
 	public int getCount() {
 		return mNotes.size();
 	}
-	
-    static class ViewHolder {
-        NoteView mNoteView;
-    }
+//
+//    static class ViewHolder {
+//        NoteView mNoteView;
+//    }
 }
