@@ -8,6 +8,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.fsk.common.database.DatabaseStorable;
+import com.fsk.common.threads.ThreadCheck;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel.Columns;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel.Tables;
@@ -167,18 +168,16 @@ public class Note implements Parcelable, DatabaseStorable {
      * database.
      *
      * @return The {@link android.content.ContentValues} intitialized with the values.  It will
-     * contain the following entries:<p>
-     *  key=>{@link com.fsk.mynotes.data.database.MyNotesDatabaseModel.Columns#NOTE_ID}<br>
-     *  value=> long<br>
-     *  description=> The note id.  this only exists when {@link #getId()} is not {@link #NOT_STORED}.
-     *  <p>
-     *  key=>{@link com.fsk.mynotes.data.database.MyNotesDatabaseModel.Columns#NOTE_TEXT}<br>
-     *  value=>String<br>
-     *  description=> The note's text.
-     *  <p>
-     *  key=>{@link com.fsk.mynotes.data.database.MyNotesDatabaseModel.Columns#NOTE_COLOR}<br>
-     *  value=>Integer<br>
-     *  description=> The note colors ordinal.
+     * contain the following entries:<p> key=>{@link com.fsk.mynotes.data.database
+     * .MyNotesDatabaseModel.Columns#NOTE_ID}<br>
+     * value=> long<br> description=> The note id.  this only exists when {@link #getId()} is not
+     * {@link #NOT_STORED}.
+     * <p/>
+     * key=>{@link com.fsk.mynotes.data.database.MyNotesDatabaseModel.Columns#NOTE_TEXT}<br>
+     * value=>String<br> description=> The note's text.
+     * <p/>
+     * key=>{@link com.fsk.mynotes.data.database.MyNotesDatabaseModel.Columns#NOTE_COLOR}<br>
+     * value=>Integer<br> description=> The note colors ordinal.
      */
     private ContentValues createContentValues() {
         ContentValues returnValue = new ContentValues();
@@ -193,12 +192,16 @@ public class Note implements Parcelable, DatabaseStorable {
     }
 
 
+    /**
+     * @throws com.fsk.common.threads.ThreadException
+     *         when call from the UI thread.
+     */
     @Override
     public void save(final SQLiteDatabase db) {
-        long row =  db.insertWithOnConflict(Tables.NOTES,
-                                            null,
-                                            createContentValues(),
-                                            SQLiteDatabase.CONFLICT_REPLACE);
+
+        ThreadCheck.checkOffUIThread();
+        long row = db.insertWithOnConflict(Tables.NOTES, null, createContentValues(),
+                                           SQLiteDatabase.CONFLICT_REPLACE);
 
         if (row != NOT_STORED) {
             mId = row;
@@ -206,8 +209,14 @@ public class Note implements Parcelable, DatabaseStorable {
     }
 
 
+    /**
+     * @throws com.fsk.common.threads.ThreadException
+     *         when call from the UI thread.
+     */
     @Override
     public void delete(final SQLiteDatabase db) {
+
+        ThreadCheck.checkOffUIThread();
         if (getId() != NOT_STORED) {
             int deletedRows = db.delete(Tables.NOTES, Columns.NOTE_ID + " = ?",
                                         new String[] { Long.toString(mId) });

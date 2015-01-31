@@ -4,6 +4,7 @@ package com.fsk.common.database;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
+import com.fsk.common.threads.ThreadCheck;
 import com.google.common.base.Preconditions;
 
 import java.util.Arrays;
@@ -55,11 +56,15 @@ public final class DatabaseUtilities {
      *         when either of the parameters in null.
      * @throws java.lang.IllegalArgumentException
      *         when the items is empty.
+     * @throws com.fsk.common.threads.ThreadException
+     *         when called from the UI thread.
      */
     public static void bulkSave(@NonNull DatabaseStorable[] items, @NonNull SQLiteDatabase db) {
-        Preconditions.checkNotNull(items);
-        Preconditions.checkArgument(items.length >  0);
+        ThreadCheck.checkOffUIThread();
+
         Preconditions.checkNotNull(db);
+        Preconditions.checkNotNull(items);
+        Preconditions.checkArgument(items.length > 0);
 
         bulkSave(Arrays.asList(items), db);
     }
@@ -77,11 +82,15 @@ public final class DatabaseUtilities {
      *         when either of the parameters in null.
      * @throws java.lang.IllegalArgumentException
      *         when the items is empty.
+     * @throws com.fsk.common.threads.ThreadException
+     *         when called from the UI thread.
      */
     public static void bulkDelete(@NonNull DatabaseStorable[] items, @NonNull SQLiteDatabase db) {
-        Preconditions.checkNotNull(items);
-        Preconditions.checkArgument(items.length >  0);
+        ThreadCheck.checkOffUIThread();
+
         Preconditions.checkNotNull(db);
+        Preconditions.checkNotNull(items);
+        Preconditions.checkArgument(items.length > 0);
 
         bulkDelete(Arrays.asList(items), db);
     }
@@ -99,13 +108,16 @@ public final class DatabaseUtilities {
      *         when either of the parameters in null.
      * @throws java.lang.IllegalArgumentException
      *         when the items is empty.
+     * @throws com.fsk.common.threads.ThreadException
+     *         when called from the UI thread.
      */
     public static <T extends DatabaseStorable> void bulkSave(@NonNull List<T> items,
                                                              @NonNull SQLiteDatabase db) {
-        Preconditions.checkNotNull(items);
-        Preconditions.checkArgument(!items.isEmpty());
+        ThreadCheck.checkOffUIThread();
 
         Preconditions.checkNotNull(db);
+        Preconditions.checkNotNull(items);
+        Preconditions.checkArgument(!items.isEmpty());
 
         try {
             db.beginTransaction();
@@ -132,12 +144,16 @@ public final class DatabaseUtilities {
      *         when either of the parameters in null.
      * @throws java.lang.IllegalArgumentException
      *         when the items is empty.
+     * @throws com.fsk.common.threads.ThreadException
+     *         when called from the UI thread.
      */
     public static <T extends DatabaseStorable> void bulkDelete(@NonNull List<T> items,
                                                                @NonNull SQLiteDatabase db) {
+        ThreadCheck.checkOffUIThread();
+
+        Preconditions.checkNotNull(db);
         Preconditions.checkNotNull(items);
         Preconditions.checkArgument(!items.isEmpty());
-        Preconditions.checkNotNull(db);
 
         try {
             db.beginTransaction();
@@ -162,8 +178,12 @@ public final class DatabaseUtilities {
      *
      * @throws java.lang.NullPointerException
      *         when either of the parameters in null.
+     * @throws com.fsk.common.threads.ThreadException
+     *         when called from the UI thread.
      */
     public static final void save(@NonNull DatabaseStorable item, @NonNull SQLiteDatabase db) {
+        ThreadCheck.checkOffUIThread();
+
         Preconditions.checkNotNull(item);
         Preconditions.checkNotNull(db);
 
@@ -188,8 +208,12 @@ public final class DatabaseUtilities {
      *
      * @throws java.lang.NullPointerException
      *         when either of the parameters in null.
+     * @throws com.fsk.common.threads.ThreadException
+     *         when called from the UI thread.
      */
     public static final void delete(@NonNull DatabaseStorable item, @NonNull SQLiteDatabase db) {
+        ThreadCheck.checkOffUIThread();
+
         Preconditions.checkNotNull(item);
         Preconditions.checkNotNull(db);
 

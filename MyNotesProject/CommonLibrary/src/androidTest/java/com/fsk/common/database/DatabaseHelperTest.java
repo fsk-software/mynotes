@@ -110,20 +110,9 @@ public class DatabaseHelperTest extends AndroidTestCase {
 
 
     /**
-     * Test {@link DatabaseHelper#getInstance()}.
+     * Test {@link DatabaseHelper#getInstance()} in the sunny day case.
      */
-    public void testGetInstance() {
-
-        //Test the failure
-        assertTrue(DatabaseHelper.needsInitializing());
-        try {
-            DatabaseHelper.getInstance();
-            assert true;
-        }
-        catch (IllegalStateException e) {
-            assertEquals(UNINITIALIZED_MESSAGE, e.getMessage());
-        }
-
+    public void testGetInstanceSunnyDay() {
         //Test the success
         TestDatabaseModel expectedDatabase = new TestDatabaseModel();
         DatabaseHelper.initialize(getContext(), expectedDatabase);
@@ -136,12 +125,37 @@ public class DatabaseHelperTest extends AndroidTestCase {
 
 
     /**
-     * Test {@link DatabaseHelper#getInstance()}.
-     * <p/>
-     * Also verifies that {@link DatabaseHelper#needsInitializing()} returns false until the
-     * initialize succeeds.
+     * Test {@link DatabaseHelper#getInstance()} bore the helper is initialized.
      */
-    public void testGetDatabase() {
+    public void testGetInstanceBeforeInitialization() {
+
+        //Test the failure
+        assertTrue(DatabaseHelper.needsInitializing());
+        try {
+            DatabaseHelper.getInstance();
+            assert true;
+        }
+        catch (IllegalStateException e) {
+            assertEquals(UNINITIALIZED_MESSAGE, e.getMessage());
+        }
+    }
+
+
+    /**
+     * Test {@link DatabaseHelper#getInstance()} in the sunny day case.
+     */
+    public void testGetDatabaseSunnyDay() {
+        DatabaseModel databaseModel = new TestDatabaseModel();
+        DatabaseHelper.initialize(getContext(), databaseModel);
+        assertNotNull(DatabaseHelper.getDatabase());
+    }
+
+
+    /**
+     * Verify that {@link DatabaseHelper#getInstance()}  returns false before the initialize
+     * succeeds.
+     */
+    public void testGetDatabaseBeforeInitialization() {
 
         try {
             assertNull(DatabaseHelper.getDatabase());
@@ -149,10 +163,6 @@ public class DatabaseHelperTest extends AndroidTestCase {
         catch (IllegalStateException e) {
             assertEquals(UNINITIALIZED_MESSAGE, e.getMessage());
         }
-
-        DatabaseModel databaseModel = new TestDatabaseModel();
-        DatabaseHelper.initialize(getContext(), databaseModel);
-        assertNotNull(DatabaseHelper.getDatabase());
     }
 
 
@@ -200,6 +210,10 @@ public class DatabaseHelperTest extends AndroidTestCase {
     }
 
 
+    /**
+     * Simple mock database model to use for testing the {@link com.fsk.common.database
+     * .DatabaseHelper}.
+     */
     private static class TestDatabaseModel implements DatabaseModel {
 
         boolean mOnCreatedCalled;

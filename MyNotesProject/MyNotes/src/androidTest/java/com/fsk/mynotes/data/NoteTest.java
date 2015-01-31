@@ -15,17 +15,10 @@ import com.fsk.mynotes.data.database.MyNotesDatabaseModel;
  */
 public class NoteTest extends AndroidTestCase {
 
-
     /**
-     * The Empty Parcel Tag.
+     * The Parcel Tag.
      */
-    private static final String DEFAULT_TAG = "DEFAULT_TAG";
-
-
-    /**
-     * The Non-Empty Parcel Tag.
-     */
-    private static final String NOTE1_TAG = "NOTE1_TAG";
+    private static final String PARCEL_TAG = "PARCEL_TAG";
 
 
     @Override
@@ -56,32 +49,20 @@ public class NoteTest extends AndroidTestCase {
 
 
     /**
-     * Test {@link com.fsk.mynotes.data.Note#getId()} and {@link com.fsk.mynotes.data.Note#setId
-     * (long)}.
+     * Test change the note id.
      */
-    public void testNoteIdGetterSetter() {
+    public void testChangingNoteId() {
         Note note = new Note();
-        assertEquals(Note.NOT_STORED, note.getId());
-
         note.setId(1);
         assertEquals(1, note.getId());
     }
 
 
     /**
-     * Test {@link Note#getColor()} and {@link Note#setColor(com.fsk.mynotes.constants.NoteColor)}
+     * Test {@link Note#setColor(com.fsk.mynotes.constants.NoteColor)} to each color.
      */
-    public void testNoteColorGetterSetter() {
+    public void testChangingNoteColorToEachValidColor() {
         Note note = new Note();
-        assertEquals(NoteColor.YELLOW, note.getColor());
-
-        try {
-            note.setColor(null);
-            assert true;
-        }
-        catch (NullPointerException npe) {
-        }
-
         for (NoteColor noteColor : NoteColor.values()) {
             note.setColor(noteColor);
             assertEquals(noteColor, note.getColor());
@@ -90,46 +71,73 @@ public class NoteTest extends AndroidTestCase {
 
 
     /**
-     * Test {@link com.fsk.mynotes.data.Note#getText()} and {@link com.fsk.mynotes.data
-     * .Note#setText(String)}
+     * Test {@link Note#setColor(com.fsk.mynotes.constants.NoteColor)} to null.
      */
-    public void testNoteTextGetterSetter() {
+    public void testChangeNoteColorToNull() {
         Note note = new Note();
-        assertEquals("", note.getText());
+        try {
+            note.setColor(null);
+            assert true;
+        }
+        catch (NullPointerException npe) {
+        }
+    }
+
+
+    /**
+     * Change the note string to a valid value.
+     */
+    public void testChangeNoteTextToValidString() {
+        Note note = new Note();
 
         //Set the non-null and not empty string.
         String testString = "AA";
         note.setText(testString);
         assertEquals(testString, note.getText());
+    }
 
-        //Set the null string
+
+    /**
+     * Change the note text to null.
+     */
+    public void testNoteTextToNull() {
+        Note note = new Note();
+
+        //First set the string to a valid string.
+        note.setText("Hello");
+
+        //Now set the null string and verify that the empty string is set.
         note.setText(null);
         assertEquals("", note.getText());
+    }
 
-        //Set the non-null and not empty string.
-        note.setText(testString);
-        assertEquals(testString, note.getText());
+    /**
+     * Change the note text to empty.
+     */
+    public void testNoteTextToEmptyString() {
+        Note note = new Note();
 
-        //Set the empty string.
+        //First set the string to a valid string.
+        note.setText("Hello");
+
+        //Now set the empty string and verify that the empty string is set.
         note.setText("");
         assertEquals("", note.getText());
     }
 
 
     /**
-     * Test the Note parceling
+     * Test parceling of a modified note.
      */
     public void testNoteParceling() {
-        Note defaultNote = new Note();
-        Note note1 = new Note();
-        note1.setId(5);
-        note1.setColor(NoteColor.GREEN);
-        note1.setText("AAAA");
+        Note expectedNote = new Note();
+        expectedNote.setId(5);
+        expectedNote.setColor(NoteColor.GREEN);
+        expectedNote.setText("AAAA");
 
         //Create Bundle
         Bundle saveBundle = new Bundle();
-        saveBundle.putParcelable(DEFAULT_TAG, defaultNote);
-        saveBundle.putParcelable(NOTE1_TAG, note1);
+        saveBundle.putParcelable(PARCEL_TAG, expectedNote);
 
         //Create Parcel and Save Bundle in it.
         Parcel parcel = Parcel.obtain();
@@ -140,24 +148,38 @@ public class NoteTest extends AndroidTestCase {
         Bundle extractBundle = parcel.readBundle();
         extractBundle.setClassLoader(Note.class.getClassLoader());
 
-        Note extractedDefaultNote = extractBundle.getParcelable(DEFAULT_TAG);
-        Note extractedNote1 = extractBundle.getParcelable(NOTE1_TAG);
-
-        //Checks Notes match
-        assertEquals(note1.getId(), extractedNote1.getId());
-        assertEquals(note1.getColor(), extractedNote1.getColor());
-        assertEquals(note1.getText(), extractedNote1.getText());
-
-        assertEquals(defaultNote.getId(), extractedDefaultNote.getId());
-        assertEquals(defaultNote.getColor(), extractedDefaultNote.getColor());
-        assertEquals(defaultNote.getText(), extractedDefaultNote.getText());
+        Note actualNote = extractBundle.getParcelable(PARCEL_TAG);
+        Validators.validateNote(expectedNote, actualNote);
     }
 
 
     /**
+     * Test the parceling of the default note.
+     */
+    public void testParcelingOfDefaultNote() {
+        Note expectedNote = new Note();
+
+        //Create Bundle
+        Bundle saveBundle = new Bundle();
+        saveBundle.putParcelable(PARCEL_TAG, expectedNote);
+
+        //Create Parcel and Save Bundle in it.
+        Parcel parcel = Parcel.obtain();
+        saveBundle.writeToParcel(parcel, 0);
+
+        //Extract Bundle from the Parcel
+        parcel.setDataPosition(0);
+        Bundle extractBundle = parcel.readBundle();
+        extractBundle.setClassLoader(Note.class.getClassLoader());
+
+        Note actualNote = extractBundle.getParcelable(PARCEL_TAG);
+        Validators.validateNote(expectedNote, actualNote);
+    }
+
+    /**
      * Test {@link com.fsk.mynotes.data.Note#save(android.database.sqlite.SQLiteDatabase)}
      */
-    public void testStore() {
+    public void testSavingNote() {
         NotesManager notesManager = new NotesManager(DatabaseHelper.getDatabase());
 
         //Test the note storage succeeds
@@ -180,9 +202,9 @@ public class NoteTest extends AndroidTestCase {
 
 
     /**
-     * Test {@link com.fsk.mynotes.data.Note#save(android.database.sqlite.SQLiteDatabase)}
+     * Test {@link com.fsk.mynotes.data.Note#delete(android.database.sqlite.SQLiteDatabase)}
      */
-    public void testRemove() {
+    public void testDeletingNote() {
         NotesManager notesManager = new NotesManager(DatabaseHelper.getDatabase());
 
         Note note = new Note();

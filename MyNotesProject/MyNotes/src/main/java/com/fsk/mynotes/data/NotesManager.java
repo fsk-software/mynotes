@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
 import com.fsk.common.database.DatabaseUtilities;
+import com.fsk.common.threads.ThreadCheck;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel.Columns;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel.Tables;
@@ -45,8 +46,12 @@ public class NotesManager {
      * Get all of the notes from the database.
      *
      * @return a non-null List of {@link com.fsk.mynotes.data.Note}(s).
+     *
+     * @throws com.fsk.common.threads.ThreadException
+     *         when call from the UI thread.
      */
     public List<Note> getAllNotes() {
+        ThreadCheck.checkOffUIThread();
         Cursor cursor = mDatabase.query(Tables.NOTES, null, null, null, null, null, null);
 
         final List<Note> returnValue;
@@ -67,8 +72,12 @@ public class NotesManager {
      *
      * @return a non-null List of {@link com.fsk.mynotes.data.Note}(s) that contain the specified
      * colors.
+     *
+     * @throws com.fsk.common.threads.ThreadException
+     *         when call from the UI thread.
      */
     public List<Note> getNotesWithColors(@NonNull List<NoteColor> colors) {
+        ThreadCheck.checkOffUIThread();
         Preconditions.checkNotNull(colors);
 
         List<Note> returnValue = new ArrayList<>();
@@ -77,15 +86,13 @@ public class NotesManager {
                     DatabaseUtilities.buildQueryQuestionMarkString(colors.size());
 
             String[] args = new String[colors.size()];
-            for (int i=0; i<colors.size(); ++i) {
+            for (int i = 0; i < colors.size(); ++i) {
                 args[i] = Integer.toString(colors.get(i).ordinal());
             }
 
-            Cursor cursor = mDatabase.query(Tables.NOTES,
-                                            null,
+            Cursor cursor = mDatabase.query(Tables.NOTES, null,
                                             Columns.NOTE_COLOR + " in (" + queryQuestionMarks + ")",
-                                            args,
-                                            null, null, null);
+                                            args, null, null, null);
 
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -102,8 +109,13 @@ public class NotesManager {
      * Get the {@link com.fsk.mynotes.data.Note} with the specified id.
      *
      * @return the {@link com.fsk.mynotes.data.Note} with the specified id or null.
+     *
+     * @throws com.fsk.common.threads.ThreadException
+     *         when call from the UI thread.
      */
     public Note getNote(long noteId) {
+        ThreadCheck.checkOffUIThread();
+
         Cursor cursor = mDatabase.query(Tables.NOTES, null, Columns.NOTE_ID + " = ?",
                                         new String[] { Long.toString(noteId) }, null, null, null);
 
