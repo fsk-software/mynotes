@@ -16,6 +16,7 @@ android {
 
             // Library specific proguard files
             proguardFiles 'proguard-guava.pro'
+            proguardFiles 'proguard-roboguice.pro'
 
             //Default proguard file
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -50,6 +51,9 @@ android {
 
 dependencies {
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
+    compile 'org.roboguice:roboguice:3.+'
+    provided 'org.roboguice:roboblender:3.+'
+
 
     compile 'com.android.support:appcompat-v7:21.0.+'
     //Unit test dependencies

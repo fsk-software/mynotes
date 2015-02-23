@@ -16,6 +16,7 @@
 
 package com.fsk.mynotes.presentation.activity;
 
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,10 @@ import android.view.Window;
 
 import com.fsk.mynotes.R;
 
+import roboguice.inject.ContentView;
+
+
+@ContentView(R.layout.main)
 public class MainActivity extends Activity {
 //	enum SortOptions {
 //		None(R.drawable.sort_off_button),
@@ -188,14 +193,14 @@ public class MainActivity extends Activity {
        super.onActivityResult(requestCode, resultCode, intent);
 //       fill();
     }
-    
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
 //    	mNotesTableManager = NotesTableManager.getSingleton();
 
     	requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.main);
 //
 //		mAppPreferences =
 //			PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
