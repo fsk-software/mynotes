@@ -5,6 +5,8 @@
     <item name="lightPrimaryColor" type="color">#CFD8DC</item>
 
     <item name="accentColor" type="color">#FF9800</item>
+    <item name="accentColorRipple" type="color">#FFE0B2</item>
+
     <item name="dividerColor" type="color">#b5b6b6</item>
     <item name="secondaryTextColor" type="color">#727272</item>
     <item name="primaryTextColor" type="color">@android:color/black</item>

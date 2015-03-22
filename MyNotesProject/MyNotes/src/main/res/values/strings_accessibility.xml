@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="accessibility_description_add_note">Add Note</string>
+    <string name="accessibility_description_color_filter_menu_on">Color Filter Menu is On</string>
+    <string name="accessibility_description_color_filter_menu_off">Color Filter Menu is Off</string>
+</resources>

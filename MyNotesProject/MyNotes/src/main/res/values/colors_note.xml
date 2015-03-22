@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="note_blue" type="color">#99CCFF</item>
+    <item name="note_blue_outline" type="color">#2E3D4C</item>
+
+    <item name="note_gray" type="color">#C4C4C4</item>
+    <item name="note_gray_outline" type="color">#272727</item>
+
+    <item name="note_green" type="color">#9BED9B</item>
+    <item name="note_green_outline" type="color">#1F2F1F</item>
+
+    <item name="note_pink" type="color">#FFB2D1</item>
+    <item name="note_pink_outline" type="color">#33242A</item>
+
+    <item name="note_purple" type="color">#D1B2F0</item>
+    <item name="note_purple_outline" type="color">#2A2430</item>
+
+    <item name="note_yellow" type="color">#FFFF99</item>
+    <item name="note_yellow_outline" type="color">#1A1A0F</item>
+
+</resources>

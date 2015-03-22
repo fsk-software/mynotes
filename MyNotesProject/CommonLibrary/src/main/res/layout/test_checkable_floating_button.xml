@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:custom="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <com.fsk.common.presentation.components.CheckableFloatingFrameLayout
+        android:id="@+id/test_checkable_floating_default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.fsk.common.presentation.components.CheckableFloatingFrameLayout
+        android:id="@+id/test_checkable_floating_oval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        custom:shape="oval" />
+
+    <com.fsk.common.presentation.components.CheckableFloatingFrameLayout
+        android:id="@+id/test_checkable_floating_rect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        custom:shape="rect" />
+
+    <com.fsk.common.presentation.components.CheckableFloatingFrameLayout
+        android:id="@+id/test_checkable_floating_rounded_rect_default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        custom:shape="roundedRect" />
+
+    <com.fsk.common.presentation.components.CheckableFloatingFrameLayout
+        android:id="@+id/test_checkable_floating_rounded_rect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        custom:shape="roundedRect"
+        custom:roundedRectRadius="25dp" />
+</LinearLayout>

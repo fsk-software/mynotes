@@ -1,83 +1,58 @@
-/*
- * Copyright (C) 2012 FSK Consulting, Inc.
- * 
- * Licensed under the LGPL License, Version 3 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.gnu.org/licenses/lgpl.html
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
 package com.fsk.mynotes.constants;
+
 
 import com.fsk.mynotes.R;
 
-import java.util.EnumSet;
-
+/**
+ * An enumerator containing all of the valid note colors. Each color corresponds to three resource ids:
+ *<ul>
+ *   <li>The resource id for the printable color name.</li>
+ *   <li>The resource id for notes rgb color.</li>
+ *   <li>The resource id for note filter toggle drawable.</li>
+ */
 public enum NoteColor {
 
-	YELLOW ("Yellow", R.drawable.yellow_note,
-					  R.drawable.yellow_note_header,
-			          R.drawable.yellow_button_toggle),
-	BLUE   ("Blue",   R.drawable.blue_note, 
-			          R.drawable.blue_note_header,
-			          R.drawable.blue_button_toggle),
-	GREEN  ("Green",  R.drawable.green_note,
-					  R.drawable.green_note_header, 
-			          R.drawable.green_button_toggle),
-    PINK   ("Pink",   R.drawable.pink_note,
-			          R.drawable.pink_note_header,
-    		          R.drawable.pink_button_toggle),
-	GREY   ("Grey",   R.drawable.grey_note,
-			          R.drawable.grey_note_header,
-			          R.drawable.grey_button_toggle);
-			   
-	private final int mImageResource;
-	private final int mToggleResource;
-	private final int mHeaderResource;
-	private final String mName;
-	private static final EnumSet<NoteColor> sEnum = EnumSet.range(YELLOW, GREY);
+    YELLOW(R.string.yellow, R.color.note_yellow, R.drawable.yellow_note_selector),
+    BLUE(R.string.blue, R.color.note_blue, R.drawable.blue_note_selector),
+    GREEN(R.string.green, R.color.note_green, R.drawable.green_note_selector),
+    PINK(R.string.pink, R.color.note_pink, R.drawable.pink_note_selector),
+    GREY(R.string.gray, R.color.note_gray, R.drawable.gray_note_selector),
+    PURPLE(R.string.purple, R.color.note_purple, R.drawable.purple_note_selector);
+
+
+    /**
+     * The id of the string resource containing the printable name for the color.
+     */
+    public final int nameResourceId;
+
+
+    /**
+     * The id of the color resource containing the ARGB color for the note color.
+     */
+    public final int colorResourceId;
+
+
+    /**
+     * The id of the drawable resource containing the selector for the note color.
+     */
+    public final int selectorResourceId;
 
 
     /**
      * Constructor
      *
-     * @param name The fixed name of the note
-     * @param imageResource The resource id of the note body.
-     * @param headerResource The resource id of the note header.
-     * @param toggleResource The resource id of the toggle background.
+     * @param nameResource
+     *         The string resource id for the name.
+     * @param colorResourceId
+     *         The color resource id.
+     * @param selectorResourceId
+     *         The drawable resource id for the selector.
      */
-	private NoteColor(String name, int imageResource, int headerResource, int toggleResource) {
-		mImageResource = imageResource;
-		mToggleResource = toggleResource;
-		mHeaderResource = headerResource;
-		mName = name;
-	}
-
-    @Deprecated
-	public final int getImageResource() {
-		return mImageResource;
-	}
-
-    @Deprecated
-	public final int getHeaderResource() {
-		return mHeaderResource;
-	}
-
-    @Deprecated
-	public final int getToggleResource() {
-		return mToggleResource;
-	}
-
-    @Deprecated
-	public final String getName() {
-		return mName;
-	}
+    private NoteColor(int nameResource, int colorResourceId, int selectorResourceId) {
+        this.nameResourceId = nameResource;
+        this.colorResourceId = colorResourceId;
+        this.selectorResourceId = selectorResourceId;
+    }
 
 
     /**

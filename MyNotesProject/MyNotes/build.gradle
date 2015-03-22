@@ -1,22 +1,32 @@
 apply plugin: 'com.android.application'
+//apply plugin: "jacoco"
+//
+//jacoco {
+//    version "0.7.1.201405082137"
+//}
+
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.0"
 
     defaultConfig {
         applicationId "com.fsk.mynotes"
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 22
     }
 
-    buildTypes {
+   buildTypes {
+        debug {
+//            testCoverageEnabled = true
+        }
+
         release {
             minifyEnabled true
 
             // Library specific proguard files
             proguardFiles 'proguard-guava.pro'
-            proguardFiles 'proguard-roboguice.pro'
+            proguardFiles 'proguard-butterknife.pro'
 
             //Default proguard file
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -46,16 +56,59 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
     }
 }
 
+
+//task jacocoTestReport(type: JacocoReport) {
+//
+//    def coverageSourceDirs = [
+//            'src/main/java'
+//    ]
+//
+//    group = "Reporting"
+//    description = "jacoco coverage reports"
+//    reports {
+//        xml {
+//            enabled = true
+//            destination "${buildDir}/reports/jacoco/jacoco.xml"
+//        }
+//        csv.enabled false
+//        html {
+//            enabled true
+//            destination "${buildDir}/jacocoHtml"
+//        }
+//    }
+//
+//    classDirectories = fileTree(
+//            dir: 'build/intermediates/classes/debug',
+//            excludes: ['**/R.class',
+//                       '**/R$*.class',
+//                       '**/BuildConfig.*',
+//                       '**/Manifest*.*',
+//                       '**/*Activity*.*',
+//                       '**/*Fragment*.*'
+//            ]
+//    )
+//
+//    sourceDirectories = files(coverageSourceDirs)
+//    additionalSourceDirs = files(coverageSourceDirs)
+//    executionData = files('build/outputs/code-coverage/connected/coverage.ec')
+//}
+
 dependencies {
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
-    compile 'org.roboguice:roboguice:3.+'
-    provided 'org.roboguice:roboblender:3.+'
+    compile 'com.jakewharton:butterknife:6.1.0'
 
+    compile 'com.android.support:appcompat-v7:22.0.+'
+    compile 'com.android.support:recyclerview-v7:22.0.+'
+    compile 'com.android.support:cardview-v7:22.0.+'
 
-    compile 'com.android.support:appcompat-v7:21.0.+'
     //Unit test dependencies
     androidTestCompile 'org.hamcrest:hamcrest-core:1.3'
     androidTestCompile 'junit:junit-dep:4.11'

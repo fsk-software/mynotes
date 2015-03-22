@@ -9,15 +9,21 @@ import android.support.annotation.NonNull;
 
 import com.fsk.common.database.DatabaseStorable;
 import com.fsk.common.threads.ThreadCheck;
+import com.fsk.mynotes.MyNotesApplication;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel.Columns;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel.Tables;
+import com.fsk.mynotes.receivers.NoteTableChangeBroadcast;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 
 /**
- * The Note data model.
+ * The Note data model.  A broadcast is sent every time the note is committed or deleted from the
+ * database.
+ *
+ * The broadcast follows the schema in {@link com.fsk.mynotes.receivers
+ * .NoteTableChangeBroadcast}.
  */
 public class Note implements Parcelable, DatabaseStorable {
 
@@ -169,9 +175,8 @@ public class Note implements Parcelable, DatabaseStorable {
      *
      * @return The {@link android.content.ContentValues} intitialized with the values.  It will
      * contain the following entries:<p> key=>{@link com.fsk.mynotes.data.database
-     * .MyNotesDatabaseModel.Columns#NOTE_ID}<br>
-     * value=> long<br> description=> The note id.  this only exists when {@link #getId()} is not
-     * {@link #NOT_STORED}.
+     * .MyNotesDatabaseModel.Columns#NOTE_ID}<br> value=> long<br> description=> The note id.  this
+     * only exists when {@link #getId()} is not {@link #NOT_STORED}.
      * <p/>
      * key=>{@link com.fsk.mynotes.data.database.MyNotesDatabaseModel.Columns#NOTE_TEXT}<br>
      * value=>String<br> description=> The note's text.
@@ -205,6 +210,7 @@ public class Note implements Parcelable, DatabaseStorable {
 
         if (row != NOT_STORED) {
             mId = row;
+            MyNotesApplication.sendLocalBroadcast(NoteTableChangeBroadcast.createIntent());
         }
     }
 
@@ -222,6 +228,7 @@ public class Note implements Parcelable, DatabaseStorable {
                                         new String[] { Long.toString(mId) });
             if (deletedRows > 0) {
                 setId(NOT_STORED);
+                MyNotesApplication.sendLocalBroadcast(NoteTableChangeBroadcast.createIntent());
             }
         }
     }

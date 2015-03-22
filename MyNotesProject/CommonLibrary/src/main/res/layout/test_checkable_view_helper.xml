@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:custom="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <com.fsk.common.presentation.components.CheckableFloatingFrameLayout
+        android:id="@+id/test_checkable_view_helper_no_attributes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.fsk.common.presentation.components.CheckableFloatingFrameLayout
+        android:id="@+id/test_checkable_view_helper_initially_checked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        custom:initiallyChecked="true" />
+
+    <com.fsk.common.presentation.components.CheckableFloatingFrameLayout
+        android:id="@+id/test_checkable_view_helper_on_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        custom:checkedOnText="TestOn" />
+
+    <com.fsk.common.presentation.components.CheckableFloatingFrameLayout
+        android:id="@+id/test_checkable_view_helper_off_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        custom:checkedOffText="TestOff" />
+
+    <com.fsk.common.presentation.components.CheckableFloatingFrameLayout
+        android:id="@+id/test_checkable_view_helper_on_off_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        custom:checkedOnText="TestOn"
+        custom:checkedOffText="TestOff" />
+</LinearLayout>
