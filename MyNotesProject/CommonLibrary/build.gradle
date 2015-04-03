@@ -1,14 +1,14 @@
 apply plugin: 'com.android.library'
-apply plugin: "jacoco"
-
-jacoco {
-    version "0.7.1.201405082137"
-}
-
+//apply plugin: "jacoco"
+//
+//jacoco {
+//    version "0.7.1.201405082137"
+//}
+//
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "22.0.0"
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         minSdkVersion 15
@@ -19,7 +19,7 @@ android {
 
     buildTypes {
         debug {
-            testCoverageEnabled = true
+//            testCoverageEnabled = true
         }
 
         release {
@@ -54,42 +54,42 @@ android {
     }
 }
 
-
-task jacocoTestReport(type: JacocoReport) {
-
-    def coverageSourceDirs = [
-            'src/main/java'
-    ]
-
-    group = "Reporting"
-    description = "Generates Jacoco coverage reports"
-    reports {
-        xml {
-            enabled = true
-            destination "${buildDir}/reports/jacoco/jacoco.xml"
-        }
-        csv.enabled false
-        html {
-            enabled true
-            destination "${buildDir}/jacocoHtml"
-        }
-    }
-
-    classDirectories = fileTree(
-            dir: 'build/intermediates/classes/debug',
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/BuildConfig.*',
-                       '**/Manifest*.*',
-                       '**/*Activity*.*',
-                       '**/*Fragment*.*'
-            ]
-    )
-
-    sourceDirectories = files(coverageSourceDirs)
-    additionalSourceDirs = files(coverageSourceDirs)
-    executionData = files('build/outputs/code-coverage/connected/coverage.ec')
-}
+//
+//task jacocoTestReport(type: JacocoReport) {
+//
+//    def coverageSourceDirs = [
+//            'src/main/java'
+//    ]
+//
+//    group = "Reporting"
+//    description = "Generates Jacoco coverage reports"
+//    reports {
+//        xml {
+//            enabled = true
+//            destination "${buildDir}/reports/jacoco/jacoco.xml"
+//        }
+//        csv.enabled false
+//        html {
+//            enabled true
+//            destination "${buildDir}/jacocoHtml"
+//        }
+//    }
+//
+//    classDirectories = fileTree(
+//            dir: 'build/intermediates/classes/debug',
+//            excludes: ['**/R.class',
+//                       '**/R$*.class',
+//                       '**/BuildConfig.*',
+//                       '**/Manifest*.*',
+//                       '**/*Activity*.*',
+//                       '**/*Fragment*.*'
+//            ]
+//    )
+//
+//    sourceDirectories = files(coverageSourceDirs)
+//    additionalSourceDirs = files(coverageSourceDirs)
+//    executionData = files('build/outputs/code-coverage/connected/coverage.ec')
+//}
 
 
 dependencies {

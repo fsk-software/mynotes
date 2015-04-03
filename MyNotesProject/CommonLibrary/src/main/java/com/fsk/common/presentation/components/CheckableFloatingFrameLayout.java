@@ -19,7 +19,7 @@ public class CheckableFloatingFrameLayout extends FloatingFrameLayout
     /**
      * The debug logging tag.
      */
-    private static final String TAG = "FloatingActionButton";
+    private static final String TAG = CheckableFloatingFrameLayout.class.getName();
 
 
     /**

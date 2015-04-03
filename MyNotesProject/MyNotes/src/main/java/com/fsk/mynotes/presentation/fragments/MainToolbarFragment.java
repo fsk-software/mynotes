@@ -4,7 +4,6 @@ package com.fsk.mynotes.presentation.fragments;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,8 +17,8 @@ import com.fsk.common.presentation.recycler.DividerItemDecoration;
 import com.fsk.common.presentation.utils.checkable_helper.OnCheckedChangeListener;
 import com.fsk.mynotes.R;
 import com.fsk.mynotes.presentation.adapters.FilterColorAdapter;
+import com.fsk.mynotes.presentation.animations.AnimationBuilderFactory;
 import com.fsk.mynotes.presentation.animations.filter_toolbar.ToolbarAnimatorBuilder;
-import com.fsk.mynotes.presentation.animations.filter_toolbar.ToolbarAnimatorBuilderCompat;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -87,9 +86,7 @@ public class MainToolbarFragment extends Fragment {
      *         true to show the note filter.  false will hide it.
      */
     private void enableFilterToolbar(boolean enabled) {
-        ToolbarAnimatorBuilder builder = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) ?
-                                          new ToolbarAnimatorBuilder() :
-                                          new ToolbarAnimatorBuilderCompat();
+        ToolbarAnimatorBuilder builder = AnimationBuilderFactory.getFilterToolbarAnimatorBuilder();
 
         try {
             int x = (mShowFilterToggle.getLeft() + mShowFilterToggle.getRight()) / 2;

@@ -8,10 +8,9 @@ import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
 import com.fsk.common.R;
-import com.fsk.common.presentation.utils.outline_provider.OutlineShape;
 import com.fsk.common.presentation.utils.outline_provider.OutlineHelper;
-import com.fsk.common.presentation.utils.outline_provider.OutlineHelperCompat;
-import com.fsk.common.versions.Versions;
+import com.fsk.common.presentation.utils.outline_provider.OutlineHelperFactory;
+import com.fsk.common.presentation.utils.outline_provider.OutlineShape;
 
 /**
  * A Floating Action Button is a view distinguished by a circled icon floating above the UI, with
@@ -84,8 +83,7 @@ public class FloatingFrameLayout extends FrameLayout {
         readAttributes(context, attrs);
         setClickable(true);
 
-        mOutlineHelper =
-                (Versions.isAtLeastLollipop()) ? new OutlineHelper() : new OutlineHelperCompat();
+        mOutlineHelper = OutlineHelperFactory.getOutlineHelper();
         mOutlineHelper.setTarget(this).setOutlineShape(mShape)
                       .setRoundRectRadius(mRoundedRectangleRadius).setup();
     }

@@ -20,7 +20,7 @@ public class CheckableImageView extends ImageView implements CheckableListenerSu
     /**
      * The debug logging tag.
      */
-    private static final String TAG = "FloatingActionButton";
+    private static final String TAG = CheckableImageView.class.getName();
 
 
     /**
