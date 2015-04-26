@@ -5,7 +5,8 @@ import com.fsk.mynotes.data.Note;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static junit.framework.Assert.assertEquals;
+
 
 /**
  * Validation methods to simplify unit testing.
