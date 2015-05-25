@@ -85,9 +85,7 @@ public class FilteredNoteLoader extends AsyncTaskLoader<List<Note>> {
     @Override
     public List<Note> loadInBackground() {
         Set<NoteColor> enabledFilters = mNoteFilterCache.getEnabledColors();
-        List<Note> data = mNotesManager.getNotesWithColors(new ArrayList<>(enabledFilters));
-
-        return data;
+        return mNotesManager.getNotesWithColors(new ArrayList<>(enabledFilters));
     }
 
 

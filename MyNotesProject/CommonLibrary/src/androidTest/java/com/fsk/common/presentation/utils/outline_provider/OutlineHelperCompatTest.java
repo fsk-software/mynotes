@@ -55,9 +55,8 @@ public class OutlineHelperCompatTest extends AndroidTestCase {
         for (OutlineShape shape : OutlineShape.values()) {
             OutlineHelperCompat helper = new OutlineHelperCompat();
             helper.setTarget(view).setOutlineShape(shape).setRoundRectRadius(10).setup();
-            assertNotNull(view.getOutlineProvider());
             helper.invalidateOutline();
-            helper.updateViewOutline(new Outline());
+            helper.updateViewOutline(null);
         }
 
     }

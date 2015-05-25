@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 
+import com.google.common.base.Preconditions;
+
 /**
  * A Helper class to manage the database access and setup.
  */
@@ -76,12 +78,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public static synchronized void initialize(@NonNull final Context context,
                                                @NonNull final DatabaseModel databaseModel) {
-        if (context == null) {
-            throw new IllegalArgumentException("The context cannot be null");
-        }
-        else if (databaseModel == null) {
-            throw new IllegalArgumentException("The database cannot be null");
-        }
+        Preconditions.checkNotNull(context);
+        Preconditions.checkNotNull(databaseModel);
 
         sContext = context;
         sDatabaseModel = databaseModel;

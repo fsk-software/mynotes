@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- This file contains the unique configurations for the lollipop derived styles from styles.xml
+     This file primarily exists to prevent the need to reduce the need to branch the layout
+     folders. -->
+<resources>
+    <style name="MainToolbar" parent="MainToolbarParent" >
+        <item name="android:elevation">@dimen/toolbar_elevation</item>
+    </style>
+
+    <style name="ColorFilterToolbar" parent="ColorFilterToolbarParent">
+        <item name="android:elevation">@dimen/color_filter_toolbar_elevation</item>
+    </style>
+
+    <style name="AddNoteButton" parent="AddNoteButtonParent">
+        <item name="android:elevation">@dimen/add_note_button_elevation</item>
+        <item name="android:stateListAnimator">@animator/floating_button_press_anim</item>
+    </style>
+
+    <style name="ColorFilterItem" parent="ColorFilterItemParent">
+        <item name="android:stateListAnimator">@animator/color_filter_item_selector</item>
+    </style>
+
+    <style name="CardItem" parent="CardItemParent">
+        <item name="android:elevation">@dimen/note_item_elevation</item>
+    </style>
+</resources>

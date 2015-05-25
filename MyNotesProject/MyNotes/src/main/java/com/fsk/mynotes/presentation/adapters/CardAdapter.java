@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.fsk.common.presentation.recycler.RecyclerViewAdapter;
 import com.fsk.mynotes.R;
 import com.fsk.mynotes.data.Note;
 
@@ -20,7 +21,7 @@ import butterknife.InjectView;
 /**
  * The adapter to display a card.
  */
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
+public class CardAdapter extends RecyclerViewAdapter<CardAdapter.CardViewHolder> {
 
     /**
      * The view holder to hold the card UI components.
@@ -60,37 +61,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
 
     /**
-     * Constructor.
-     *
-     * @param notes
-     *         The initial list of notes to display.  This can be null.
-     */
-    public CardAdapter(List<Note> notes) {
-        setNotes(notes, false);
-    }
-
-
-    /**
-     * Update the notes in the adapter.  This will remove the existing notes and replace it with the
-     * specified notes.
-     *
-     * @param notes
-     *         the new notes to display.  This can be null to clear the adapter.
-     * @param notify
-     *         true if {@link #notifyDataSetChanged()} should be called.
-     */
-    private void setNotes(List<Note> notes, boolean notify) {
-        if (notes != null) {
-            mNotes.addAll(notes);
-        }
-
-        if (notify) {
-            notifyDataSetChanged();
-        }
-    }
-
-
-    /**
      * Update the notes in the adapter.  This will remove the existing notes and replace it with the
      * specified notes.
      *
@@ -98,14 +68,18 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
      *         the new notes to display.  This can be null to clear the adapter.
      */
     public void setNotes(List<Note> notes) {
-        setNotes(notes, true);
+        mNotes.clear();
+
+        if (notes != null) {
+            mNotes.addAll(notes);
+        }
     }
 
 
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                                  .inflate(R.layout.recycler_item_card, parent, false);
+                                  .inflate(R.layout.recycler_item_note, parent, false);
 
         return new CardViewHolder(view);
     }

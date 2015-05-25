@@ -7,6 +7,7 @@ import android.test.AndroidTestCase;
 import android.view.View;
 
 import com.fsk.common.presentation.components.FloatingFrameLayout;
+import com.fsk.common.versions.Versions;
 
 /**
  * Tests {@link FloatingFrameLayout}
@@ -15,7 +16,10 @@ public class OutlineHelperTest extends AndroidTestCase {
 
 
     public void testSetupWithNullView() {
-        Context context = getContext();
+        if (!Versions.isAtLeastLollipop()) {
+            return;
+        }
+
         try {
             new OutlineHelper().setTarget(null).setOutlineShape(OutlineShape.OVAL)
                                .setup();
@@ -27,6 +31,10 @@ public class OutlineHelperTest extends AndroidTestCase {
     }
 
     public void testSetupWithNullShape() {
+        if (!Versions.isAtLeastLollipop()) {
+            return;
+        }
+
         Context context = getContext();
         try {
             new OutlineHelper().setTarget(new View(context)).setup();
@@ -38,6 +46,10 @@ public class OutlineHelperTest extends AndroidTestCase {
     }
 
     public void testSetupWithNegativeRoundedRectCorners() {
+        if (!Versions.isAtLeastLollipop()) {
+            return;
+        }
+
         Context context = getContext();
         try {
             new OutlineHelper().setTarget(new View(context)).setOutlineShape(OutlineShape.OVAL).setRoundRectRadius(-1).setup();
@@ -50,6 +62,10 @@ public class OutlineHelperTest extends AndroidTestCase {
 
 
     public void testSunnyDay() {
+        if (!Versions.isAtLeastLollipop()) {
+            return;
+        }
+
         Context context = getContext();
         View view = new View(context);
         for (OutlineShape shape : OutlineShape.values()) {

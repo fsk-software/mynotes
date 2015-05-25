@@ -36,7 +36,6 @@ public class NoteTest extends AndroidTestCase {
     }
 
 
-
     /**
      * Test the basic constructor and default values.
      */
@@ -49,14 +48,30 @@ public class NoteTest extends AndroidTestCase {
 
 
     /**
-     * Test change the note id.
+     * Test change the note id to a valid value
      */
-    public void testChangingNoteId() {
+    public void testChangingNoteIdSunnyDay() {
         Note note = new Note();
         note.setId(1);
         assertEquals(1, note.getId());
+
+        //Set it to the not stored case
+        note.setId(Note.NOT_STORED);
+        assertEquals(Note.NOT_STORED, note.getId());
     }
 
+
+    /**
+     * Test change the note id to invalid values.
+     */
+    public void testChangingNoteIdRainyDay() {
+        Note note = new Note();
+        try {
+            note.setId(-2);
+            assert true;
+        }
+        catch (IllegalArgumentException e) {}
+    }
 
     /**
      * Test {@link Note#setColor(com.fsk.mynotes.constants.NoteColor)} to each color.
@@ -221,5 +236,21 @@ public class NoteTest extends AndroidTestCase {
 
         Note removedNote = notesManager.getNote(note.getId());
         assertNull(removedNote);
+    }
+
+
+    /**
+     * test {@link Note#describeContents()}
+     */
+    public void testDescribeContents() {
+        assertEquals(0, new Note().describeContents());
+    }
+
+    /**
+     * test {@link android.os.Parcelable.Creator#newArray(int)}
+     */
+    public void testCreatorNewArray() {
+        Note notes[] = Note.CREATOR.newArray(5);
+        assertEquals(5, notes.length);
     }
 }

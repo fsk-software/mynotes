@@ -1,4 +1,5 @@
 <resources>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
         <!-- Main theme colors -->
@@ -8,5 +9,12 @@
         <item name="android:textColorSecondary">@color/secondaryTextColor</item>
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
 
+
+    </style>
+
+    <style name="DarkToolbarTheme" parent="AppTheme">
+        <!-- android:textColorPrimary is the  color of the title text
+             in the Toolbar, in the Theme.AppCompat theme:  -->
+        <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 </resources>

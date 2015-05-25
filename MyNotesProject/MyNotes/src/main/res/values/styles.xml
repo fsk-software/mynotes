@@ -1,35 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- Copyright (C) 2010 FSK Consulting, Inc.
-  
- Licensed under the LGPL License, Version 3 (the "License"); you may not
- use this file except in compliance with the License. You may obtain a copy of
- the License at
- 
- http://www.gnu.org/licenses/lgpl.html
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- License for the specific language governing permissions and limitations under
- the License.
--->
-
 <resources>
-    <style name="BaseStyle" parent="@android:style/TextAppearance.Medium">
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">#000000</item>
+
+    <!-- Common attributes for the primary toolbar in the main activity -->
+    <style name="MainToolbarParent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/main_activity_toolbar_height</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:theme">@style/DarkToolbarTheme</item>
     </style>
-    <style name="BaseStyle.Compact">
-        <item name="android:layout_width">wrap_content</item>
+
+    <!-- Common attributes for the color filter toolbar in the main activity -->
+    <style name="ColorFilterToolbarParent">
+        <item name="android:background">@android:color/white</item>
     </style>
-    <style name="BaseStyle.Short">
-        <item name="android:layout_height">wrap_content</item>
+
+
+    <!-- Common attributes for the add note button in main activity -->
+    <style name="MainActivityAddNoteButton">
+        <item name="android:layout_width">@dimen/add_button_size</item>
+        <item name="android:layout_height">@dimen/add_button_size</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginTop">@dimen/add_button_top_margin</item>
+        <item name="android:layout_marginRight">10dp</item>
     </style>
-    <style name="NoteStyle" parent="@android:style/TextAppearance.Large">
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">#000000</item>
+
+    <!-- The common attributes for the add note button include -->
+    <style name="AddNoteButtonParent">
+        <item name="android:background">@drawable/add_button_background</item>
     </style>
+
+    <!-- The common attributes for the color filter items -->
+    <style name="ColorFilterItemParent">
+        <item name="android:textOn"></item>
+        <item name="android:textOff"></item>
+    </style>
+
+    <!-- The common parent for a note card -->
+    <style name="CardItemParent" />
 </resources>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="note_filter_text">%1$s : %2$s</string>
-    <string name="note_filter_on">On</string>
-    <string name="note_filter_off">Off</string>
-
-</resources>

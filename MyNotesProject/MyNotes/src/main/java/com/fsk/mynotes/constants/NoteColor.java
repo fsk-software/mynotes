@@ -8,16 +8,16 @@ import com.fsk.mynotes.R;
  *<ul>
  *   <li>The resource id for the printable color name.</li>
  *   <li>The resource id for notes rgb color.</li>
- *   <li>The resource id for note filter toggle drawable.</li>
+ *   <li>The resource id for color filter button.</li>
  */
 public enum NoteColor {
 
-    YELLOW(R.string.yellow, R.color.note_yellow, R.drawable.yellow_note_selector),
-    BLUE(R.string.blue, R.color.note_blue, R.drawable.blue_note_selector),
-    GREEN(R.string.green, R.color.note_green, R.drawable.green_note_selector),
-    PINK(R.string.pink, R.color.note_pink, R.drawable.pink_note_selector),
-    GREY(R.string.gray, R.color.note_gray, R.drawable.gray_note_selector),
-    PURPLE(R.string.purple, R.color.note_purple, R.drawable.purple_note_selector);
+    YELLOW(R.string.yellow, R.color.note_yellow, R.drawable.yellow_color_filter_background),
+    BLUE(R.string.blue, R.color.note_blue, R.drawable.blue_color_filter_background),
+    GREEN(R.string.green, R.color.note_green, R.drawable.green_color_filter_background),
+    PINK(R.string.pink, R.color.note_pink, R.drawable.pink_color_filter_background),
+    GREY(R.string.gray, R.color.note_gray, R.drawable.gray_color_filter_background),
+    PURPLE(R.string.purple, R.color.note_purple, R.drawable.purple_color_filter_background);
 
 
     /**
@@ -33,9 +33,9 @@ public enum NoteColor {
 
 
     /**
-     * The id of the drawable resource containing the selector for the note color.
+     * The id of the drawable resource containing the color filter background.
      */
-    public final int selectorResourceId;
+    public final int colorFilterBackgroundResourceId;
 
 
     /**
@@ -45,13 +45,13 @@ public enum NoteColor {
      *         The string resource id for the name.
      * @param colorResourceId
      *         The color resource id.
-     * @param selectorResourceId
+     * @param colorFilterResourceId
      *         The drawable resource id for the selector.
      */
-    private NoteColor(int nameResource, int colorResourceId, int selectorResourceId) {
+    NoteColor(int nameResource, int colorResourceId, int colorFilterResourceId) {
         this.nameResourceId = nameResource;
         this.colorResourceId = colorResourceId;
-        this.selectorResourceId = selectorResourceId;
+        this.colorFilterBackgroundResourceId = colorFilterResourceId;
     }
 
 
@@ -63,14 +63,12 @@ public enum NoteColor {
      *
      * @return the {@link NoteColor} associated with the ordinal or null.
      */
-    static public final NoteColor getColor(long index) {
+    static public NoteColor getColor(long index) {
         NoteColor[] colors = NoteColor.values();
-
-        for (int i = 0; i < colors.length; ++i) {
-            if (index == colors[i].ordinal()) {
-                return colors[i];
-            }
+        NoteColor returnValue = null;
+        if ((index >= 0) && (index < colors.length)) {
+            returnValue = colors[(int)index];
         }
-        return null;
+        return returnValue;
     }
 }

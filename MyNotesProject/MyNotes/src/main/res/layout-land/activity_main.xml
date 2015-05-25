@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Basic default layout that shows a toolbar at the top of the activity with the add button near
+     the top.  The color filter appears at the bottom of the screen in a horizontal orientation -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/activity_main_toolbar"
+        style="@style/MainToolbar" />
+
+    <include
+        android:id="@+id/activity_main_add_view"
+        layout="@layout/include_floating_add_button"
+        style="@style/MainActivityAddNoteButton" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/activity_main_color_filter_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/color_filter_item_short_side"
+        android:layout_alignParentBottom="true"
+        style="@style/ColorFilterToolbar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/activity_main_notes_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/activity_main_add_view"
+        android:layout_above="@id/activity_main_color_filter_recycler"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+
+</RelativeLayout>

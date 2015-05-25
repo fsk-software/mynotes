@@ -21,7 +21,7 @@ import java.util.Set;
 public class NoteFilterCache {
 
     /**
-     * The location of the persistant shared preference cache for the note filter.
+     * The location of the persistent shared preference cache for the note filter.
      */
     private static final String CACHE_NAME = "com.fsk.mynotes.note_filter_cache";
 
@@ -30,12 +30,6 @@ public class NoteFilterCache {
      * The shared preference object to allow access the shared preference cache.
      */
     private final SharedPreferences mSharedPreferences;
-
-
-    /**
-     * The editor to allow for persisting changes to the note filter.
-     */
-    private final SharedPreferences.Editor mSharedPreferencesEditor;
 
 
     /**
@@ -57,7 +51,6 @@ public class NoteFilterCache {
         Preconditions.checkNotNull(context);
 
         mSharedPreferences = context.getSharedPreferences(CACHE_NAME, Context.MODE_PRIVATE);
-        mSharedPreferencesEditor = mSharedPreferences.edit();
 
         mBroadcastManager = LocalBroadcastManager.getInstance(context);
     }
@@ -68,7 +61,7 @@ public class NoteFilterCache {
      * filter values.
      */
     public void clear() {
-        mSharedPreferencesEditor.clear().apply();
+        mSharedPreferences.edit().clear().apply();
     }
 
 

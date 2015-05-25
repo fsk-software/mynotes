@@ -18,22 +18,30 @@ import java.util.List;
  */
 public class CardAdapterTest extends AndroidTestCase {
 
-    public void testConstructionWithNullList() {
-        CardAdapter adapter = new CardAdapter(null);
+    public void testConstruction() {
+        CardAdapter adapter = new CardAdapter();
+        assertTrue(adapter.mNotes.isEmpty());
+        assertEquals(0, adapter.getItemCount());
+    }
+
+    public void testSetNotesWithNullList() {
+        CardAdapter adapter = new CardAdapter();
+        adapter.setNotes(null);
         assertNotNull(adapter.mNotes);
         assertTrue(adapter.mNotes.isEmpty());
         assertEquals(0, adapter.getItemCount());
     }
 
-    public void testConstructionWithEmptyList() {
-        CardAdapter adapter = new CardAdapter(new ArrayList<Note>());
+    public void testSetNotesWithEmptyList() {
+        CardAdapter adapter = new CardAdapter();
+        adapter.setNotes(new ArrayList<Note>());
         assertNotNull(adapter.mNotes);
         assertTrue(adapter.mNotes.isEmpty());
         assertEquals(0, adapter.getItemCount());
     }
 
 
-    public void testConstructionSunnyDay() {
+    public void testSetNotesWithNonEmptyList() {
         List<Note> expected = new ArrayList<>();
         for (int i=0; i<10; ++i) {
             Note note = new Note();
@@ -41,7 +49,8 @@ public class CardAdapterTest extends AndroidTestCase {
             expected.add(note);
         }
 
-        CardAdapter adapter = new CardAdapter(expected);
+        CardAdapter adapter = new CardAdapter();
+        adapter.setNotes(expected);
         assertNotNull(adapter.mNotes);
         assertEquals(expected.size(), adapter.mNotes.size());
         assertEquals(expected.size(), adapter.getItemCount());
@@ -53,14 +62,14 @@ public class CardAdapterTest extends AndroidTestCase {
 
 
     public void testViewHolderCreation() {
-        CardAdapter adapter = new CardAdapter(null);
+        CardAdapter adapter = new CardAdapter();
         assertNotNull(adapter.onCreateViewHolder(new LinearLayout(getContext()), 0));
     }
 
 
     public void testViewBinding() {
 
-        View root = LayoutInflater.from(getContext()).inflate(R.layout.recycler_item_card, null);
+        View root = LayoutInflater.from(getContext()).inflate(R.layout.recycler_item_note, null);
         CardAdapter.CardViewHolder holder = new CardAdapter.CardViewHolder(root);
 
         List<Note> expected = new ArrayList<>();
@@ -72,7 +81,8 @@ public class CardAdapterTest extends AndroidTestCase {
             expected.add(note);
         }
 
-        CardAdapter adapter = new CardAdapter(expected);
+        CardAdapter adapter = new CardAdapter();
+        adapter.setNotes(expected);
         for (NoteColor color : NoteColor.values()) {
             adapter.onBindViewHolder(holder, color.ordinal());
 

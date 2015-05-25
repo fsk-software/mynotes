@@ -12,11 +12,6 @@ import android.test.AndroidTestCase;
  */
 public class DatabaseHelperTest extends AndroidTestCase {
 
-    private static final String NULL_CONTEXT_MESSAGE = "The context cannot be null";
-
-
-    private static final String NULL_DATABASE_MESSAGE = "The database cannot be null";
-
 
     private static final String UNINITIALIZED_MESSAGE = "Initialization of database required";
 
@@ -68,8 +63,7 @@ public class DatabaseHelperTest extends AndroidTestCase {
             DatabaseHelper.initialize(null, null);
             assert true;
         }
-        catch (IllegalArgumentException e) {
-            assertEquals(NULL_CONTEXT_MESSAGE, e.getMessage());
+        catch (NullPointerException e) {
             assertTrue(DatabaseHelper.needsInitializing());
         }
 
@@ -78,8 +72,7 @@ public class DatabaseHelperTest extends AndroidTestCase {
             DatabaseHelper.initialize(null, new TestDatabaseModel());
             assert true;
         }
-        catch (IllegalArgumentException e) {
-            assertEquals(NULL_CONTEXT_MESSAGE, e.getMessage());
+        catch (NullPointerException e) {
             assertTrue(DatabaseHelper.needsInitializing());
         }
 
@@ -88,8 +81,7 @@ public class DatabaseHelperTest extends AndroidTestCase {
             DatabaseHelper.initialize(getContext(), null);
             assert true;
         }
-        catch (IllegalArgumentException e) {
-            assertEquals(NULL_DATABASE_MESSAGE, e.getMessage());
+        catch (NullPointerException e) {
             assertTrue(DatabaseHelper.needsInitializing());
         }
     }

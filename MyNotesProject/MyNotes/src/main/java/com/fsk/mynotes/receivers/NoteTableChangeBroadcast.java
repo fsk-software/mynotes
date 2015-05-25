@@ -7,7 +7,7 @@ import android.content.IntentFilter;
 /**
  * The schema and helper for Broadcasts about changes to the notes.
  */
-public class NoteTableChangeBroadcast {
+public abstract class NoteTableChangeBroadcast {
 
     /**
      * The action for the broadcast.
@@ -22,10 +22,7 @@ public class NoteTableChangeBroadcast {
      * @return the Intent for the broadcast.
      */
     public static Intent createIntent() {
-
-        final Intent returnValue = new Intent(ACTION);
-
-        return returnValue;
+        return new Intent(ACTION);
     }
 
 

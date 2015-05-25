@@ -14,7 +14,7 @@ public interface DatabaseModel {
      * @param db
      *         The database
      */
-    public void onCreate(final SQLiteDatabase db);
+    void onCreate(final SQLiteDatabase db);
 
     /**
      * Called when the database is upgraded.
@@ -26,7 +26,7 @@ public interface DatabaseModel {
      * @param newVersion
      *         the new version of the database.
      */
-    public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion);
+    void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion);
 
     /**
      * Called when the database is downgraded.
@@ -38,21 +38,21 @@ public interface DatabaseModel {
      * @param newVersion
      *         the new version of the database.
      */
-    public void onDowngrade(final SQLiteDatabase db, final int oldVersion, final int newVersion);
+    void onDowngrade(final SQLiteDatabase db, final int oldVersion, final int newVersion);
 
     /**
      * Get the database name.
      *
      * @return the database name.
      */
-    public String getName();
+    String getName();
 
     /**
      * Get the database version.
      *
      * @return the database version.
      */
-    public int getVersion();
+    int getVersion();
 
 
     /**
@@ -60,5 +60,5 @@ public interface DatabaseModel {
      *
      * @return the {@link android.database.sqlite.SQLiteDatabase.CursorFactory}. This can be null.
      */
-    public SQLiteDatabase.CursorFactory getCursorFactory();
+    SQLiteDatabase.CursorFactory getCursorFactory();
 }

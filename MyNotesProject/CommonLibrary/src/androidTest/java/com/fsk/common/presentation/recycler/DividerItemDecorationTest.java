@@ -56,20 +56,20 @@ public class DividerItemDecorationTest extends AndroidTestCase {
     }
 
     public void testHeightAndWidthConstructor() {
-        int expectedHeight = 10;
-        int expectedWidth = 20;
-        DividerItemDecoration decoration = new DividerItemDecoration(expectedHeight, expectedWidth);
-        assertEquals(expectedHeight, decoration.mDividerRect.left);
-        assertEquals(expectedWidth, decoration.mDividerRect.top);
-        assertEquals(expectedHeight, decoration.mDividerRect.right);
-        assertEquals(expectedWidth, decoration.mDividerRect.bottom);
+        int expectedVertical = 10;
+        int expectedHorizontal = 20;
+        DividerItemDecoration decoration = new DividerItemDecoration(expectedVertical, expectedHorizontal);
+        assertEquals(expectedHorizontal, decoration.mDividerRect.left);
+        assertEquals(expectedVertical, decoration.mDividerRect.top);
+        assertEquals(expectedHorizontal, decoration.mDividerRect.right);
+        assertEquals(expectedVertical, decoration.mDividerRect.bottom);
 
         Rect actual = new Rect();
         decoration.getItemOffsets(actual, null, null, null);
-        assertEquals(expectedHeight, actual.left);
-        assertEquals(expectedWidth, actual.top);
-        assertEquals(expectedHeight, actual.right);
-        assertEquals(expectedWidth, actual.bottom);
+        assertEquals(expectedHorizontal, actual.left);
+        assertEquals(expectedVertical, actual.top);
+        assertEquals(expectedHorizontal, actual.right);
+        assertEquals(expectedVertical, actual.bottom);
     }
 
 

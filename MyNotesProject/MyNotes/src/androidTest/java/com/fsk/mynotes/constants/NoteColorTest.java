@@ -24,4 +24,25 @@ public class NoteColorTest extends AndroidTestCase {
             assertEquals(color, NoteColor.getColor(color.ordinal()));
         }
     }
+
+    public void testValueOf() {
+        //test null case
+        try {
+            assertNull(NoteColor.valueOf(null));
+            assert true;
+        }
+        catch (NullPointerException e) {}
+
+        //test empty/unknown case
+        try {
+            assertNull(NoteColor.valueOf(""));
+            assert true;
+        }
+        catch (IllegalArgumentException e) {}
+
+        //test sunny day
+        for (NoteColor color : NoteColor.values()) {
+            assertEquals(color, NoteColor.valueOf(color.name()));
+        }
+    }
 }

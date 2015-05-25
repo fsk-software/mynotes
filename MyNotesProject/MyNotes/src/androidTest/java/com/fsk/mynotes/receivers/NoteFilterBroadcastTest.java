@@ -19,7 +19,6 @@ public class NoteFilterBroadcastTest extends AndroidTestCase {
     }
 
 
-
     public void testCreateIntentForEachNoteColorAndEnable() {
         for (NoteColor noteColor : NoteColor.values()) {
             Intent enabledIntent = NoteFilterBroadcast.createIntent(noteColor, true);

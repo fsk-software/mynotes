@@ -64,7 +64,7 @@ public class CheckableViewHelper {
      *
      * @return true if the initial checked state is true.
      */
-    public boolean readCheckableAttributes(@NonNull Context context, AttributeSet attrs) {
+    public boolean readCheckableAttributes(Context context, AttributeSet attrs) {
         if ((attrs == null) || (context == null)) {
             return false;
         }
@@ -108,7 +108,7 @@ public class CheckableViewHelper {
      * @param checkable
      *         the checkable to include in the notification.
      */
-    public void sendChangedNotification(@NonNull Checkable checkable) {
+    public void sendChangedNotification(Checkable checkable) {
 
         if ((checkable != null) && (mOnCheckedChangeListener != null)) {
             mOnCheckedChangeListener.onCheckedChanged(checkable);

@@ -10,5 +10,4 @@
     <item name="dividerColor" type="color">#b5b6b6</item>
     <item name="secondaryTextColor" type="color">#727272</item>
     <item name="primaryTextColor" type="color">@android:color/black</item>
-
 </resources>

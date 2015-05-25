@@ -16,12 +16,9 @@ public class OutlineHelperCompat extends OutlineHelper {
 
     @Override
     public void invalidateOutline() {
-        super.invalidateOutline();
     }
 
 
     @Override
-    protected void updateViewOutline(final Outline outline) {
-        super.updateViewOutline(outline);
-    }
+    protected void updateViewOutline(final Outline outline) {}
 }

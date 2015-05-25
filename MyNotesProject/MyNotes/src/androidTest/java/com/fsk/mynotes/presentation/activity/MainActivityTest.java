@@ -17,7 +17,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         MainActivity mainActivity = getActivity();
         assertNotNull(mainActivity.mCardAdapter);
         assertNotNull(mainActivity.mCardsRecyclerView);
-        assertNotNull(mainActivity.mMainToolbarFragment);
+        assertNotNull(mainActivity.mFilterRecyclerView);
 
         assertEquals(mainActivity.mCardAdapter, mainActivity.mCardsRecyclerView.getAdapter());
         assertTrue(mainActivity.mCardsRecyclerView.getLayoutManager() instanceof GridLayoutManager);

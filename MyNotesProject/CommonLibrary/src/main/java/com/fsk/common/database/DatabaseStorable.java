@@ -14,7 +14,7 @@ public interface DatabaseStorable {
      * @param db
      *         the database to receive the value.
      */
-    public void save(SQLiteDatabase db);
+    void save(SQLiteDatabase db);
 
     /**
      * Remove the value from the database.
@@ -22,5 +22,5 @@ public interface DatabaseStorable {
      * @param db
      *         the database to delete the value from.
      */
-    public void delete(SQLiteDatabase db);
+    void delete(SQLiteDatabase db);
 }

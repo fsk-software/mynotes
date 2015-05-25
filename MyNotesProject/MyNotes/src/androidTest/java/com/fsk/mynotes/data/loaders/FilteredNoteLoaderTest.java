@@ -49,6 +49,7 @@ public class FilteredNoteLoaderTest extends LoaderTestCase {
      * Test the case where there are no notes in the database.
      */
     public void testNoNotesCase() {
+        clearPersistentData();
         List<Note> result = getLoaderResultSynchronously(new FilteredNoteLoader(getContext()));
         assertTrue(result.isEmpty());
     }

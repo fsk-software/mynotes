@@ -9,57 +9,57 @@ public interface CommonTerms {
     //    The individual items are documented because they are self-explanatory.
 
 
-    public static final String AND = " AND ";
+    String AND = " AND ";
 
 
-    public static final String OR = " OR ";
+    String OR = " OR ";
 
 
-    public static final String EQUALS = " = ";
+    String EQUALS = " = ";
 
 
-    public static final String FROM = " FROM ";
+    String FROM = " FROM ";
 
 
-    public static final String WHERE = " WHERE ";
+    String WHERE = " WHERE ";
 
 
-    public static final String AS_SELECT = " AS SELECT ";
+    String AS_SELECT = " AS SELECT ";
 
 
-    public static final String SEMI_COLON = ";";
+    String SEMI_COLON = ";";
 
 
-    public static final String PERIOD = ".";
+    String PERIOD = ".";
 
 
-    public static final String COMMA = ",";
+    String COMMA = ",";
 
 
-    public static final String INTEGER = " INTEGER";
+    String INTEGER = " INTEGER";
 
 
-    public static final String TEXT = " TEXT";
+    String TEXT = " TEXT";
 
 
-    public static final String INTEGER_PRIMARY_KEY = " INTEGER PRIMARY KEY";
+    String INTEGER_PRIMARY_KEY = " INTEGER PRIMARY KEY";
 
 
-    public static final String INTEGER_PRIMARY_KEY_AUTO_INCREMENT =
+    String INTEGER_PRIMARY_KEY_AUTO_INCREMENT =
             INTEGER_PRIMARY_KEY + " AUTOINCREMENT NOT NULL ";
 
 
-    public static final String TEXT_PRIMARY_KEY = " TEXT PRIMARY KEY";
+    String TEXT_PRIMARY_KEY = " TEXT PRIMARY KEY";
 
 
-    public static final String CREATE_TABLE_IF_NOT_EXISTS = "CREATE TABLE IF NOT EXISTS ";
+    String CREATE_TABLE_IF_NOT_EXISTS = "CREATE TABLE IF NOT EXISTS ";
 
 
-    public static final String CREATE_VIEW_IF_NOT_EXISTS = "CREATE VIEW IF NOT EXISTS ";
+    String CREATE_VIEW_IF_NOT_EXISTS = "CREATE VIEW IF NOT EXISTS ";
 
 
-    public static final String DROP_VIEW_IF_EXISTS = "DROP VIEW IF EXISTS %s";
+    String DROP_VIEW_IF_EXISTS = "DROP VIEW IF EXISTS %s";
 
 
-    public static final String DROP_TABLE_IF_EXISTS = "DROP TABLE IF EXISTS %s";
+    String DROP_TABLE_IF_EXISTS = "DROP TABLE IF EXISTS %s";
 }

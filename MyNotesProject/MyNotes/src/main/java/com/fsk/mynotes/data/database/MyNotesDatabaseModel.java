@@ -26,7 +26,7 @@ public class MyNotesDatabaseModel implements DatabaseModel {
     /**
      * Defines the table names for the database.
      */
-    public static final class Tables {
+    public abstract static class Tables {
         public static final String NOTES = "notes";
     }
 
@@ -34,7 +34,7 @@ public class MyNotesDatabaseModel implements DatabaseModel {
     /**
      * Defines the columns in the database tables.
      */
-    public static final class Columns {
+    public abstract static class Columns {
         public static final String NOTE_ID = "_id";
 
 

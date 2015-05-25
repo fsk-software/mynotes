@@ -34,16 +34,18 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     /**
      * Constructor.
      *
-     * @param height
-     *         the height of the divider in pixels.  This cannot be negative.
-     * @param height
-     *         the width of the divider in pixels. This cannot be negative.
+     * @param horizontal
+     *         the divider horizontal in pixels.  This cannot be negative.
+     *         This value is used for both the top and bottom edge.
+     * @param vertical
+     *         the vertical divider in pixels. This cannot be negative.
+     *         This value is used for both the left and right edge.
      */
-    public DividerItemDecoration(int height, int width) {
-        Preconditions.checkArgument(height > 0);
-        Preconditions.checkArgument(width > 0);
+    public DividerItemDecoration(int vertical, int horizontal) {
+        Preconditions.checkArgument(vertical >= 0);
+        Preconditions.checkArgument(horizontal >= 0);
 
-        mDividerRect = new Rect(height, width, height, width);
+        mDividerRect = new Rect(horizontal, vertical, horizontal, vertical);
     }
 
 

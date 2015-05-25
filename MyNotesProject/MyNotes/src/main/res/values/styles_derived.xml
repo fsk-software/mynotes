@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file contains the unique configurations for the derived styles from styles.xml
+     In this case there aren't any additional details but this file exists to prevent the need
+     to reduce the need to branch the layout folders. -->
+<resources>
+    <style name="MainToolbar" parent="MainToolbarParent" />
+
+    <style name="ColorFilterToolbar" parent="ColorFilterToolbarParent" />
+
+    <style name="AddNoteButton" parent="AddNoteButtonParent"/>
+
+    <style name="ColorFilterItem" parent="ColorFilterItemParent" />
+
+    <style name="CardItem" parent="CardItemParent"/>
+</resources>

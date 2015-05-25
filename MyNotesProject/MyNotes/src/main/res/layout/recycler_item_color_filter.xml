@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheckedTextView
+<ToggleButton
+    android:id="@+id/recycler_item_color_filter_check_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/recycler_item_color_filter_text"
+    style="@style/ColorFilterItem"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:padding="10dp"/>
+    android:layout_height="@dimen/color_filter_item_long_side" />

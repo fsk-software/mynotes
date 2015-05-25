@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ToggleButton
+    android:id="@+id/recycler_item_color_filter_check_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/color_filter_item_long_side"
+    android:layout_height="match_parent"
+    style="@style/ColorFilterItem" />

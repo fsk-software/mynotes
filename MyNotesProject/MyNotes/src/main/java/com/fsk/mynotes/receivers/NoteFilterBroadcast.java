@@ -11,7 +11,7 @@ import com.google.common.base.Preconditions;
 /**
  * The schema and helper for Broadcasts about changes to the note filter values.
  */
-public class NoteFilterBroadcast {
+public abstract class NoteFilterBroadcast {
 
     /**
      * The action for the broadcast.
@@ -22,7 +22,7 @@ public class NoteFilterBroadcast {
     /**
      * The extra data to include in each broadcast.
      */
-    public static class Extras {
+    public abstract static class Extras {
         /**
          * The key to the integer ordinal value that represents a value in {@link
          * com.fsk.mynotes.constants.NoteColor}.
@@ -35,7 +35,6 @@ public class NoteFilterBroadcast {
          */
         public static final String ENABLED = "NoteFilterColorEnabled";
     }
-
 
     /**
      * Create the broadcast intent for the specified note color.

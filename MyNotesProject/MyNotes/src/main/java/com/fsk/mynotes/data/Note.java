@@ -39,7 +39,7 @@ public class Note implements Parcelable, DatabaseStorable {
 
         @Override
         public Note[] newArray(final int size) {
-            return new Note[0];
+            return new Note[size];
         }
     };
 
@@ -173,7 +173,7 @@ public class Note implements Parcelable, DatabaseStorable {
      * Convert the object into a {@link android.content.ContentValues} object for storage in the
      * database.
      *
-     * @return The {@link android.content.ContentValues} intitialized with the values.  It will
+     * @return The {@link android.content.ContentValues} initialized with the values.  It will
      * contain the following entries:<p> key=>{@link com.fsk.mynotes.data.database
      * .MyNotesDatabaseModel.Columns#NOTE_ID}<br> value=> long<br> description=> The note id.  this
      * only exists when {@link #getId()} is not {@link #NOT_STORED}.

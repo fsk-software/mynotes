@@ -31,7 +31,7 @@ public final class DatabaseUtilities {
      *
      * @return a comma-separated-list of question marks.
      */
-    public static final String buildQueryQuestionMarkString(int count) {
+    public static String buildQueryQuestionMarkString(int count) {
         StringBuilder queryBuilder = new StringBuilder();
         for (int i = 0, lastItem = count - 1; i < count; ++i) {
             queryBuilder.append("?");
@@ -181,7 +181,7 @@ public final class DatabaseUtilities {
      * @throws com.fsk.common.threads.ThreadException
      *         when called from the UI thread.
      */
-    public static final void save(@NonNull DatabaseStorable item, @NonNull SQLiteDatabase db) {
+    public static void save(@NonNull DatabaseStorable item, @NonNull SQLiteDatabase db) {
         ThreadCheck.checkOffUIThread();
 
         Preconditions.checkNotNull(item);
@@ -211,7 +211,7 @@ public final class DatabaseUtilities {
      * @throws com.fsk.common.threads.ThreadException
      *         when called from the UI thread.
      */
-    public static final void delete(@NonNull DatabaseStorable item, @NonNull SQLiteDatabase db) {
+    public static void delete(@NonNull DatabaseStorable item, @NonNull SQLiteDatabase db) {
         ThreadCheck.checkOffUIThread();
 
         Preconditions.checkNotNull(item);
