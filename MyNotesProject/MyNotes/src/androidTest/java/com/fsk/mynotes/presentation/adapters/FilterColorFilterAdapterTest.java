@@ -16,11 +16,11 @@ import com.fsk.mynotes.data.cache.NoteFilterCache;
 /**
  * Created by Me on 3/20/2015.
  */
-public class FilterColorAdapterTest extends AndroidTestCase {
+public class FilterColorFilterAdapterTest extends AndroidTestCase {
 
     public void testConstructionWithNullContext() {
         try {
-            new FilterColorAdapter(null);
+            new FilterColorFilterAdapter(null);
             assert false;
         }
         catch(NullPointerException e) {
@@ -34,15 +34,14 @@ public class FilterColorAdapterTest extends AndroidTestCase {
         String expectedOff = context.getString(R.string.accessibility_filter_off_template);
         String expectedOn = context.getString(R.string.accessibility_filter_on_template);
 
-        FilterColorAdapter adapter = new FilterColorAdapter(context);
+        FilterColorFilterAdapter adapter = new FilterColorFilterAdapter(context);
         assertEquals(expectedOff, adapter.mFilterOffTemplate);
         assertEquals(expectedOn, adapter.mFilterOnTemplate);
-        assertNotNull(adapter.mNoteFilterCache);
     }
 
 
     public void testViewHolderCreation() {
-        FilterColorAdapter adapter = new FilterColorAdapter(getContext());
+        FilterColorFilterAdapter adapter = new FilterColorFilterAdapter(getContext());
         assertNotNull(adapter.onCreateViewHolder(new LinearLayout(getContext()), 0));
     }
 
@@ -50,9 +49,9 @@ public class FilterColorAdapterTest extends AndroidTestCase {
 
         Context context = getContext();
         View root = LayoutInflater.from(context).inflate(R.layout.recycler_item_color_filter, null);
-        FilterColorAdapter.ViewHolder holder = new FilterColorAdapter.ViewHolder(root, null, null);
+        FilterColorFilterAdapter.ViewHolder holder = new FilterColorFilterAdapter.ViewHolder(root, null, null);
 
-        FilterColorAdapter adapter = new FilterColorAdapter(getContext());
+        FilterColorFilterAdapter adapter = new FilterColorFilterAdapter(getContext());
         try {
             adapter.onBindViewHolder(holder, -1);
             assert true;
@@ -65,11 +64,11 @@ public class FilterColorAdapterTest extends AndroidTestCase {
 
         Context context = getContext();
         View root = LayoutInflater.from(context).inflate(R.layout.recycler_item_color_filter, null);
-        FilterColorAdapter.ViewHolder holder = new FilterColorAdapter.ViewHolder(root, null, null);
+        FilterColorFilterAdapter.ViewHolder holder = new FilterColorFilterAdapter.ViewHolder(root, null, null);
         holder.mToggle.setChecked(true);
 
         NoteFilterCache noteFilterCache = new NoteFilterCache(context);
-        FilterColorAdapter adapter = new FilterColorAdapter(getContext());
+        FilterColorFilterAdapter adapter = new FilterColorFilterAdapter(getContext());
         Resources resources = context.getResources();
         for (NoteColor color : NoteColor.values()) {
             noteFilterCache.enableColor(color, true);
@@ -87,10 +86,10 @@ public class FilterColorAdapterTest extends AndroidTestCase {
 
         Context context = getContext();
         View root = LayoutInflater.from(context).inflate(R.layout.recycler_item_color_filter, null);
-        FilterColorAdapter.ViewHolder holder = new FilterColorAdapter.ViewHolder(root, null, null);
+        FilterColorFilterAdapter.ViewHolder holder = new FilterColorFilterAdapter.ViewHolder(root, null, null);
 
         NoteFilterCache noteFilterCache = new NoteFilterCache(context);
-        FilterColorAdapter adapter = new FilterColorAdapter(getContext());
+        FilterColorFilterAdapter adapter = new FilterColorFilterAdapter(getContext());
         Resources resources = context.getResources();
         for (NoteColor color : NoteColor.values()) {
             noteFilterCache.enableColor(color, false);
@@ -106,7 +105,7 @@ public class FilterColorAdapterTest extends AndroidTestCase {
 
     public void testOnCheckedChangeListener() {
         Context context = getContext();
-        FilterColorAdapter adapter = new FilterColorAdapter(context);
+        FilterColorFilterAdapter adapter = new FilterColorFilterAdapter(context);
         ToggleButton button = new ToggleButton(context);
 
         NoteFilterCache noteFilterCache = new NoteFilterCache(context);
@@ -128,7 +127,7 @@ public class FilterColorAdapterTest extends AndroidTestCase {
 
     public void testOnLongPressListener() {
         Context context = getContext();
-        FilterColorAdapter adapter = new FilterColorAdapter(context);
+        FilterColorFilterAdapter adapter = new FilterColorFilterAdapter(context);
         ToggleButton button = new ToggleButton(context);
 
         button.setContentDescription("");

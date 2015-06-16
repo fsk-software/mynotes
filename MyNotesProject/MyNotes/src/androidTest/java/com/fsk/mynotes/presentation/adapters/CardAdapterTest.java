@@ -70,7 +70,7 @@ public class CardAdapterTest extends AndroidTestCase {
     public void testViewBinding() {
 
         View root = LayoutInflater.from(getContext()).inflate(R.layout.recycler_item_note, null);
-        CardAdapter.CardViewHolder holder = new CardAdapter.CardViewHolder(root);
+        CardAdapter.CardViewHolder holder = new CardAdapter.CardViewHolder(root, null);
 
         List<Note> expected = new ArrayList<>();
         for (NoteColor color : NoteColor.values()) {

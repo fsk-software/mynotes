@@ -2,6 +2,7 @@ package com.fsk.mynotes.presentation.adapters;
 
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,11 +12,13 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.fsk.common.presentation.recycler.RecyclerViewAdapter;
 import com.fsk.mynotes.R;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.cache.NoteFilterCache;
 import com.google.common.base.Preconditions;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -24,7 +27,9 @@ import butterknife.InjectView;
  * The adapter that provides a togglable view for each value in {@link NoteColor}.  It will persist
  * the toggle state via {@link NoteFilterCache}.
  */
-public class FilterColorAdapter extends RecyclerViewAdapter<FilterColorAdapter.ViewHolder> {
+public class FilterColorFilterAdapter
+        extends ColorFilterAdapter<FilterColorFilterAdapter.ViewHolder> {
+
 
     /**
      * The ViewHolder for the adapter.
@@ -59,12 +64,6 @@ public class FilterColorAdapter extends RecyclerViewAdapter<FilterColorAdapter.V
 
 
     /**
-     * The cache to use for reading and persisting the note filter selection.
-     */
-    final NoteFilterCache mNoteFilterCache;
-
-
-    /**
      * The content description template to use when the color filter is enabled.
      */
     final String mFilterOnTemplate;
@@ -77,9 +76,13 @@ public class FilterColorAdapter extends RecyclerViewAdapter<FilterColorAdapter.V
 
 
     /**
-     * The click listener for the {@link com.fsk.mynotes.presentation.adapters.FilterColorAdapter
-     * .ViewHolder#mToggle}. Clicking the view will toggle the checked status in {@link
-     * #mNoteFilterCache} and request an UI update.
+     * The currently selected colors.
+     */
+    final Set<NoteColor> mSelectedColors = new HashSet<>();
+
+
+    /**
+     * The click listener for the {@link FilterColorFilterAdapter .ViewHolder#mToggle}.
      */
     final CompoundButton.OnCheckedChangeListener mOnCheckedChangeListener =
             new CompoundButton.OnCheckedChangeListener() {
@@ -88,9 +91,9 @@ public class FilterColorAdapter extends RecyclerViewAdapter<FilterColorAdapter.V
                 public void onCheckedChanged(final CompoundButton buttonView,
                                              final boolean isChecked) {
                     final NoteColor noteColor = (NoteColor) buttonView.getTag();
-
                     if (noteColor != null) {
-                        mNoteFilterCache.enableColor(noteColor, isChecked);
+                        updateSelectedColors(noteColor, isChecked);
+                        notifyListenerOfColorChange(noteColor, isChecked);
                     }
                 }
             };
@@ -115,13 +118,56 @@ public class FilterColorAdapter extends RecyclerViewAdapter<FilterColorAdapter.V
      *         The context to use for accessing the application resources. This is not stored in the
      *         adapter.
      */
-    public FilterColorAdapter(@NonNull Context context) {
-        super();
+    public FilterColorFilterAdapter(@NonNull Context context) {
+        super(context);
         Preconditions.checkNotNull(context);
 
         mFilterOffTemplate = context.getString(R.string.accessibility_filter_off_template);
         mFilterOnTemplate = context.getString(R.string.accessibility_filter_on_template);
-        mNoteFilterCache = new NoteFilterCache(context);
+    }
+
+
+    /**
+     * Set the currently selected colors.
+     *
+     * @param handler
+     *         the handler to use to call {@link #postNotifyDataSetChanged(Handler)}.
+     * @param selectedColors
+     *         the currently selected colors.
+     */
+    public void setSelectedColors(Handler handler, @NonNull Set<NoteColor> selectedColors) {
+        setSelectedColors(selectedColors);
+        postNotifyDataSetChanged(handler);
+    }
+
+
+    /**
+     * Set the currently selected colors.
+     *
+     * @param selectedColors
+     *         the currently selected colors.
+     */
+    public void setSelectedColors(@NonNull Set<NoteColor> selectedColors) {
+        mSelectedColors.clear();
+        mSelectedColors.addAll(selectedColors);
+    }
+
+
+    /**
+     * Update the selected colors with the specified note color.
+     *
+     * @param noteColor
+     *         The note color that changed.
+     * @param checked
+     *         true if the note color is checked.
+     */
+    private void updateSelectedColors(@NonNull NoteColor noteColor, boolean checked) {
+        if (checked) {
+            mSelectedColors.add(noteColor);
+        }
+        else {
+            mSelectedColors.remove(noteColor);
+        }
     }
 
 
@@ -145,18 +191,48 @@ public class FilterColorAdapter extends RecyclerViewAdapter<FilterColorAdapter.V
         }
 
         String colorText = holder.mToggle.getContext().getString(noteColor.nameResourceId);
-        boolean colorEnabled = mNoteFilterCache.isColorEnabled(noteColor);
+        boolean colorEnabled = mSelectedColors.contains(noteColor);
         String filterText = colorEnabled ? mFilterOnTemplate : mFilterOffTemplate;
 
-        holder.mToggle.setBackgroundResource(noteColor.colorFilterBackgroundResourceId);
+        holder.mToggle.setBackgroundResource(getBackgroundResource(noteColor));
         holder.mToggle.setChecked(colorEnabled);
         holder.mToggle.setTag(noteColor);
         holder.mToggle.setContentDescription(String.format(filterText, colorText));
     }
 
 
-    @Override
-    public int getItemCount() {
-        return NoteColor.values().length;
+    /**
+     * Get the background resource for the specified note color.
+     *
+     * @param color
+     *         The color to use for retrieving the background resource.
+     *
+     * @return The resource id of the background resource associated with the note color.
+     */
+    final int getBackgroundResource(@NonNull NoteColor color) {
+        final int returnValue;
+        switch (color) {
+            case BLUE:
+                returnValue = R.drawable.blue_color_filter_background;
+                break;
+            case GREEN:
+                returnValue = R.drawable.green_color_filter_background;
+                break;
+            case GREY:
+                returnValue = R.drawable.gray_color_filter_background;
+                break;
+            case PINK:
+                returnValue = R.drawable.pink_color_filter_background;
+                break;
+            case PURPLE:
+                returnValue = R.drawable.purple_color_filter_background;
+                break;
+            case YELLOW:
+            default:
+                returnValue = R.drawable.yellow_color_filter_background;
+                break;
+        }
+        return returnValue;
     }
+
 }

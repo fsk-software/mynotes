@@ -2,11 +2,26 @@
 <resources>
 
     <!-- Common attributes for the primary toolbar in the main activity -->
-    <style name="MainToolbarParent">
+    <style name="ToolbarParent">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/main_activity_toolbar_height</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:theme">@style/DarkToolbarTheme</item>
+    </style>
+
+    <!-- Common attributes for the primary toolbar in the main activity -->
+    <style name="MainToolbarParent" parent="Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/activity_toolbar_height</item>
         <item name="android:background">?attr/colorPrimary</item>
         <item name="android:theme">@style/DarkToolbarTheme</item>
+    </style>
+
+    <!-- Common attributes for the primary toolbar in the main activity -->
+    <style name="NoteEditToolbarParent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
     </style>
 
     <!-- Common attributes for the color filter toolbar in the main activity -->
@@ -14,11 +29,13 @@
         <item name="android:background">@android:color/white</item>
     </style>
 
-
     <!-- Common attributes for the add note button in main activity -->
-    <style name="MainActivityAddNoteButton">
+    <style name="FloatingButton">
         <item name="android:layout_width">@dimen/add_button_size</item>
         <item name="android:layout_height">@dimen/add_button_size</item>
+    </style>
+
+    <style name="MainActivityAddNoteButton" parent="FloatingButton">
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_marginTop">@dimen/add_button_top_margin</item>
         <item name="android:layout_marginRight">10dp</item>
@@ -31,10 +48,33 @@
 
     <!-- The common attributes for the color filter items -->
     <style name="ColorFilterItemParent">
-        <item name="android:textOn"></item>
-        <item name="android:textOff"></item>
+        <item name="android:textOn"> </item>
+        <item name="android:textOff"> </item>
+    </style>
+
+    <!-- The common attributes for the color filter items -->
+    <style name="ColorPickerItemParent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginLeft">15dp</item>
     </style>
 
     <!-- The common parent for a note card -->
-    <style name="CardItemParent" />
+    <style name="CardItemParent">
+        <item name="android:minHeight">75dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="cardCornerRadius">0dp</item>
+    </style>
+
+
+    <style name="SingleNoteEditItemParent">
+        <item name="android:minHeight">75dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">left|top</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
 </resources>

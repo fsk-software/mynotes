@@ -3,7 +3,12 @@
      In this case there aren't any additional details but this file exists to prevent the need
      to reduce the need to branch the layout folders. -->
 <resources>
+
+    <style name="Toolbar" parent="ToolbarParent" />
+
     <style name="MainToolbar" parent="MainToolbarParent" />
+
+    <style name="NoteEditToolbar" parent="NoteEditToolbarParent" />
 
     <style name="ColorFilterToolbar" parent="ColorFilterToolbarParent" />
 
@@ -11,5 +16,10 @@
 
     <style name="ColorFilterItem" parent="ColorFilterItemParent" />
 
+    <style name="ColorPickerItem" parent="ColorPickerItemParent" />
+
+
     <style name="CardItem" parent="CardItemParent"/>
+
+    <style name="SingleNoteEditItem" parent="SingleNoteEditItemParent"/>
 </resources>

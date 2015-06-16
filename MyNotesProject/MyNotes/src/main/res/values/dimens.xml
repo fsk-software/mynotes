@@ -1,12 +1,19 @@
 <resources>
-    <dimen name="main_activity_toolbar_height">56dp</dimen>
+    <dimen name="activity_toolbar_height">56dp</dimen>
 
     <dimen name="add_button_size">56dp</dimen>
     <dimen name="add_button_top_margin">27dp</dimen>
     <dimen name="add_note_button_elevation">10dp</dimen>
 
     <dimen name="toolbar_elevation">4dp</dimen>
+    <dimen name="sub_toolbar_elevation">2dp</dimen>
     <dimen name="note_item_elevation">25dp</dimen>
 
     <dimen name="note_divider_size">10dp</dimen>
+
+    <dimen name="color_picker_item_diameter">25dp</dimen>
+    <dimen name="color_picker_item_stroke">2dp</dimen>
+    <dimen name="color_picker_check_inset">1dp</dimen>
+
+    <dimen name="note_border_dimen">5dp</dimen>
 </resources>

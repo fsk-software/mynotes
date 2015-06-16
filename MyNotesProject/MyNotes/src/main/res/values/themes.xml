@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppThemeParent" parent="Theme.AppCompat.Light.NoActionBar">
 
         <!-- Main theme colors -->
         <item name="colorPrimary">@color/primaryColor</item>
@@ -8,13 +8,21 @@
         <item name="colorAccent">@color/accentColor</item>
         <item name="android:textColorSecondary">@color/secondaryTextColor</item>
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
-
-
     </style>
+
 
     <style name="DarkToolbarTheme" parent="AppTheme">
         <!-- android:textColorPrimary is the  color of the title text
              in the Toolbar, in the Theme.AppCompat theme:  -->
         <item name="android:textColorPrimary">@android:color/white</item>
     </style>
+
+    <style name="SingleNoteThemeParent" parent="AppTheme">
+        <!--<item name="android:windowIsTranslucent">true</item>-->
+        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+        <!--<item name="android:windowNoTitle">true</item>-->
+        <!--<item name="android:backgroundDimEnabled">true</item>-->
+    </style>
+
 </resources>

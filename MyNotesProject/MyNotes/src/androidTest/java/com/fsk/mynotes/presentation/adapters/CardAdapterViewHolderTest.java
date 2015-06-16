@@ -15,7 +15,7 @@ public class CardAdapterViewHolderTest extends AndroidTestCase {
     public void testCreation() {
 
         View root = LayoutInflater.from(getContext()).inflate(R.layout.recycler_item_note, null);
-        CardAdapter.CardViewHolder holder = new CardAdapter.CardViewHolder(root);
+        CardAdapter.CardViewHolder holder = new CardAdapter.CardViewHolder(root, null);
         assertNotNull(holder.mCardView);
         assertNotNull(holder.mTextView);
     }

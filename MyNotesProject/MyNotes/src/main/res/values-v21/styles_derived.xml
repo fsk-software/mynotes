@@ -6,10 +6,21 @@
 <resources>
     <style name="MainToolbar" parent="MainToolbarParent" >
         <item name="android:elevation">@dimen/toolbar_elevation</item>
+
     </style>
+
+    <style name="NoteEditToolbar" parent="NoteEditToolbarParent" >
+        <item name="android:elevation">@dimen/toolbar_elevation</item>
+    </style>
+
 
     <style name="ColorFilterToolbar" parent="ColorFilterToolbarParent">
         <item name="android:elevation">@dimen/color_filter_toolbar_elevation</item>
+    </style>
+
+
+    <style name="ColorPickerToolbar" parent="ColorFilterToolbar">
+        <item name="android:elevation">0dp</item>
     </style>
 
     <style name="AddNoteButton" parent="AddNoteButtonParent">
@@ -21,7 +32,16 @@
         <item name="android:stateListAnimator">@animator/color_filter_item_selector</item>
     </style>
 
+    <style name="ColorPickerItem" parent="ColorPickerItemParent">
+        <item name="android:stateListAnimator">@animator/color_filter_item_selector</item>
+    </style>
+
     <style name="CardItem" parent="CardItemParent">
+        <item name="android:elevation">@dimen/note_item_elevation</item>
+    </style>
+
+
+    <style name="SingleNoteEditItem" parent="SingleNoteEditItemParent">
         <item name="android:elevation">@dimen/note_item_elevation</item>
     </style>
 </resources>

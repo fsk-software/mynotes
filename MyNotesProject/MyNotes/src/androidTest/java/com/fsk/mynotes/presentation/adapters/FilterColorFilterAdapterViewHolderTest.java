@@ -10,12 +10,12 @@ import com.fsk.mynotes.R;
 /**
  * Created by Me on 3/20/2015.
  */
-public class FilterColorAdapterViewHolderTest extends AndroidTestCase {
+public class FilterColorFilterAdapterViewHolderTest extends AndroidTestCase {
 
     public void testCreationWithNullClickListener() {
 
         View root = LayoutInflater.from(getContext()).inflate(R.layout.recycler_item_color_filter, null);
-        FilterColorAdapter.ViewHolder holder = new FilterColorAdapter.ViewHolder(root, null, null);
+        FilterColorFilterAdapter.ViewHolder holder = new FilterColorFilterAdapter.ViewHolder(root, null, null);
         assertNotNull(holder.mToggle);
         assertTrue(!holder.mToggle.isChecked());
     }

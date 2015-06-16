@@ -1,23 +1,29 @@
 package com.fsk.mynotes.constants;
 
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+
 import com.fsk.mynotes.R;
 
 /**
- * An enumerator containing all of the valid note colors. Each color corresponds to three resource ids:
- *<ul>
- *   <li>The resource id for the printable color name.</li>
- *   <li>The resource id for notes rgb color.</li>
- *   <li>The resource id for color filter button.</li>
+ * An enumerator containing all of the valid note colors. Each color corresponds to three resource
+ * ids: <ul> <li>The resource id for the printable color name.</li> <li>The resource id for notes
+ * rgb color.</li> <li>The resource id for notes rgb dark color.</li>
  */
 public enum NoteColor {
 
-    YELLOW(R.string.yellow, R.color.note_yellow, R.drawable.yellow_color_filter_background),
-    BLUE(R.string.blue, R.color.note_blue, R.drawable.blue_color_filter_background),
-    GREEN(R.string.green, R.color.note_green, R.drawable.green_color_filter_background),
-    PINK(R.string.pink, R.color.note_pink, R.drawable.pink_color_filter_background),
-    GREY(R.string.gray, R.color.note_gray, R.drawable.gray_color_filter_background),
-    PURPLE(R.string.purple, R.color.note_purple, R.drawable.purple_color_filter_background);
+    YELLOW(R.string.yellow, R.color.note_yellow, R.color.note_yellow_dark),
+
+    BLUE(R.string.blue, R.color.note_blue, R.color.note_blue_dark),
+
+    GREEN(R.string.green, R.color.note_green, R.color.note_green_dark),
+
+    PINK(R.string.pink, R.color.note_pink, R.color.note_pink_dark),
+
+    GREY(R.string.gray, R.color.note_gray, R.color.note_gray_dark),
+
+    PURPLE(R.string.purple, R.color.note_purple, R.color.note_purple_dark);
 
 
     /**
@@ -33,9 +39,9 @@ public enum NoteColor {
 
 
     /**
-     * The id of the drawable resource containing the color filter background.
+     * The id of the color resource containing the ARGB color for the dark note color.
      */
-    public final int colorFilterBackgroundResourceId;
+    public final int darkColorResourceId;
 
 
     /**
@@ -45,13 +51,39 @@ public enum NoteColor {
      *         The string resource id for the name.
      * @param colorResourceId
      *         The color resource id.
-     * @param colorFilterResourceId
-     *         The drawable resource id for the selector.
+     * @param darkColorResourceId
+     *         The color header resource id.
      */
-    NoteColor(int nameResource, int colorResourceId, int colorFilterResourceId) {
+    NoteColor(int nameResource, int colorResourceId, int darkColorResourceId) {
         this.nameResourceId = nameResource;
         this.colorResourceId = colorResourceId;
-        this.colorFilterBackgroundResourceId = colorFilterResourceId;
+        this.darkColorResourceId = darkColorResourceId;
+    }
+
+
+    /**
+     * Get the argb value for the color.
+     *
+     * @param context
+     *         The context to use for reading argb from the resources.
+     *
+     * @return The argb value for the color.
+     */
+    public int getColorArgb(@NonNull Context context) {
+        return context.getResources().getColor(colorResourceId);
+    }
+
+
+    /**
+     * Get the argb value for the dark color.
+     *
+     * @param context
+     *         The context to use for reading argb from the resources.
+     *
+     * @return The argb value for the dark color.
+     */
+    public int getDarkColorArgb(@NonNull Context context) {
+        return context.getResources().getColor(darkColorResourceId);
     }
 
 
@@ -67,7 +99,7 @@ public enum NoteColor {
         NoteColor[] colors = NoteColor.values();
         NoteColor returnValue = null;
         if ((index >= 0) && (index < colors.length)) {
-            returnValue = colors[(int)index];
+            returnValue = colors[(int) index];
         }
         return returnValue;
     }

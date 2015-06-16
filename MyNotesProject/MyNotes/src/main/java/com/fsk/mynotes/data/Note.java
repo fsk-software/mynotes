@@ -21,9 +21,8 @@ import com.google.common.base.Strings;
 /**
  * The Note data model.  A broadcast is sent every time the note is committed or deleted from the
  * database.
- *
- * The broadcast follows the schema in {@link com.fsk.mynotes.receivers
- * .NoteTableChangeBroadcast}.
+ * <p/>
+ * The broadcast follows the schema in {@link com.fsk.mynotes.receivers .NoteTableChangeBroadcast}.
  */
 public class Note implements Parcelable, DatabaseStorable {
 
@@ -198,12 +197,13 @@ public class Note implements Parcelable, DatabaseStorable {
 
 
     /**
+     * Save the note to the database.
+     *
      * @throws com.fsk.common.threads.ThreadException
      *         when call from the UI thread.
      */
     @Override
     public void save(final SQLiteDatabase db) {
-
         ThreadCheck.checkOffUIThread();
         long row = db.insertWithOnConflict(Tables.NOTES, null, createContentValues(),
                                            SQLiteDatabase.CONFLICT_REPLACE);
@@ -216,6 +216,8 @@ public class Note implements Parcelable, DatabaseStorable {
 
 
     /**
+     * Delete the note from the database.
+     *
      * @throws com.fsk.common.threads.ThreadException
      *         when call from the UI thread.
      */

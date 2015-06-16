@@ -1,7 +1,6 @@
 package com.fsk.mynotes.presentation.activity;
 
 
-import android.support.v7.widget.GridLayoutManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 /**
@@ -12,14 +11,14 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public MainActivityTest() {
         super(MainActivity.class);
     }
-
-    public void testDefaultSetup() {
-        MainActivity mainActivity = getActivity();
-        assertNotNull(mainActivity.mCardAdapter);
-        assertNotNull(mainActivity.mCardsRecyclerView);
-        assertNotNull(mainActivity.mFilterRecyclerView);
-
-        assertEquals(mainActivity.mCardAdapter, mainActivity.mCardsRecyclerView.getAdapter());
-        assertTrue(mainActivity.mCardsRecyclerView.getLayoutManager() instanceof GridLayoutManager);
-    }
+//
+//    public void testDefaultSetup() {
+//        MainActivity mainActivity = getActivity();
+//        assertNotNull(mainActivity.mCardAdapter);
+//        assertNotNull(mainActivity.mCardsRecyclerView);
+//        assertNotNull(mainActivity.mFilterRecyclerView);
+//
+//        assertEquals(mainActivity.mCardAdapter, mainActivity.mCardsRecyclerView.getAdapter());
+//        assertTrue(mainActivity.mCardsRecyclerView.getLayoutManager() instanceof GridLayoutManager);
+//    }
 }
