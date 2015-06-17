@@ -16,20 +16,20 @@
         layout="@layout/include_floating_add_button"
         style="@style/MainActivityAddNoteButton" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/activity_main_color_filter_recycler"
+    <FrameLayout
+        android:id="@+id/activity_main_color_filter_container"
         android:layout_width="@dimen/color_filter_item_short_side"
         android:layout_height="match_parent"
         android:layout_below="@id/activity_main_toolbar"
         style="@style/ColorFilterToolbar" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/activity_main_notes_recycler_view"
+    <FrameLayout
+        android:id="@+id/activity_main_notes_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/activity_main_add_view"
-        android:layout_toEndOf="@id/activity_main_color_filter_recycler"
-        android:layout_toRightOf="@id/activity_main_color_filter_recycler"
+        android:layout_toEndOf="@id/activity_main_color_filter_container"
+        android:layout_toRightOf="@id/activity_main_color_filter_container"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp" />

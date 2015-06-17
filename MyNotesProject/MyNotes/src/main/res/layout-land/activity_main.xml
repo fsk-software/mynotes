@@ -16,7 +16,6 @@
         layout="@layout/include_floating_add_button"
         style="@style/MainActivityAddNoteButton" />
 
-
     <FrameLayout
         android:id="@+id/activity_main_color_filter_container"
         android:layout_width="match_parent"
