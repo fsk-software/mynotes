@@ -9,6 +9,8 @@ import com.fsk.mynotes.data.Note;
 import com.fsk.mynotes.data.cache.NoteFilterCache;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel;
 
+import org.junit.Test;
+
 import java.util.List;
 
 /**
@@ -48,6 +50,7 @@ public class FilteredNoteLoaderTest extends LoaderTestCase {
     /**
      * Test the case where there are no notes in the database.
      */
+    @Test
     public void testNoNotesCase() {
         clearPersistentData();
         List<Note> result = getLoaderResultSynchronously(new FilteredNoteLoader(getContext()));
@@ -59,6 +62,7 @@ public class FilteredNoteLoaderTest extends LoaderTestCase {
     /**
      * Test the case where there are notes in the database for each color, but the all of the colors are disabled.
      */
+    @Test
     public void testEmptyFilterCase() {
         for (NoteColor noteColor: NoteColor.values()) {
             Note note = new Note();
@@ -76,6 +80,7 @@ public class FilteredNoteLoaderTest extends LoaderTestCase {
     /**
      * Test the case where there are notes in the database for each color and the all of the colors are enabled.
      */
+    @Test
     public void testLoadedFilterCase() {
         for (NoteColor noteColor : NoteColor.values()) {
             Note note = new Note();

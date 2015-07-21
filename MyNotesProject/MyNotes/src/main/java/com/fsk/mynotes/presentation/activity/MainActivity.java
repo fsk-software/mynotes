@@ -13,7 +13,6 @@ import com.fsk.mynotes.presentation.fragments.ColorFilterFragment;
 import com.fsk.mynotes.presentation.fragments.NoteCardsFragment;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 
 
@@ -36,12 +35,6 @@ public class MainActivity extends AppCompatActivity {
          */
         public static final String COLOR_FILTER_FRAGMENT_TAG = "COLOR_FILTER_FRAGMENT_TAG";
     }
-
-    /**
-     * UI element that displays a toolbar
-     */
-    @InjectView(R.id.activity_main_toolbar)
-    Toolbar mToolbar;
 
 
     /**

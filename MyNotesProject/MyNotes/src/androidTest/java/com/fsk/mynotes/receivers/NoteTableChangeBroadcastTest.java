@@ -3,23 +3,32 @@ package com.fsk.mynotes.receivers;
 
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Test the {@link com.fsk.mynotes.receivers.NoteTableChangeBroadcast}.
  */
-public class NoteTableChangeBroadcastTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class NoteTableChangeBroadcastTest {
 
 
+    @Test
     public void testCreateIntentFilter() {
         IntentFilter intentFilter = NoteTableChangeBroadcast.createIntentFilter();
-        assertEquals(NoteTableChangeBroadcast.ACTION, intentFilter.getAction(0));
+        assertThat(NoteTableChangeBroadcast.ACTION, is(intentFilter.getAction(0)));
     }
 
 
 
+    @Test
     public void testCreateIntent() {
         Intent intent = NoteTableChangeBroadcast.createIntent();
-        assertEquals(NoteTableChangeBroadcast.ACTION, intent.getAction());
+        assertThat(NoteTableChangeBroadcast.ACTION, is(intent.getAction()));
     }
 }

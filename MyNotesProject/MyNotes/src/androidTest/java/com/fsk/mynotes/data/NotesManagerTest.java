@@ -1,20 +1,34 @@
 package com.fsk.mynotes.data;
 
-import android.test.AndroidTestCase;
+
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
+import android.test.RenamingDelegatingContext;
 
 import com.fsk.common.database.DatabaseHelper;
 import com.fsk.mynotes.Validators;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertThat;
+
 /**
  * Test the {@link NotesManager}.
  */
-public class NotesManagerTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class NotesManagerTest {
 
     /**
      * The Empty Parcel Tag.
@@ -28,28 +42,31 @@ public class NotesManagerTest extends AndroidTestCase {
     private static final String NOTE1_TAG = "NOTE1_TAG";
 
 
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        DatabaseHelper.initialize(getContext(), new MyNotesDatabaseModel());
+
+    private Context mContext;
+
+
+    @Before
+    public void prepareForTest() {
+        mContext = new RenamingDelegatingContext(InstrumentationRegistry.getInstrumentation().getTargetContext(), "test_");
+        DatabaseHelper.initialize(mContext, new MyNotesDatabaseModel());
         clearNotesTable();
     }
-
-
-    @Override
+    
+    @After
     public void tearDown() throws Exception {
         clearNotesTable();
-        super.tearDown();
     }
 
 
     /**
      * Test {@link com.fsk.mynotes.data.NotesManager} constructor with null database.
      */
+    @Test
     public void testConstructorFailure() {
         try {
             new NotesManager(null);
-            assert true;
+            assert false;
         }
         catch (NullPointerException e) {}
     }
@@ -58,6 +75,7 @@ public class NotesManagerTest extends AndroidTestCase {
     /**
      * Test method {@link NotesManager#getAllNotes()} with multiple notes.
      */
+    @Test
     public void testGettingAllNotes() {
         NotesManager notesManager = new NotesManager(DatabaseHelper.getDatabase());
 
@@ -72,6 +90,7 @@ public class NotesManagerTest extends AndroidTestCase {
     /**
      * Test method {@link NotesManager#getAllNotes()} with a single entry.
      */
+    @Test
     public void testGettingAllNotesWithSingleEntry() {
         NotesManager notesManager = new NotesManager(DatabaseHelper.getDatabase());
 
@@ -85,17 +104,19 @@ public class NotesManagerTest extends AndroidTestCase {
     /**
      * Test method {@link NotesManager#getAllNotes()} with an empty database.
      */
+    @Test
     public void testGettingAllNotesWithEmptyDatabase() {
         NotesManager notesManager = new NotesManager(DatabaseHelper.getDatabase());
 
         List<Note> emptyList = notesManager.getAllNotes();
-        assertTrue(emptyList.isEmpty());
+        assertThat(emptyList.isEmpty(), is(true));
     }
 
 
     /**
      * Test {@link NotesManager#getNotesWithColors(java.util.List)} in the sunny day case.
      */
+    @Test
     public void testGettingNotesByColorSunnyDay() {
         NotesManager notesManager = new NotesManager(DatabaseHelper.getDatabase());
         int colorCount = 5;
@@ -108,7 +129,7 @@ public class NotesManagerTest extends AndroidTestCase {
         for (int i=0, expectedCount=colorCount; i<NoteColor.values().length; ++i, expectedCount+=colorCount) {
             colorFilter.add(NoteColor.getColor(i));
             actualNotes = notesManager.getNotesWithColors(colorFilter);
-            assertEquals(expectedCount, actualNotes.size());
+            assertThat(expectedCount, is(actualNotes.size()));
         }
 
         //Verify the actual notes match the expected for all notes.
@@ -119,23 +140,25 @@ public class NotesManagerTest extends AndroidTestCase {
     /**
      * Test {@link NotesManager#getNotesWithColors(java.util.List)} with an empty color list.
      */
+    @Test
     public void testGetNotesByColorWithEmptyColors() {
         NotesManager notesManager = new NotesManager(DatabaseHelper.getDatabase());
 
         List<NoteColor> colorFilter = new ArrayList<>();
         List<Note> actualNotes = notesManager.getNotesWithColors(colorFilter);
-        assertTrue(actualNotes.isEmpty());
+        assertThat(actualNotes.isEmpty(), is(true));
     }
 
 
     /**
      * Test {@link NotesManager#getNotesWithColors(java.util.List)} with a null color list.
      */
+    @Test
     public void testGetNotesByColorWithNullColors() {
         NotesManager notesManager = new NotesManager(DatabaseHelper.getDatabase());
         try {
             notesManager.getNotesWithColors(null);
-            assert true;
+            assert false;
         }
         catch (NullPointerException e) {}
     }
@@ -143,19 +166,21 @@ public class NotesManagerTest extends AndroidTestCase {
     /**
      * Test {@link NotesManager#getNotesWithColors(java.util.List)} with an empty database.
      */
+    @Test
     public void testGetNotesByColorWithEmptyDatabase() {
         NotesManager notesManager = new NotesManager(DatabaseHelper.getDatabase());
 
         //Test empty database.
         List<NoteColor> greenColorList = Collections.singletonList(NoteColor.GREEN);
         List<Note> allGreenNotes = notesManager.getNotesWithColors(greenColorList);
-        assertTrue(allGreenNotes.isEmpty());
+        assertThat(allGreenNotes.isEmpty(), is(true));
     }
 
 
     /**
      * Test method {@link NotesManager#getNote(long)} in the  sunny day case.
      */
+    @Test
     public void testGettingNoteWithValidId() {
         NotesManager notesManager = new NotesManager(DatabaseHelper.getDatabase());
 
@@ -172,28 +197,30 @@ public class NotesManagerTest extends AndroidTestCase {
     /**
      * Test method {@link NotesManager#getNote(long)} with invalid ids.
      */
+    @Test
     public void testGettingNoteWithInvalidIds() {
         NotesManager notesManager = new NotesManager(DatabaseHelper.getDatabase());
 
         //Test with a negative id.
         Note note = notesManager.getNote(-1);
-        assertNull(note);
+        assertThat(note, is(nullValue()));
 
         //Test with a positive invalid id
         note = notesManager.getNote(Integer.MAX_VALUE);
-        assertNull(note);
+        assertThat(note, is(nullValue()));
     }
 
 
     /**
      * Test method {@link NotesManager#getNote(long)} with an empty database.
      */
+    @Test
     public void testGettingNoteWithEmptyDatabase() {
         NotesManager notesManager = new NotesManager(DatabaseHelper.getDatabase());
 
         //Test the empty database.
         Note note = notesManager.getNote(1);
-        assertNull(note);
+        assertThat(note, is(nullValue()));
     }
 
 

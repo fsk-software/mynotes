@@ -41,17 +41,17 @@ public class EditNoteActivity extends AppCompatActivity implements NoteEditor {
     /**
      * The tags for the availbel fragments for this activity.
      */
-    private static class FragmentTags {
+    static class FragmentTags {
         /**
          * The tag for the main toolbar.
          */
-        private static final String MAIN_TOOLBAR_TAG = "MAIN_TOOLBAR_TAG";
+        static final String MAIN_TOOLBAR_TAG = "MAIN_TOOLBAR_TAG";
 
 
         /**
          * The tag for the color picker toolbar.
          */
-        private static final String COLOR_PICKER_TOOLBAR_TAG = "COLOR_PICKER_TOOLBAR_TAG";
+        static final String COLOR_PICKER_TOOLBAR_TAG = "COLOR_PICKER_TOOLBAR_TAG";
 
     }
 
@@ -199,7 +199,6 @@ public class EditNoteActivity extends AppCompatActivity implements NoteEditor {
      * Safely finish this activity.  If the build is at least lollipop, then the transition is
      * allowed to occur before the finish.
      */
-
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void safelyFinish() {
         if (Versions.isAtLeastLollipop()) {

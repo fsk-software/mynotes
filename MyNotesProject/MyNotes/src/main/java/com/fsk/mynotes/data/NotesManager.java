@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
 import com.fsk.common.database.DatabaseUtilities;
-import com.fsk.common.threads.ThreadCheck;
+import com.fsk.common.threads.ThreadUtils;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel.Columns;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel.Tables;
@@ -51,7 +51,7 @@ public class NotesManager {
      *         when call from the UI thread.
      */
     public List<Note> getAllNotes() {
-        ThreadCheck.checkOffUIThread();
+        new ThreadUtils().checkOffUIThread();
         Cursor cursor = mDatabase.query(Tables.NOTES, null, null, null, null, null, null);
 
         final List<Note> returnValue;
@@ -77,7 +77,7 @@ public class NotesManager {
      *         when call from the UI thread.
      */
     public List<Note> getNotesWithColors(@NonNull List<NoteColor> colors) {
-        ThreadCheck.checkOffUIThread();
+        new ThreadUtils().checkOffUIThread();
         Preconditions.checkNotNull(colors);
 
         List<Note> returnValue = new ArrayList<>();
@@ -114,7 +114,7 @@ public class NotesManager {
      *         when call from the UI thread.
      */
     public Note getNote(long noteId) {
-        ThreadCheck.checkOffUIThread();
+        new ThreadUtils().checkOffUIThread();
 
         Cursor cursor = mDatabase.query(Tables.NOTES, null, Columns.NOTE_ID + " = ?",
                                         new String[] { Long.toString(noteId) }, null, null, null);

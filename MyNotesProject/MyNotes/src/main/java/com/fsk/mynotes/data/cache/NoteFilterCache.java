@@ -23,7 +23,7 @@ public class NoteFilterCache {
     /**
      * The location of the persistent shared preference cache for the note filter.
      */
-    private static final String CACHE_NAME = "com.fsk.mynotes.note_filter_cache";
+    static final String CACHE_NAME = "com.fsk.mynotes.note_filter_cache";
 
 
     /**

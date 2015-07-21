@@ -17,7 +17,7 @@ import com.fsk.common.presentation.recycler.DividerItemDecoration;
 import com.fsk.mynotes.R;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.cache.NoteFilterCache;
-import com.fsk.mynotes.presentation.adapters.FilterColorFilterAdapter;
+import com.fsk.mynotes.presentation.adapters.FilterColorAdapter;
 import com.fsk.mynotes.presentation.layout_managers.ColorFilterLayoutManager;
 
 import butterknife.ButterKnife;
@@ -54,8 +54,8 @@ public class ColorFilterFragment extends Fragment {
     /**
      * The listener to react to changes to the color filter selection.
      */
-    final FilterColorFilterAdapter.OnColorChangeListener mOnColorSelectChangeListener =
-            new FilterColorFilterAdapter.OnColorChangeListener() {
+    final FilterColorAdapter.OnColorChangeListener mOnColorSelectChangeListener =
+            new FilterColorAdapter.OnColorChangeListener() {
                 @Override
                 public void onColorSelected(final NoteColor color, final boolean enabled) {
                     mNoteFilterCache.enableColor(color, enabled);
@@ -91,8 +91,8 @@ public class ColorFilterFragment extends Fragment {
      *
      * @return The adapter for managing {@link #mFilterRecyclerView}.
      */
-    private FilterColorFilterAdapter createAdapter(@NonNull Context context) {
-        FilterColorFilterAdapter adapter = new FilterColorFilterAdapter(context);
+    private FilterColorAdapter createAdapter(@NonNull Context context) {
+        FilterColorAdapter adapter = new FilterColorAdapter(context);
         adapter.setOnColorChangeListener(mOnColorSelectChangeListener);
         adapter.setSelectedColors(mNoteFilterCache.getEnabledColors());
 

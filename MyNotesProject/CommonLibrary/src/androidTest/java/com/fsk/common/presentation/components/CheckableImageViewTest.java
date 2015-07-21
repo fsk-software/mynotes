@@ -1,32 +1,50 @@
 package com.fsk.common.presentation.components;
 
 
-import android.test.AndroidTestCase;
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import android.widget.Checkable;
 
 import com.fsk.common.presentation.utils.checkable_helper.OnCheckedChangeListener;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 /**
  * Tests {@link CheckableImageView}
  */
-public class CheckableImageViewTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class CheckableImageViewTest {
 
+    private Context mContext;
 
+    @Before
+    public void prepareForTest() {
+        mContext = InstrumentationRegistry.getInstrumentation().getContext();
+    }
+
+    @Test
     public void testConstructor() {
-        CheckableImageView button = new CheckableImageView(getContext());
-        assertTrue(!button.isChecked());
+        CheckableImageView button = new CheckableImageView(mContext);
+        assertThat(button.isChecked(), is(false));
 
-        button = new CheckableImageView(getContext(), null);
-        assertTrue(!button.isChecked());
+        button = new CheckableImageView(mContext, null);
+        assertThat(button.isChecked(), is(false));
 
-        button = new CheckableImageView(getContext(), null, 0);
-        assertTrue(!button.isChecked());
+        button = new CheckableImageView(mContext, null, 0);
+        assertThat(button.isChecked(), is(false));
     }
 
 
+    @Test
     public void testCheckChanged() {
-        CheckableImageView button = new CheckableImageView(getContext());
-        assertTrue(!button.isChecked());
+        CheckableImageView button = new CheckableImageView(mContext);
+        assertThat(button.isChecked(), is(false));
 
         button.setOnCheckedChangeListener(new LocalOnCheckedChangeListener(true));
         button.setChecked(true);
@@ -36,9 +54,10 @@ public class CheckableImageViewTest extends AndroidTestCase {
     }
 
 
+    @Test
     public void testToggle() {
-        CheckableImageView button = new CheckableImageView(getContext());
-        assertTrue(!button.isChecked());
+        CheckableImageView button = new CheckableImageView(mContext);
+        assertThat(button.isChecked(), is(false));
 
         button.setOnCheckedChangeListener(new LocalOnCheckedChangeListener(true));
         button.toggle();
@@ -48,9 +67,10 @@ public class CheckableImageViewTest extends AndroidTestCase {
     }
 
 
+    @Test
     public void testPerformClick() {
-        CheckableImageView button = new CheckableImageView(getContext());
-        assertTrue(!button.isChecked());
+        CheckableImageView button = new CheckableImageView(mContext);
+        assertThat(button.isChecked(), is(false));
 
         button.setOnCheckedChangeListener(new LocalOnCheckedChangeListener(true));
         button.performClick();
@@ -75,7 +95,7 @@ public class CheckableImageViewTest extends AndroidTestCase {
 
         @Override
         public void onCheckedChanged(final Checkable checkable) {
-            assertEquals(mExpectedChecked, checkable.isChecked());
+            assertThat(mExpectedChecked, is(checkable.isChecked()));
         }
     }
 }

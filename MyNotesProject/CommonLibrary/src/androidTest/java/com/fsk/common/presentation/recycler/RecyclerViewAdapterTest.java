@@ -1,21 +1,33 @@
 package com.fsk.common.presentation.recycler;
 
 
+import android.content.Context;
 import android.os.Handler;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
-import android.test.AndroidTestCase;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 /**
  * Tests {@link RecyclerViewAdapter}
  */
-public class RecyclerViewAdapterTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class RecyclerViewAdapterTest {
 
+    private Context mContext;
 
+    @Before
+    public void prepareForTest() {
+        mContext = InstrumentationRegistry.getInstrumentation().getContext();
+    }
 
-
+    @Test
     public void testMethodsWithNullHandler() {
         LocalRecyclerViewAdapter adapter = new LocalRecyclerViewAdapter();
         adapter.postNotifyDataSetChanged(null);
@@ -29,6 +41,7 @@ public class RecyclerViewAdapterTest extends AndroidTestCase {
     }
 
 
+    @Test
     public void testMethodsWithNonNullHandler() {
         Handler handler = new Handler();
         LocalRecyclerViewAdapter adapter = new LocalRecyclerViewAdapter();
@@ -56,7 +69,7 @@ public class RecyclerViewAdapterTest extends AndroidTestCase {
         
         @Override
         public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-            return new ViewHolder(new TextView(getContext()));
+            return new ViewHolder(new TextView(mContext));
         }
 
 

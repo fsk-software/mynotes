@@ -1,7 +1,9 @@
 package com.fsk.mynotes.presentation.adapters;
 
 
-import android.test.AndroidTestCase;
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -10,37 +12,57 @@ import com.fsk.mynotes.R;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.Note;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by Me on 3/20/2015.
  */
-public class CardAdapterTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class CardAdapterTest {
 
-    public void testConstruction() {
-        CardAdapter adapter = new CardAdapter();
-        assertTrue(adapter.mNotes.isEmpty());
-        assertEquals(0, adapter.getItemCount());
+    private Context mContext;
+
+    @Before
+    public void prepareForTest() {
+        mContext = InstrumentationRegistry.getTargetContext();
     }
 
+    @Test
+    public void testConstruction() {
+        CardAdapter adapter = new CardAdapter();
+        assertThat(adapter.mNotes.isEmpty(), is(true));
+        assertThat(adapter.getItemCount(), is(0));
+    }
+
+    @Test
     public void testSetNotesWithNullList() {
         CardAdapter adapter = new CardAdapter();
         adapter.setNotes(null);
-        assertNotNull(adapter.mNotes);
-        assertTrue(adapter.mNotes.isEmpty());
-        assertEquals(0, adapter.getItemCount());
+        assertThat(adapter.mNotes, is(notNullValue()));
+        assertThat(adapter.mNotes.isEmpty(), is(true));
+        assertThat(adapter.getItemCount(), is(0));
     }
 
+    @Test
     public void testSetNotesWithEmptyList() {
         CardAdapter adapter = new CardAdapter();
         adapter.setNotes(new ArrayList<Note>());
-        assertNotNull(adapter.mNotes);
-        assertTrue(adapter.mNotes.isEmpty());
-        assertEquals(0, adapter.getItemCount());
+        assertThat(adapter.mNotes, is(notNullValue()));
+        assertThat(adapter.mNotes.isEmpty(), is(true));
+        assertThat(adapter.getItemCount(), is(0));
     }
 
 
+    @Test
     public void testSetNotesWithNonEmptyList() {
         List<Note> expected = new ArrayList<>();
         for (int i=0; i<10; ++i) {
@@ -51,25 +73,27 @@ public class CardAdapterTest extends AndroidTestCase {
 
         CardAdapter adapter = new CardAdapter();
         adapter.setNotes(expected);
-        assertNotNull(adapter.mNotes);
-        assertEquals(expected.size(), adapter.mNotes.size());
-        assertEquals(expected.size(), adapter.getItemCount());
+        assertThat(adapter.mNotes, is(notNullValue()));
+        assertThat(expected.size(), is(adapter.mNotes.size()));
+        assertThat(expected.size(), is(adapter.getItemCount()));
 
         for (int i=0; i<10; ++i) {
-            assertEquals(expected.get(i), adapter.mNotes.get(i));
+            assertThat(expected.get(i), is(adapter.mNotes.get(i)));
         }
     }
 
 
+    @Test
     public void testViewHolderCreation() {
         CardAdapter adapter = new CardAdapter();
-        assertNotNull(adapter.onCreateViewHolder(new LinearLayout(getContext()), 0));
+        assertThat(adapter.onCreateViewHolder(new LinearLayout(mContext), 0),is(notNullValue()));
     }
 
 
+    @Test
     public void testViewBinding() {
 
-        View root = LayoutInflater.from(getContext()).inflate(R.layout.recycler_item_note, null);
+        View root = LayoutInflater.from(mContext).inflate(R.layout.recycler_item_note, null);
         CardAdapter.CardViewHolder holder = new CardAdapter.CardViewHolder(root, null);
 
         List<Note> expected = new ArrayList<>();
@@ -86,7 +110,7 @@ public class CardAdapterTest extends AndroidTestCase {
         for (NoteColor color : NoteColor.values()) {
             adapter.onBindViewHolder(holder, color.ordinal());
 
-            assertEquals(color.name(), holder.mTextView.getText());
+            assertThat(color.name(), is(holder.mTextView.getText()));
         }
     }
 }

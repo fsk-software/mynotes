@@ -4,7 +4,7 @@ package com.fsk.common.database;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
-import com.fsk.common.threads.ThreadCheck;
+import com.fsk.common.threads.ThreadUtils;
 import com.google.common.base.Preconditions;
 
 import java.util.Arrays;
@@ -60,7 +60,7 @@ public final class DatabaseUtilities {
      *         when called from the UI thread.
      */
     public static void bulkSave(@NonNull DatabaseStorable[] items, @NonNull SQLiteDatabase db) {
-        ThreadCheck.checkOffUIThread();
+        new ThreadUtils().checkOffUIThread();
 
         Preconditions.checkNotNull(db);
         Preconditions.checkNotNull(items);
@@ -86,7 +86,7 @@ public final class DatabaseUtilities {
      *         when called from the UI thread.
      */
     public static void bulkDelete(@NonNull DatabaseStorable[] items, @NonNull SQLiteDatabase db) {
-        ThreadCheck.checkOffUIThread();
+        new ThreadUtils().checkOffUIThread();
 
         Preconditions.checkNotNull(db);
         Preconditions.checkNotNull(items);
@@ -113,7 +113,7 @@ public final class DatabaseUtilities {
      */
     public static <T extends DatabaseStorable> void bulkSave(@NonNull List<T> items,
                                                              @NonNull SQLiteDatabase db) {
-        ThreadCheck.checkOffUIThread();
+        new ThreadUtils().checkOffUIThread();
 
         Preconditions.checkNotNull(db);
         Preconditions.checkNotNull(items);
@@ -149,7 +149,7 @@ public final class DatabaseUtilities {
      */
     public static <T extends DatabaseStorable> void bulkDelete(@NonNull List<T> items,
                                                                @NonNull SQLiteDatabase db) {
-        ThreadCheck.checkOffUIThread();
+        new ThreadUtils().checkOffUIThread();
 
         Preconditions.checkNotNull(db);
         Preconditions.checkNotNull(items);
@@ -182,7 +182,7 @@ public final class DatabaseUtilities {
      *         when called from the UI thread.
      */
     public static void save(@NonNull DatabaseStorable item, @NonNull SQLiteDatabase db) {
-        ThreadCheck.checkOffUIThread();
+        new ThreadUtils().checkOffUIThread();
 
         Preconditions.checkNotNull(item);
         Preconditions.checkNotNull(db);
@@ -212,7 +212,7 @@ public final class DatabaseUtilities {
      *         when called from the UI thread.
      */
     public static void delete(@NonNull DatabaseStorable item, @NonNull SQLiteDatabase db) {
-        ThreadCheck.checkOffUIThread();
+        new ThreadUtils().checkOffUIThread();
 
         Preconditions.checkNotNull(item);
         Preconditions.checkNotNull(db);

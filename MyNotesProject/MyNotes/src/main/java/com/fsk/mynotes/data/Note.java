@@ -8,7 +8,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.fsk.common.database.DatabaseStorable;
-import com.fsk.common.threads.ThreadCheck;
+import com.fsk.common.threads.ThreadUtils;
 import com.fsk.mynotes.MyNotesApplication;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel.Columns;
@@ -204,7 +204,7 @@ public class Note implements Parcelable, DatabaseStorable {
      */
     @Override
     public void save(final SQLiteDatabase db) {
-        ThreadCheck.checkOffUIThread();
+        new ThreadUtils().checkOffUIThread();
         long row = db.insertWithOnConflict(Tables.NOTES, null, createContentValues(),
                                            SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -224,7 +224,8 @@ public class Note implements Parcelable, DatabaseStorable {
     @Override
     public void delete(final SQLiteDatabase db) {
 
-        ThreadCheck.checkOffUIThread();
+        new ThreadUtils().checkOffUIThread();
+
         if (getId() != NOT_STORED) {
             int deletedRows = db.delete(Tables.NOTES, Columns.NOTE_ID + " = ?",
                                         new String[] { Long.toString(mId) });

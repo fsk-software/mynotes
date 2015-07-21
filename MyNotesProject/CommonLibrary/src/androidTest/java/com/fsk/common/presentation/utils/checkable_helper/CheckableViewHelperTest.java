@@ -1,173 +1,196 @@
 package com.fsk.common.presentation.utils.checkable_helper;
 
 
-import android.test.AndroidTestCase;
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Checkable;
 
 import com.fsk.common.R;
-import com.fsk.common.presentation.components.CheckableImageView;
 import com.fsk.common.presentation.components.CheckableFloatingFrameLayout;
+import com.fsk.common.presentation.components.CheckableImageView;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 /**
- * Tests {@link CheckableImageView}
+ * Tests {@link com.fsk.common.presentation.utils.animations.SimpleAnimatorListener}
  */
-public class CheckableViewHelperTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class CheckableViewHelperTest {
 
+        private Context mContext;
 
+        @Before
+        public void prepareForTest() {
+            mContext = InstrumentationRegistry.getInstrumentation().getContext();
+        }
+    
+    @Test
     public void testConstructorWithNullContext() {
         try {
-            new CheckableViewHelper(getContext());
+            new CheckableViewHelper(mContext);
             assert false;
         }
         catch (NullPointerException e) {
-            assert true;
         }
     }
 
 
+    @Test
     public void testConstructorSunnyDay() {
-        CheckableViewHelper helper = new CheckableViewHelper(getContext());
+        CheckableViewHelper helper = new CheckableViewHelper(mContext);
     }
 
+    @Test
     public void testReadAttributesWithNullAttrs() {
-        CheckableViewHelper helper = new CheckableViewHelper(getContext());
-        assertFalse(helper.readCheckableAttributes(getContext(), null));
+        CheckableViewHelper helper = new CheckableViewHelper(mContext);
+        assertThat(helper.readCheckableAttributes(mContext, null), is(false));
     }
 
+    @Test
     public void testReadAttributesWithNullContext() {
-        CheckableViewHelper helper = new CheckableViewHelper(getContext());
+        CheckableViewHelper helper = new CheckableViewHelper(mContext);
         helper.readCheckableAttributes(null, null);
-        assertFalse(helper.readCheckableAttributes(getContext(), null));
+        assertThat(helper.readCheckableAttributes(mContext, null), is(false));
     }
 
+    @Test
     public void testSetCheckedWithDefaultAttributes() {
 
-        View rootView = LayoutInflater.from(getContext())
+        View rootView = LayoutInflater.from(mContext)
                                       .inflate(R.layout.test_checkable_view_helper, null);
-        String defaultOffText = getContext().getString(
-                R.string.accessibility_description_not_checked);
+        String defaultOffText = mContext.getString(R.string.accessibility_description_not_checked);
 
-        String defaultOnText = getContext().getString(R.string.accessibility_description_checked);
+        String defaultOnText = mContext.getString(R.string.accessibility_description_checked);
         CheckableFloatingFrameLayout button =
                 (CheckableFloatingFrameLayout) rootView.findViewById(R.id.test_checkable_view_helper_no_attributes);
 
-        assertFalse(button.isChecked());
-        assertEquals(defaultOffText, button.getContentDescription());
+        assertThat(button.isChecked(), is(false));
+        assertThat(defaultOffText, is(button.getContentDescription()));
 
         button.setChecked(true);
-        assertTrue(button.isChecked());
-        assertEquals(defaultOnText, button.getContentDescription());
+        assertThat(button.isChecked(), is(true));
+        assertThat(defaultOnText, is(button.getContentDescription()));
 
         button.setChecked(false);
-        assertFalse(button.isChecked());
-        assertEquals(defaultOffText, button.getContentDescription());
+        assertThat(button.isChecked(), is(false));
+        assertThat(defaultOffText, is(button.getContentDescription()));
     }
 
 
+    @Test
     public void testCheckedInAttributes() {
 
-        View rootView = LayoutInflater.from(getContext())
+        View rootView = LayoutInflater.from(mContext)
                                       .inflate(R.layout.test_checkable_view_helper, null);
-        String defaultOnText = getContext().getString(
-                R.string.accessibility_description_checked);
+        String defaultOnText = mContext.getString(R.string.accessibility_description_checked);
 
         CheckableFloatingFrameLayout button =
                 (CheckableFloatingFrameLayout) rootView.findViewById(R.id.test_checkable_view_helper_initially_checked);
 
-        assertTrue(button.isChecked());
-        assertEquals(defaultOnText, button.getContentDescription());
+        assertThat(button.isChecked(), is(true));
+        assertThat(defaultOnText, is(button.getContentDescription()));
     }
 
 
+    @Test
     public void testSetCheckedWithCustomOnTextAttribute() {
 
-        View rootView = LayoutInflater.from(getContext())
+        View rootView = LayoutInflater.from(mContext)
                                       .inflate(R.layout.test_checkable_view_helper, null);
-        String defaultOffText = getContext().getString(
-                R.string.accessibility_description_not_checked);
+        String defaultOffText = mContext.getString(R.string.accessibility_description_not_checked);
 
         CheckableFloatingFrameLayout button =
                 (CheckableFloatingFrameLayout) rootView.findViewById(R.id.test_checkable_view_helper_on_text);
 
-        assertFalse(button.isChecked());
-        assertEquals(defaultOffText, button.getContentDescription());
+        assertThat(button.isChecked(), is(false));
+        assertThat(defaultOffText, is(button.getContentDescription()));
 
         button.setChecked(true);
-        assertTrue(button.isChecked());
-        assertEquals("TestOn", button.getContentDescription());
+        assertThat(button.isChecked(), is(true));
+        assertThat("TestOn", is(button.getContentDescription()));
 
         button.setChecked(false);
-        assertFalse(button.isChecked());
-        assertEquals(defaultOffText, button.getContentDescription());
+        assertThat(button.isChecked(), is(false));
+        assertThat(defaultOffText, is(button.getContentDescription()));
     }
 
 
 
+    @Test
     public void testSetCheckedWithCustomOffTextAttribute() {
 
-        View rootView = LayoutInflater.from(getContext())
+        View rootView = LayoutInflater.from(mContext)
                                       .inflate(R.layout.test_checkable_view_helper, null);
-        String defaultOnText = getContext().getString(R.string.accessibility_description_checked);
+        String defaultOnText = mContext.getString(R.string.accessibility_description_checked);
 
         CheckableFloatingFrameLayout button =
                 (CheckableFloatingFrameLayout) rootView.findViewById(R.id.test_checkable_view_helper_off_text);
 
-        assertFalse(button.isChecked());
-        assertEquals("TestOff", button.getContentDescription());
+        assertThat(button.isChecked(), is(false));
+        assertThat("TestOff", is(button.getContentDescription()));
 
         button.setChecked(true);
-        assertTrue(button.isChecked());
-        assertEquals(defaultOnText, button.getContentDescription());
+        assertThat(button.isChecked(), is(true));
+        assertThat(defaultOnText, is(button.getContentDescription()));
 
         button.setChecked(false);
-        assertFalse(button.isChecked());
-        assertEquals("TestOff", button.getContentDescription());
+        assertThat(button.isChecked(), is(false));
+        assertThat("TestOff", is(button.getContentDescription()));
     }
 
 
+    @Test
     public void testSetCheckedWithCustomOnOffTextAttribute() {
 
-        View rootView = LayoutInflater.from(getContext())
+        View rootView = LayoutInflater.from(mContext)
                                       .inflate(R.layout.test_checkable_view_helper, null);
 
         CheckableFloatingFrameLayout button =
                 (CheckableFloatingFrameLayout) rootView.findViewById(R.id.test_checkable_view_helper_on_off_text);
 
-        assertFalse(button.isChecked());
-        assertEquals("TestOff", button.getContentDescription());
+        assertThat(button.isChecked(), is(false));
+        assertThat("TestOff", is(button.getContentDescription()));
 
         button.setChecked(true);
-        assertTrue(button.isChecked());
-        assertEquals("TestOn", button.getContentDescription());
+        assertThat(button.isChecked(), is(true));
+        assertThat("TestOn", is(button.getContentDescription()));
 
         button.setChecked(false);
-        assertFalse(button.isChecked());
-        assertEquals("TestOff", button.getContentDescription());
+        assertThat(button.isChecked(), is(false));
+        assertThat("TestOff", is(button.getContentDescription()));
     }
 
 
 
+    @Test
     public void testNotifyListener() {
         MockCheckable mockCheckable =new MockCheckable();
         mockCheckable.mChecked = true;
 
         LocalOnCheckedChangeListener listener = new LocalOnCheckedChangeListener(mockCheckable);
-        CheckableViewHelper helper = new CheckableViewHelper(getContext());
+        CheckableViewHelper helper = new CheckableViewHelper(mContext);
         helper.setOnCheckedChangeListener(listener);
         helper.sendChangedNotification(mockCheckable);
-        assertTrue(listener.mReceivedNotification);
+        assertThat(listener.mReceivedNotification, is(true));
     }
 
 
+    @Test
     public void testNotifyListenerWithNullCheckable() {
 
         LocalOnCheckedChangeListener listener = new LocalOnCheckedChangeListener(null);
-        CheckableViewHelper helper = new CheckableViewHelper(getContext());
+        CheckableViewHelper helper = new CheckableViewHelper(mContext);
         helper.setOnCheckedChangeListener(listener);
         helper.sendChangedNotification(null);
-        assertFalse(listener.mReceivedNotification);
+        assertThat(listener.mReceivedNotification, is(false));
     }
 
     /**
@@ -186,7 +209,7 @@ public class CheckableViewHelperTest extends AndroidTestCase {
 
         @Override
         public void onCheckedChanged(final Checkable checkable) {
-            assertEquals(mExpectedCheckable, checkable);
+            assertThat(mExpectedCheckable, is(checkable));
             mReceivedNotification = true;
         }
     }

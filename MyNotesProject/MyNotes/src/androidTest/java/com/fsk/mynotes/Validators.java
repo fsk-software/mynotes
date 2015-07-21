@@ -5,12 +5,14 @@ import com.fsk.mynotes.data.Note;
 
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 
 /**
  * Validation methods to simplify unit testing.
  */
+
 public abstract class Validators {
 
     /**
@@ -19,12 +21,12 @@ public abstract class Validators {
      * @param actual the list of actual notes.
      */
     public static void validateNoteLists(List<Note> expected, List<Note> actual) {
-        assertEquals(expected==null, actual==null);
+        assertThat(expected == null, is(actual == null));
         if (expected == null) {
             return;
         }
 
-        assertEquals(expected.size(), actual.size());
+        assertThat(expected.size(), is(actual.size()));
         for (int i=0; i<expected.size(); ++i) {
             validateNote(expected.get(i), actual.get(i));
         }
@@ -37,9 +39,9 @@ public abstract class Validators {
      * @param actual the actual note.
      */
     public static void validateNote(Note expected, Note actual) {
-        assertEquals(expected.getId(), actual.getId());
-        assertEquals(expected.getText(), actual.getText());
-        assertEquals(expected.getColor(), actual.getColor());
+        assertThat(expected.getId(), is(actual.getId()));
+        assertThat(expected.getText(), is(actual.getText()));
+        assertThat(expected.getColor(), is(actual.getColor()));
     }
 
 }

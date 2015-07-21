@@ -29,12 +29,12 @@ public class NoteEditColorPickerFragment extends BaseNoteEditToolbarFragment {
     /**
      * The keys to the argument bundle.
      */
-    private static class ArgumentExtras {
+    static class ArgumentExtras {
         /**
          * A key that references a integer value that represents the elapsed time in milliseconds to
          * shift the background color.
          */
-        private static String COLOR_SHIFT_DURATION_KEY = "COLOR_SHIFT_DURATION_KEY";
+        static String COLOR_SHIFT_DURATION_KEY = "COLOR_SHIFT_DURATION_KEY";
     }
 
 
@@ -170,6 +170,7 @@ public class NoteEditColorPickerFragment extends BaseNoteEditToolbarFragment {
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         updateSelectedColor(getNoteEditor().getNote().getColor());
     }
 
