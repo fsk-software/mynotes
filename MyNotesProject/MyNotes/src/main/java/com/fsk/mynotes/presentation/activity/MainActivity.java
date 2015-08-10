@@ -76,6 +76,6 @@ public class MainActivity extends AppCompatActivity {
      * Launch a UI that allows the user to create a new note.
      */
     private void createNewNote() {
-        startActivity(EditNoteActivity.createIntent(this, null));
+        startActivity(EditNoteActivity.createIntentForNewNote(this));
     }
 }

@@ -28,7 +28,7 @@ public class BackgroundAnimatorHelper {
      *         The listener for the animation.
      */
     public static void crossBlendColors(@NonNull View view, int fromColor, int toColor,
-                                        int duration, Animator.AnimatorListener animatorListener) {
+                                        int delay, int duration, Animator.AnimatorListener animatorListener) {
 
         view.animate().cancel();
 
@@ -37,6 +37,7 @@ public class BackgroundAnimatorHelper {
         if (animatorListener != null) {
             animator.addListener(animatorListener);
         }
+        animator.setStartDelay(delay);
         animator.setDuration(duration);
         animator.start();
     }
@@ -57,12 +58,12 @@ public class BackgroundAnimatorHelper {
      *         The listener for the animation.
      */
     public static void crossBlendColorResource(@NonNull View view, int fromColorResource,
-                                               int toColorResource, int duration,
+                                               int toColorResource, int delay, int duration,
                                                Animator.AnimatorListener animatorListener) {
 
         Resources resources = view.getResources();
         int fromRgb = resources.getColor(fromColorResource);
         int toRgb = resources.getColor(toColorResource);
-        crossBlendColors(view, fromRgb, toRgb, duration, animatorListener);
+        crossBlendColors(view, fromRgb, toRgb, delay, duration, animatorListener);
     }
 }

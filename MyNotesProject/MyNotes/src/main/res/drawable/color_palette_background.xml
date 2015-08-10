@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Exists to support Pre-Lollipop Versions with a single NoteColors enum -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/icon_palette_off"/>
+    <item android:drawable="@drawable/color_palette_selector"/>
 </layer-list>

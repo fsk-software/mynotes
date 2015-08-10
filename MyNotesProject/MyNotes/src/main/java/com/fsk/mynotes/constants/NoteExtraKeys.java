@@ -6,7 +6,7 @@ package com.fsk.mynotes.constants;
  */
 public class NoteExtraKeys {
     /**
-     * The key to a {@link com.fsk.mynotes.data.Note},
+     * The key to a long representing the note id.
      */
     public static final String NOTE_KEY = "NOTE_KEY";
 }

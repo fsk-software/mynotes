@@ -6,25 +6,22 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.fsk.common.database.DatabaseStorable;
 import com.fsk.common.threads.ThreadUtils;
-import com.fsk.mynotes.MyNotesApplication;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel.Columns;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel.Tables;
-import com.fsk.mynotes.receivers.NoteTableChangeBroadcast;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
+
+import java.util.Observable;
 
 
 /**
- * The Note data model.  A broadcast is sent every time the note is committed or deleted from the
- * database.
- * <p/>
- * The broadcast follows the schema in {@link com.fsk.mynotes.receivers .NoteTableChangeBroadcast}.
+ * The Note data model.
  */
-public class Note implements Parcelable, DatabaseStorable {
+public class Note extends Observable implements Parcelable, DatabaseStorable {
 
     /**
      * Standard Creator Pattern
@@ -42,35 +39,34 @@ public class Note implements Parcelable, DatabaseStorable {
         }
     };
 
-
     /**
      * The id for notes that are not stored in the database.
      */
-    public static final int NOT_STORED = -1;
+    public static final int NOT_STORED = NoteAttributes.UNKNOWN;
+
+    /**
+     * The current data for the note.
+     */
+    private NoteAttributes mCurrentData;
 
 
     /**
-     * The unique note id.
+     * The last persisted data for the note
      */
-    private long mId = NOT_STORED;
+    private NoteAttributes mOriginalData;
 
 
     /**
-     * The text for the note.
+     * Constructor
+     *
+     * @param startingData the initial starting data for the note.
+     * @throws CloneNotSupportedException when the starting data cannot be cloned.
      */
-    private String mText = "";
+    private Note(@NonNull NoteAttributes startingData) throws CloneNotSupportedException {
+        Preconditions.checkNotNull(startingData);
 
-
-    /**
-     * The color of the note.
-     */
-    private NoteColor mColor = NoteColor.YELLOW;
-
-
-    /**
-     * Default Constructor.
-     */
-    public Note() {
+        mOriginalData = startingData;
+        mCurrentData = startingData.clone();
     }
 
 
@@ -81,9 +77,8 @@ public class Note implements Parcelable, DatabaseStorable {
      *         the parcel containing the data for the note.
      */
     public Note(Parcel source) {
-        mId = source.readLong();
-        mText = source.readString();
-        mColor = NoteColor.getColor(source.readInt());
+        mOriginalData = source.readParcelable(NoteAttributes.class.getClassLoader());
+        mCurrentData = source.readParcelable(NoteAttributes.class.getClassLoader());
     }
 
 
@@ -93,7 +88,7 @@ public class Note implements Parcelable, DatabaseStorable {
      * @return The non-null note color.  By default, this returns {@link NoteColor#YELLOW}.
      */
     public NoteColor getColor() {
-        return mColor;
+        return mCurrentData.getColor();
     }
 
 
@@ -104,8 +99,8 @@ public class Note implements Parcelable, DatabaseStorable {
      *         the color for the note.
      */
     public void setColor(@NonNull NoteColor color) {
-        Preconditions.checkNotNull(color);
-        mColor = color;
+        boolean modified = mCurrentData.setColor(color);
+        notifyObserversOnChange(modified);
     }
 
 
@@ -115,7 +110,7 @@ public class Note implements Parcelable, DatabaseStorable {
      * @return the non-null text for the note.
      */
     public String getText() {
-        return mText;
+        return mCurrentData.getText();
     }
 
 
@@ -126,33 +121,40 @@ public class Note implements Parcelable, DatabaseStorable {
      *         the text for the note.  If null, then an empty string is set.
      */
     public void setText(String text) {
-        mText = Strings.nullToEmpty(text);
+        boolean modified = mCurrentData.setText(text);
+        notifyObserversOnChange(modified);
     }
 
 
     /**
-     * Get the id for the note.  If the note is note stored in the database, then {@link
-     * #NOT_STORED} is returned.
+     * Get the id for the note.
      *
      * @return the id for the note.
      */
     public long getId() {
-        return mId;
+        return mCurrentData.getId();
     }
 
 
     /**
-     * Set the id for the note.
-     *
-     * @param id
-     *         the id for the note. This must be either {@link #NOT_STORED} or a natural value.
+     * Determine if the Note has been modified without the changes being persisted.
+     * @return true if the Note has been modified without the changes being persisted.
      */
-    public void setId(long id) {
-        Preconditions.checkArgument((id == NOT_STORED) || (id >= 0));
-
-        mId = id;
+    public boolean isDirty() {
+        return !mCurrentData.equals(mOriginalData);
     }
 
+
+    /**
+     * Notify any {@link java.util.Observer}(s) of change to the data.
+     * @param changed true if the data was changed.
+     */
+    private void notifyObserversOnChange(boolean changed) {
+        if (changed) {
+            setChanged();
+            notifyObservers();
+        }
+    }
 
     @Override
     public int describeContents() {
@@ -162,11 +164,9 @@ public class Note implements Parcelable, DatabaseStorable {
 
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
-        dest.writeLong(mId);
-        dest.writeString(mText);
-        dest.writeInt(mColor.ordinal());
+        dest.writeParcelable(mOriginalData, flags);
+        dest.writeParcelable(mCurrentData, flags);
     }
-
 
     /**
      * Convert the object into a {@link android.content.ContentValues} object for storage in the
@@ -209,8 +209,7 @@ public class Note implements Parcelable, DatabaseStorable {
                                            SQLiteDatabase.CONFLICT_REPLACE);
 
         if (row != NOT_STORED) {
-            mId = row;
-            MyNotesApplication.sendLocalBroadcast(NoteTableChangeBroadcast.createIntent());
+            onPersistenceUpdate(row);
         }
     }
 
@@ -228,11 +227,80 @@ public class Note implements Parcelable, DatabaseStorable {
 
         if (getId() != NOT_STORED) {
             int deletedRows = db.delete(Tables.NOTES, Columns.NOTE_ID + " = ?",
-                                        new String[] { Long.toString(mId) });
+                                        new String[] { Long.toString(getId()) });
             if (deletedRows > 0) {
-                setId(NOT_STORED);
-                MyNotesApplication.sendLocalBroadcast(NoteTableChangeBroadcast.createIntent());
+                onPersistenceUpdate(NOT_STORED);
             }
+        }
+    }
+
+
+    /**
+     * Reset the {@link #mOriginalData} to the current and update the id to the specified id.
+     * @param newId the new Id for the note.
+     */
+    private void onPersistenceUpdate(long newId) {
+        try {
+            mCurrentData.setId(newId);
+            boolean dirty = isDirty();
+            mOriginalData = mCurrentData.clone();
+            notifyObserversOnChange(dirty);
+        }
+        catch (CloneNotSupportedException e) {
+            Log.i("MyNotes", "Something really bad happened");
+        }
+    }
+
+
+    /**
+     * The Builder that will create a new {@link Note}.
+     */
+    public static class Builder {
+        /**
+         * The starting data for the new {@link Note}.
+         */
+        private final NoteAttributes mNoteAttributes = new NoteAttributes();
+
+
+        /**
+         * Set the color for the note.
+         *
+         * @param color
+         *         the color for the note.
+         */
+        public void setColor(@NonNull NoteColor color) {
+            mNoteAttributes.setColor(color);
+        }
+
+
+        /**
+         * Set the note text.
+         *
+         * @param text
+         *         the text for the note.  If null, then an empty string is set.
+         */
+        public void setText(String text) {
+            mNoteAttributes.setText(text);
+        }
+
+        /**
+         * Set the note id.
+         *
+         * @param id
+         *         the id for the note.  This must be {@link #NOT_STORED} or a natural number.
+         */
+        public void setId(long id) {
+            mNoteAttributes.setId(id);
+        }
+
+
+        /**
+         * Create a new {@link Note} with the specified data.
+         * @return a new {@link Note} with the specified data.
+         * @throws CloneNotSupportedException when the note data cannot be created.
+         */
+        public Note build() throws CloneNotSupportedException {
+            return new Note(mNoteAttributes);
         }
     }
 }

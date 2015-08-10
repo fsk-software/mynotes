@@ -73,6 +73,7 @@ public class FractionalFrameLayout extends FrameLayout {
      * @param defStyleRes
      *         The style resource.
      */
+
     public FractionalFrameLayout(final Context context, final AttributeSet attrs,
                                  final int defStyleAttr, final int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);

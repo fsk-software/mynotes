@@ -40,8 +40,11 @@
         <item name="android:elevation">@dimen/note_item_elevation</item>
     </style>
 
-
     <style name="SingleNoteEditItem" parent="SingleNoteEditItemParent">
         <item name="android:elevation">@dimen/note_item_elevation</item>
+    </style>
+
+    <style name="EditToolbarOption" parent="EditToolbarOptionParent">
+        <item name="android:stateListAnimator">@animator/edit_toolbar_option_press_anim</item>
     </style>
 </resources>

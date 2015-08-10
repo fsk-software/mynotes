@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ViewFlipper
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/component_note_edit_toolbar_flipper"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:inAnimation="@anim/slide_down"
+    android:outAnimation="@anim/slide_up">
+
+    <com.fsk.mynotes.presentation.components.NoteEditOptionsBar
+        android:id="@+id/component_note_edit_toolbar_options"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.fsk.mynotes.presentation.components.NoteEditColorPalette
+        android:id="@+id/component_note_edit_toolbar_palette"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</ViewFlipper>

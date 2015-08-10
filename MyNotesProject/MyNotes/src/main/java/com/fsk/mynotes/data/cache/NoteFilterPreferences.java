@@ -4,10 +4,8 @@ package com.fsk.mynotes.data.cache;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.support.v4.content.LocalBroadcastManager;
 
 import com.fsk.mynotes.constants.NoteColor;
-import com.fsk.mynotes.receivers.NoteFilterBroadcast;
 import com.google.common.base.Preconditions;
 
 import java.util.HashSet;
@@ -15,10 +13,9 @@ import java.util.Set;
 
 /**
  * A class to manager the saving and retrieval of the note color filter criteria to persistent
- * memory. Each setup will send a broadcast based on the schema in {@link
- * com.fsk.mynotes.receivers.NoteFilterBroadcast}
+ * memory.
  */
-public class NoteFilterCache {
+public class NoteFilterPreferences {
 
     /**
      * The location of the persistent shared preference cache for the note filter.
@@ -33,26 +30,16 @@ public class NoteFilterCache {
 
 
     /**
-     * A local broadcast manager to send broadcasts upon any changes to the note filter preferences.
-     * The broadcast is used instead of the Shared Preference listener in order to hide the
-     * implementation.
-     */
-    private final LocalBroadcastManager mBroadcastManager;
-
-
-    /**
      * Constructor
      *
      * @param context
      *         The context to use for accessing the system services and generating broadcasts. The
      *         context is not stored.
      */
-    public NoteFilterCache(@NonNull Context context) {
+    public NoteFilterPreferences(@NonNull Context context) {
         Preconditions.checkNotNull(context);
 
         mSharedPreferences = context.getSharedPreferences(CACHE_NAME, Context.MODE_PRIVATE);
-
-        mBroadcastManager = LocalBroadcastManager.getInstance(context);
     }
 
 
@@ -77,14 +64,12 @@ public class NoteFilterCache {
     public void enableColor(@NonNull NoteColor color, boolean enable) {
         Preconditions.checkNotNull(color);
         mSharedPreferences.edit().putBoolean(color.name(), enable).apply();
-
-        sendBroadcast(color, enable);
     }
 
 
     /**
-     * Retrieve the color filter enable status from persistent memory. This reads from the
-     * persistent memory.  Please use caution when calling from the UI thread.
+     * Retrieve the color filter enable status from persistent memory. Please use caution when
+     * calling from the UI thread.
      *
      * @param color
      *         The color to check.
@@ -114,14 +99,24 @@ public class NoteFilterCache {
 
 
     /**
-     * Send a broadcast containing the changed note filter color and its enabled status.
+     * Registers a callback to be invoked when a change happens to a preference.
      *
-     * @param color
-     *         The updated color.
-     * @param enable
-     *         true if the color is enabled in the filter.
+     * @param listener
+     *         the listener to register.
      */
-    private void sendBroadcast(@NonNull NoteColor color, boolean enable) {
-        mBroadcastManager.sendBroadcast(NoteFilterBroadcast.createIntent(color, enable));
+    public void registerListener(
+            @NonNull SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        mSharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+
+    /**
+     * Unregisters a previous callback.
+     *
+     * @param listener
+     *         the listener to remove.
+     */
+    public void unregisterListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        mSharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 }

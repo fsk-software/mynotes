@@ -1,9 +1,8 @@
 package com.fsk.mynotes.presentation.activity;
 
 
+import android.animation.Animator;
 import android.annotation.TargetApi;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -12,52 +11,41 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.fsk.common.presentation.SimpleTextWatcher;
 import com.fsk.common.presentation.utils.animations.BackgroundAnimatorHelper;
+import com.fsk.common.presentation.utils.animations.SimpleAnimatorListener;
 import com.fsk.common.versions.Versions;
 import com.fsk.mynotes.R;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.constants.NoteExtraKeys;
 import com.fsk.mynotes.data.Note;
-import com.fsk.mynotes.presentation.fragments.NoteEditColorPickerFragment;
-import com.fsk.mynotes.presentation.fragments.NoteEditMainToolbarFragment;
+import com.fsk.mynotes.presentation.components.NoteEditColorPalette;
+import com.fsk.mynotes.presentation.components.NoteEditOptionsBar;
+import com.fsk.mynotes.presentation.components.NoteEditToolbar;
 import com.fsk.mynotes.services.DeleteNoteService;
 import com.fsk.mynotes.services.SaveNoteService;
-import com.fsk.mynotes.utils.NoteEditor;
+
+import java.util.Observable;
+import java.util.Observer;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
 /**
- * The activity to edit a note.
+ * This activity is responsible for providing the UI to the user that allows them to modify or
+ * create a new {@link Note}.
  */
-public class EditNoteActivity extends AppCompatActivity implements NoteEditor {
-
-
-    /**
-     * The tags for the availbel fragments for this activity.
-     */
-    static class FragmentTags {
-        /**
-         * The tag for the main toolbar.
-         */
-        static final String MAIN_TOOLBAR_TAG = "MAIN_TOOLBAR_TAG";
-
-
-        /**
-         * The tag for the color picker toolbar.
-         */
-        static final String COLOR_PICKER_TOOLBAR_TAG = "COLOR_PICKER_TOOLBAR_TAG";
-
-    }
-
+public class EditNoteActivity extends AppCompatActivity implements Observer {
 
     /**
-     * Create an intent for this activity.
+     * Create an intent for this activity that will allow an existing note to be modified.
      *
      * @param context
      *         The context to use for creating the intent.
@@ -66,13 +54,31 @@ public class EditNoteActivity extends AppCompatActivity implements NoteEditor {
      *
      * @return An intent that will start this activity.
      */
-    public static Intent createIntent(@NonNull Context context, @NonNull Note note) {
+    public static Intent createIntentForExistingNote(@NonNull Context context, Note note) {
 
-        Intent returnValue = new Intent(context, EditNoteActivity.class);
-        returnValue.putExtra(NoteExtraKeys.NOTE_KEY, note);
-
-        return returnValue;
+        Intent intent = new Intent(context, EditNoteActivity.class);
+        intent.putExtra(NoteExtraKeys.NOTE_KEY, note);
+        return intent;
     }
+
+
+    /**
+     * Create an intent for this activity that will create a new note..
+     *
+     * @param context
+     *         The context to use for creating the intent.
+     *
+     * @return An intent that will start this activity.
+     */
+    public static Intent createIntentForNewNote(@NonNull Context context) {
+
+        Intent intent = new Intent(context, EditNoteActivity.class);
+        return intent;
+    }
+
+
+    @InjectView(R.id.activity_single_note_toolbar)
+    NoteEditToolbar mToolbar;
 
 
     @InjectView(R.id.activity_single_note_edit_text)
@@ -80,7 +86,7 @@ public class EditNoteActivity extends AppCompatActivity implements NoteEditor {
 
 
     @InjectView(R.id.activity_single_note_edit_container)
-    View mBorderView;
+    View mNoteContainerView;
 
 
     /**
@@ -98,13 +104,81 @@ public class EditNoteActivity extends AppCompatActivity implements NoteEditor {
     /**
      * The listener to any text being altered in {@link #mEditText}.
      */
-    final View.OnKeyListener mOnKeyListener = new View.OnKeyListener() {
+    final TextWatcher mTextWatcher = new SimpleTextWatcher() {
         @Override
-        public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
+        public void afterTextChanged(final Editable s) {
 
-            return false;
+            mNote.setText(s.toString());
         }
     };
+
+
+    /**
+     * A listener to modify the UI coloring when the User changes the note color.
+     */
+    final NoteEditColorPalette.OnColorSelectedListener mOnColorSelectedListener =
+            new NoteEditColorPalette.OnColorSelectedListener() {
+
+                @Override
+                public void onColorSelected(@NonNull final NoteColor color) {
+                    changeColor(color);
+                }
+            };
+
+
+    /**
+     * A listener to react to user requests to change the persistency of the note (saving or
+     * deleting).
+     */
+    final NoteEditOptionsBar.OnPersistenceClickListener mOnPersistenceClickListener =
+            new NoteEditOptionsBar.OnPersistenceClickListener() {
+
+                @Override
+                public void onSaveClicked() {
+                    saveNote();
+                }
+
+
+                @Override
+                public void onDeleteClicked() {
+                    deleteNote();
+                }
+            };
+
+
+    /**
+     * A runnable that will update the toolbar.  This exists to allow the update to handle on the UI
+     * thread.
+     */
+    final Runnable mUpdateToolbarRunnable = new Runnable() {
+        @Override
+        public void run() {
+            mToolbar.updateNote(mNote);
+        }
+    };
+
+
+    /**
+     * An Animator listener that will finish the activity when the animator completes or is
+     * cancelled.
+     */
+    private final SimpleAnimatorListener mFinishWhenAnimationCompleteListener =
+            new SimpleAnimatorListener() {
+
+
+                @Override
+                public void onAnimationEnd(final Animator animation) {
+                    super.onAnimationEnd(animation);
+                    safelyFinish();
+                }
+
+
+                @Override
+                public void onAnimationCancel(final Animator animation) {
+                    super.onAnimationCancel(animation);
+                    safelyFinish();
+                }
+            };
 
 
     @Override
@@ -114,84 +188,117 @@ public class EditNoteActivity extends AppCompatActivity implements NoteEditor {
         ButterKnife.inject(this);
 
         mColorShiftDuration = getResources().getInteger(android.R.integer.config_mediumAnimTime);
-        mNote = getIntent().getParcelableExtra(NoteExtraKeys.NOTE_KEY);
-        if (mNote == null) {
-            mNote = new Note();
-        }
 
-        changeNoteColor(mNote.getColor());
+        initializeNote((savedInstanceState == null) ? getIntent().getExtras() : savedInstanceState);
+        mNote.addObserver(this);
+
+        mToolbar.setOnColorSelectedListener(mOnColorSelectedListener);
+        mToolbar.setOnPersistenceClickListener(mOnPersistenceClickListener);
+        mToolbar.updateNote(mNote);
+
+        changeColor(mNote.getColor());
         mEditText.setText(mNote.getText());
+        mEditText.addTextChangedListener(mTextWatcher);
 
         ViewCompat.setTransitionName(mEditText, Long.toString(mNote.getId()));
-        if (savedInstanceState == null) {
-            showEditOptions();
-        }
     }
 
 
     @Override
-    public Note getNote() {
-        return mNote;
+    protected void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(NoteExtraKeys.NOTE_KEY, mNote);
     }
 
 
     @Override
-    public void changeNoteColor(final NoteColor color) {
-        NoteColor oldColor = mNote.getColor();
-        mNote.setColor(color);
-
-        BackgroundAnimatorHelper
-                .crossBlendColorResource(mEditText, oldColor.colorResourceId, color.colorResourceId,
-                                         mColorShiftDuration, null);
-
-        BackgroundAnimatorHelper.crossBlendColorResource(mBorderView, oldColor.darkColorResourceId,
-                                                         color.darkColorResourceId,
-                                                         mColorShiftDuration, null);
-    }
-
-
-    @Override
-    public void saveNote() {
-        mNote.setText(mEditText.getText().toString());
-        SaveNoteService.startService(this, mNote);
-    }
-
-
-    @Override
-    public void deleteNote() {
-        DeleteNoteService.startService(this, mNote);
-        safelyFinish();
-    }
-
-
-    @Override
-    public void showColorPicker() {
-        showFragment(NoteEditColorPickerFragment.newInstance(mColorShiftDuration),
-                     FragmentTags.COLOR_PICKER_TOOLBAR_TAG);
-    }
-
-
-    @Override
-    public void showEditOptions() {
-        showFragment(NoteEditMainToolbarFragment.newInstance(), FragmentTags.MAIN_TOOLBAR_TAG);
+    public void update(final Observable observable, final Object data) {
+        mToolbar.post(mUpdateToolbarRunnable);
     }
 
 
     /**
-     * Show the specified fragment in the container with the {@link R
-     * .id#activity_single_note_header_container}
-     * id.
+     * Initialize the note based on the bundle data.
      *
-     * @param fragment
-     *         The fragment to show.
-     * @param tag
-     *         the tag for the fragment.
+     * @param bundle
+     *         the bundle containing the note data.
      */
-    private void showFragment(@NonNull Fragment fragment, @NonNull String tag) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.animator.slide_down, R.animator.slide_up);
-        transaction.replace(R.id.activity_single_note_header_container, fragment, tag);
-        transaction.commit();
+    void initializeNote(@NonNull Bundle bundle) {
+        mNote = null;
+
+        //read the note data if the key exists.
+        if (bundle.containsKey(NoteExtraKeys.NOTE_KEY)) {
+            mNote = bundle.getParcelable(NoteExtraKeys.NOTE_KEY);
+        }
+
+        /**
+         * No note exists, so create a new one.  If anything fails, pack up your toys and go home.
+         */
+        if (mNote == null) {
+            try {
+                mNote = new Note.Builder().build();
+            }
+            catch (Exception e) {
+                Toast.makeText(this, R.string.unrecoverable_edit_error, Toast.LENGTH_LONG).show();
+                finish();
+            }
+        }
+    }
+
+
+    /**
+     * Animate the UI color change based on the note colors.
+     *
+     * @param newColor
+     *         the new color for the note.
+     */
+    void changeColor(@NonNull NoteColor newColor) {
+        NoteColor oldColor = mNote.getColor();
+        mNote.setColor(newColor);
+
+        //change the color of the edit text.
+        BackgroundAnimatorHelper.crossBlendColorResource(mEditText, oldColor.colorResourceId,
+                                                         newColor.colorResourceId, 0,
+                                                         mColorShiftDuration, null);
+
+        //change the border color around the edit text.
+        BackgroundAnimatorHelper
+                .crossBlendColorResource(mNoteContainerView, oldColor.darkColorResourceId,
+                                         newColor.darkColorResourceId, 0, mColorShiftDuration,
+                                         null);
+
+        //change the toolbar color.
+        BackgroundAnimatorHelper.crossBlendColorResource(mToolbar, oldColor.darkColorResourceId,
+                                                         newColor.darkColorResourceId, 0,
+                                                         mColorShiftDuration, null);
+    }
+
+
+    /**
+     * Start the save note service and then finish the activity.
+     */
+    void saveNote() {
+        SaveNoteService.startService(this, mNote);
+        safelyFinish();
+    }
+
+
+    /**
+     * Start the delete note service and animate the note deletion.  The activity will finish when
+     * the animation completes.
+     */
+    void deleteNote() {
+
+        NoteColor noteColor = mNote.getColor();
+        BackgroundAnimatorHelper
+                .crossBlendColorResource(mNoteContainerView, noteColor.darkColorResourceId,
+                                         android.R.color.transparent, 0, mColorShiftDuration, null);
+        mEditText.animate().alpha(0f).setStartDelay(mColorShiftDuration)
+                 .setDuration(mColorShiftDuration).setListener(mFinishWhenAnimationCompleteListener)
+                 .start();
+
+        DeleteNoteService.startService(this, mNote);
     }
 
 

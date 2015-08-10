@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import com.fsk.common.presentation.recycler.DividerItemDecoration;
 import com.fsk.mynotes.R;
 import com.fsk.mynotes.constants.NoteColor;
-import com.fsk.mynotes.data.cache.NoteFilterCache;
+import com.fsk.mynotes.data.cache.NoteFilterPreferences;
 import com.fsk.mynotes.presentation.adapters.FilterColorAdapter;
 import com.fsk.mynotes.presentation.layout_managers.ColorFilterLayoutManager;
 
@@ -48,7 +48,7 @@ public class ColorFilterFragment extends Fragment {
     /**
      * The Cache for the selected colors.
      */
-    NoteFilterCache mNoteFilterCache;
+    NoteFilterPreferences mNoteFilterPreferences;
 
 
     /**
@@ -58,7 +58,7 @@ public class ColorFilterFragment extends Fragment {
             new FilterColorAdapter.OnColorChangeListener() {
                 @Override
                 public void onColorSelected(final NoteColor color, final boolean enabled) {
-                    mNoteFilterCache.enableColor(color, enabled);
+                    mNoteFilterPreferences.enableColor(color, enabled);
                 }
             };
 
@@ -72,7 +72,7 @@ public class ColorFilterFragment extends Fragment {
         ButterKnife.inject(this, rootView);
 
         Context context = inflater.getContext();
-        mNoteFilterCache = new NoteFilterCache(context);
+        mNoteFilterPreferences = new NoteFilterPreferences(context);
 
         Resources resources = context.getResources();
         mFilterRecyclerView.setAdapter(createAdapter(context));
@@ -94,7 +94,7 @@ public class ColorFilterFragment extends Fragment {
     private FilterColorAdapter createAdapter(@NonNull Context context) {
         FilterColorAdapter adapter = new FilterColorAdapter(context);
         adapter.setOnColorChangeListener(mOnColorSelectChangeListener);
-        adapter.setSelectedColors(mNoteFilterCache.getEnabledColors());
+        adapter.setSelectedColors(mNoteFilterPreferences.getEnabledColors());
 
         return adapter;
     }

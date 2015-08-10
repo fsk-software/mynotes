@@ -24,7 +24,18 @@ import butterknife.InjectView;
  */
 public class CardAdapter extends RecyclerViewAdapter<CardAdapter.CardViewHolder> {
 
+    /**
+     * The callback listener to handle and item being clicked.
+     */
     public interface OnItemClickListener {
+        /**
+         * The callback to handle an item being clicked.
+         *
+         * @param view
+         *         the clicked view.
+         * @param note
+         *         the note associate with the clicked view.
+         */
         void onItemClick(View view, Note note);
     }
 
@@ -45,6 +56,7 @@ public class CardAdapter extends RecyclerViewAdapter<CardAdapter.CardViewHolder>
          */
         @InjectView(R.id.recycler_item_card_view)
         CardView mCardView;
+
 
         /**
          * Constructor.
@@ -67,12 +79,22 @@ public class CardAdapter extends RecyclerViewAdapter<CardAdapter.CardViewHolder>
      */
     final List<Note> mNotes = new ArrayList<>();
 
+
+    /**
+     * The listener to notify of an item click.
+     */
     OnItemClickListener mOnItemClickListener;
 
+
+    /**
+     * The listener to a card click. This will daisy chain the call to {@link
+     * #mOnItemClickListener}.
+     */
     final View.OnClickListener mCardClickListener = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
             Note note = (Note) v.getTag();
+
             if (mOnItemClickListener != null) {
                 mOnItemClickListener.onItemClick(v, note);
             }
@@ -80,6 +102,12 @@ public class CardAdapter extends RecyclerViewAdapter<CardAdapter.CardViewHolder>
     };
 
 
+    /**
+     * Set the callback listener to receive notifications of an item being clicked.
+     *
+     * @param onItemClickListener
+     *         the listenr to set.  This will replace the existing listener.
+     */
     public void setOnItemClickListener(final OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
     }
@@ -117,8 +145,8 @@ public class CardAdapter extends RecyclerViewAdapter<CardAdapter.CardViewHolder>
         //We can't change a cards color in the normal way, but google did supply a special method
         //to do it. Directly, calling setBackgroundResource() will work on the newest lollipop
         //builds (v2) but crashes everywhere else.
-        holder.mCardView.setCardBackgroundColor
-                (note.getColor().getColorArgb(holder.mCardView.getContext()));
+        holder.mCardView.setCardBackgroundColor(
+                note.getColor().getColorArgb(holder.mCardView.getContext()));
         holder.mCardView.setTag(note);
         holder.mTextView.setText(note.getText());
         ViewCompat.setTransitionName(holder.mCardView, Long.toString(note.getId()));

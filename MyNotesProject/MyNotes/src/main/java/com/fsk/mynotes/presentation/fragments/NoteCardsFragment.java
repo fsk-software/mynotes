@@ -108,6 +108,13 @@ public class NoteCardsFragment extends Fragment
 
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getLoaderManager().getLoader( MAIN_LOADER_ID ).forceLoad();
+    }
+
+
+    @Override
     public Loader<List<Note>> onCreateLoader(final int id, final Bundle args) {
         return new FilteredNoteLoader(getActivity());
     }
@@ -127,13 +134,6 @@ public class NoteCardsFragment extends Fragment
 
 
     /**
-     * Launch a UI that allows the user to create a new note.
-     */
-    private void createNewNote() {
-    }
-
-
-    /**
      * Edit the specified note.
      *
      * @param view
@@ -149,6 +149,6 @@ public class NoteCardsFragment extends Fragment
         Pair<View, String> notePair = Pair.create(view, Long.toString(note.getId()));
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(activity, notePair);
-        startActivity(EditNoteActivity.createIntent(activity, note), options.toBundle());
+        startActivity(EditNoteActivity.createIntentForExistingNote(activity, note), options.toBundle());
     }
 }

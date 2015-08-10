@@ -8,6 +8,7 @@
     <dimen name="toolbar_elevation">4dp</dimen>
     <dimen name="sub_toolbar_elevation">2dp</dimen>
     <dimen name="note_item_elevation">25dp</dimen>
+    <dimen name="edit_toolbar_option_elevation">15dp</dimen>
 
     <dimen name="note_divider_size">10dp</dimen>
 

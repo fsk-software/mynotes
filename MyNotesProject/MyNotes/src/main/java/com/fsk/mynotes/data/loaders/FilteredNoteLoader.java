@@ -2,9 +2,8 @@ package com.fsk.mynotes.data.loaders;
 
 
 import android.content.AsyncTaskLoader;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 
@@ -12,18 +11,19 @@ import com.fsk.common.database.DatabaseHelper;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.Note;
 import com.fsk.mynotes.data.NotesManager;
-import com.fsk.mynotes.data.cache.NoteFilterCache;
-import com.fsk.mynotes.receivers.NoteFilterBroadcast;
-import com.fsk.mynotes.receivers.NoteTableChangeBroadcast;
+import com.fsk.mynotes.data.cache.NoteFilterPreferences;
+import com.google.common.base.MoreObjects;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 
 /**
  * The loader to retrieve the filtered note list and listen for any changes to it.
  */
-public class FilteredNoteLoader extends AsyncTaskLoader<List<Note>> {
+public class FilteredNoteLoader extends AsyncTaskLoader<List<Note>> implements Observer {
 
     /**
      * The filtered notes retrieved from persistent storage.
@@ -40,7 +40,7 @@ public class FilteredNoteLoader extends AsyncTaskLoader<List<Note>> {
     /**
      * The filter manager that retrieves data from persistent storage.
      */
-    private final NoteFilterCache mNoteFilterCache;
+    private final NoteFilterPreferences mNoteFilterPreferences;
 
 
     /**
@@ -57,14 +57,16 @@ public class FilteredNoteLoader extends AsyncTaskLoader<List<Note>> {
 
 
     /**
-     * The broadcast receiver to handle any changes in the note or note filter.
+     * The listener to changes in the filtered note colors.
      */
-    private final BroadcastReceiver mOnChangeBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            onContentChanged();
-        }
-    };
+    private SharedPreferences.OnSharedPreferenceChangeListener mNoteFilterPreferenceListener =
+            new SharedPreferences.OnSharedPreferenceChangeListener() {
+                @Override
+                public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences,
+                                                      final String key) {
+                    onContentChanged();
+                }
+            };
 
 
     /**
@@ -78,14 +80,21 @@ public class FilteredNoteLoader extends AsyncTaskLoader<List<Note>> {
 
         mNotesManager = new NotesManager(DatabaseHelper.getDatabase());
         mBroadcastManager = LocalBroadcastManager.getInstance(context);
-        mNoteFilterCache = new NoteFilterCache(context);
+        mNoteFilterPreferences = new NoteFilterPreferences(context);
     }
 
 
     @Override
     public List<Note> loadInBackground() {
-        Set<NoteColor> enabledFilters = mNoteFilterCache.getEnabledColors();
-        return mNotesManager.getNotesWithColors(new ArrayList<>(enabledFilters));
+        Set<NoteColor> enabledFilters = mNoteFilterPreferences.getEnabledColors();
+        List<Note> returnValue;
+        try {
+            returnValue = mNotesManager.getNotesWithColors(new ArrayList<>(enabledFilters));
+        }
+        catch (Exception e) {
+            returnValue = null;
+        }
+        return returnValue;
     }
 
 
@@ -135,16 +144,22 @@ public class FilteredNoteLoader extends AsyncTaskLoader<List<Note>> {
     }
 
 
+    @Override
+    public void update(final Observable observable, final Object data) {
+        onContentChanged();
+    }
+
+
     /**
      * Register the observer to monitor changes to the note or note filter.
      */
     private void registerReceivers() {
         if (!mObserverRegistered) {
-            mBroadcastManager.registerReceiver(mOnChangeBroadcastReceiver,
-                                               NoteFilterBroadcast.createIntentFilter());
+            mNoteFilterPreferences.registerListener(mNoteFilterPreferenceListener);
 
-            mBroadcastManager.registerReceiver(mOnChangeBroadcastReceiver,
-                                               NoteTableChangeBroadcast.createIntentFilter());
+            for (Note note : MoreObjects.firstNonNull(mNotes, new ArrayList<Note>())) {
+                note.addObserver(this);
+            }
 
             mObserverRegistered = true;
         }
@@ -157,6 +172,12 @@ public class FilteredNoteLoader extends AsyncTaskLoader<List<Note>> {
     private void unregisterReceivers() {
         mObserverRegistered = false;
 
-        mBroadcastManager.unregisterReceiver(mOnChangeBroadcastReceiver);
+        for (Note note : MoreObjects.firstNonNull(mNotes, new ArrayList<Note>())) {
+            note.deleteObserver(this);
+        }
+
+        mNoteFilterPreferences.unregisterListener(mNoteFilterPreferenceListener);
     }
+
+
 }

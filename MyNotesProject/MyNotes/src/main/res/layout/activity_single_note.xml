@@ -6,23 +6,27 @@
     android:orientation="vertical"
     android:padding="5dp">
 
-    <FrameLayout
-        android:id="@+id/activity_single_note_header_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"/>
+    <com.fsk.mynotes.presentation.components.NoteEditToolbar
+        android:id="@+id/activity_single_note_toolbar"
+        style="@style/NoteEditToolbar" />
+<View
+    android:layout_width="match_parent"
+    android:layout_height="3dp"
+    android:background="@color/accentColor" />
 
     <FrameLayout
         android:id="@+id/activity_single_note_edit_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/note_border_dimen"
         android:layout_marginBottom="50dp"
-        android:layout_marginTop="75dp">
+        android:layout_marginTop="75dp"
+        android:padding="@dimen/note_border_dimen">
 
         <EditText
             android:id="@+id/activity_single_note_edit_text"
             style="@style/SingleNoteEditItem"/>
     </FrameLayout>
+
+
 
 </RelativeLayout>

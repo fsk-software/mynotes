@@ -50,7 +50,7 @@ public class NotesManager {
      * @throws com.fsk.common.threads.ThreadException
      *         when call from the UI thread.
      */
-    public List<Note> getAllNotes() {
+    public List<Note> getAllNotes() throws Exception{
         new ThreadUtils().checkOffUIThread();
         Cursor cursor = mDatabase.query(Tables.NOTES, null, null, null, null, null, null);
 
@@ -76,7 +76,7 @@ public class NotesManager {
      * @throws com.fsk.common.threads.ThreadException
      *         when call from the UI thread.
      */
-    public List<Note> getNotesWithColors(@NonNull List<NoteColor> colors) {
+    public List<Note> getNotesWithColors(@NonNull List<NoteColor> colors) throws Exception {
         new ThreadUtils().checkOffUIThread();
         Preconditions.checkNotNull(colors);
 
@@ -113,7 +113,7 @@ public class NotesManager {
      * @throws com.fsk.common.threads.ThreadException
      *         when call from the UI thread.
      */
-    public Note getNote(long noteId) {
+    public Note getNote(long noteId) throws Exception{
         new ThreadUtils().checkOffUIThread();
 
         Cursor cursor = mDatabase.query(Tables.NOTES, null, Columns.NOTE_ID + " = ?",
@@ -137,7 +137,7 @@ public class NotesManager {
      *
      * @return the non-null list of {@link com.fsk.mynotes.data.Note}s from the cursor.
      */
-    private static List<Note> getNotesFromCursor(Cursor cursor) {
+    private static List<Note> getNotesFromCursor(Cursor cursor) throws Exception {
         List<Note> returnValue = new ArrayList<>();
         while (!cursor.isAfterLast()) {
             returnValue.add(createNoteFromCursor(cursor));
@@ -155,14 +155,14 @@ public class NotesManager {
      *
      * @return the {@link com.fsk.mynotes.data.Note} generated from the next line in the cursor.
      */
-    private static Note createNoteFromCursor(Cursor cursor) {
-        Note returnValue = new Note();
-        returnValue.setId(cursor.getLong(cursor.getColumnIndex(Columns.NOTE_ID)));
-        returnValue.setText(cursor.getString(cursor.getColumnIndex(Columns.NOTE_TEXT)));
+    private static Note createNoteFromCursor(Cursor cursor) throws Exception {
+        Note.Builder builder = new Note.Builder();
+        builder.setId(cursor.getLong(cursor.getColumnIndex(Columns.NOTE_ID)));
+        builder.setText(cursor.getString(cursor.getColumnIndex(Columns.NOTE_TEXT)));
 
         int ordinal = cursor.getInt(cursor.getColumnIndex(Columns.NOTE_COLOR));
-        returnValue.setColor(NoteColor.getColor(ordinal));
+        builder.setColor(NoteColor.getColor(ordinal));
 
-        return returnValue;
+        return builder.build();
     }
 }

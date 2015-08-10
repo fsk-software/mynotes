@@ -11,7 +11,7 @@ import android.widget.ToggleButton;
 
 import com.fsk.mynotes.R;
 import com.fsk.mynotes.constants.NoteColor;
-import com.fsk.mynotes.data.cache.NoteFilterCache;
+import com.fsk.mynotes.data.cache.NoteFilterPreferences;
 
 import org.junit.Test;
 
@@ -100,11 +100,11 @@ public class FilterColorAdapterTest extends AndroidTestCase {
         View root = LayoutInflater.from(getContext()).inflate(R.layout.recycler_item_color_filter, null);
         FilterColorAdapter.ViewHolder holder = new FilterColorAdapter.ViewHolder(root, null, null);
 
-        NoteFilterCache noteFilterCache = new NoteFilterCache(getContext());
+        NoteFilterPreferences noteFilterPreferences = new NoteFilterPreferences(getContext());
         FilterColorAdapter adapter = new FilterColorAdapter(getContext());
         Resources resources = getContext().getResources();
         for (NoteColor color : NoteColor.values()) {
-            noteFilterCache.enableColor(color, false);
+            noteFilterPreferences.enableColor(color, false);
             String colorText = resources.getString(color.nameResourceId);
 
             String expectedText = String.format(adapter.mFilterOffTemplate, colorText);

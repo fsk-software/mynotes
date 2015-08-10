@@ -22,4 +22,6 @@
     <style name="CardItem" parent="CardItemParent"/>
 
     <style name="SingleNoteEditItem" parent="SingleNoteEditItemParent"/>
+
+    <style name="EditToolbarOption" parent="EditToolbarOptionParent"/>
 </resources>

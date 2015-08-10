@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>    
     <string name="app_name">My Notes</string>
+    <string name="unrecoverable_edit_error">We are sorry, but an error has occurred.</string>
+    <string name="note_hint">Please Enter Note Text</string>
 </resources>
