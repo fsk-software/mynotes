@@ -41,7 +41,7 @@ class NoteAttributes implements Parcelable, Cloneable {
     /**
      * The text for the note.
      */
-    private String mText;
+    private String mText = "";
 
 
     /**

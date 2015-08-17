@@ -62,7 +62,7 @@ public class Note extends Observable implements Parcelable, DatabaseStorable {
      * @param startingData the initial starting data for the note.
      * @throws CloneNotSupportedException when the starting data cannot be cloned.
      */
-    private Note(@NonNull NoteAttributes startingData) throws CloneNotSupportedException {
+    Note(@NonNull NoteAttributes startingData) throws CloneNotSupportedException {
         Preconditions.checkNotNull(startingData);
 
         mOriginalData = startingData;
@@ -183,7 +183,7 @@ public class Note extends Observable implements Parcelable, DatabaseStorable {
      * key=>{@link com.fsk.mynotes.data.database.MyNotesDatabaseModel.Columns#NOTE_COLOR}<br>
      * value=>Integer<br> description=> The note colors ordinal.
      */
-    private ContentValues createContentValues() {
+    ContentValues createContentValues() {
         ContentValues returnValue = new ContentValues();
         if (getId() != NOT_STORED) {
             returnValue.put(Columns.NOTE_ID, getId());

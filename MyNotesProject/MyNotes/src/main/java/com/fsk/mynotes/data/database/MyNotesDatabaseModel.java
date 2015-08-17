@@ -48,7 +48,7 @@ public class MyNotesDatabaseModel implements DatabaseModel {
     /**
      * Creation schema for the notes table.
      */
-    private static final String NOTES_TABLE_CREATE =
+    static final String NOTES_TABLE_CREATE =
             CommonTerms.CREATE_TABLE_IF_NOT_EXISTS + Tables.NOTES +
             " ( " + Columns.NOTE_ID + CommonTerms.INTEGER_PRIMARY_KEY_AUTO_INCREMENT +
             CommonTerms.COMMA + Columns.NOTE_TEXT + CommonTerms.TEXT + CommonTerms.COMMA +
@@ -58,7 +58,7 @@ public class MyNotesDatabaseModel implements DatabaseModel {
     /**
      * An array that contains the creation schemas for all of the tables.
      */
-    private String[] CREATE_COMMANDS = new String[] {
+    final static String[] CREATE_COMMANDS = new String[] {
             // creating tables
             NOTES_TABLE_CREATE };
 
@@ -66,7 +66,7 @@ public class MyNotesDatabaseModel implements DatabaseModel {
     /**
      * An array that contains all of the table names for the database.
      */
-    private String[] TABLES = new String[] { Tables.NOTES };
+    final static String[] TABLES = new String[] { Tables.NOTES };
 
 
     @Override

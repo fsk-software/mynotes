@@ -5,7 +5,6 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.support.v4.content.LocalBroadcastManager;
 
 import com.fsk.common.database.DatabaseHelper;
 import com.fsk.mynotes.constants.NoteColor;
@@ -44,13 +43,6 @@ public class FilteredNoteLoader extends AsyncTaskLoader<List<Note>> implements O
 
 
     /**
-     * A local broadcast manager to listen for broadcasts upon any changes to the notes or note
-     * filter.
-     */
-    private final LocalBroadcastManager mBroadcastManager;
-
-
-    /**
      * A flag that indicates that the loader is monitoring changes to the notes or note filter.
      */
     private boolean mObserverRegistered;
@@ -79,7 +71,6 @@ public class FilteredNoteLoader extends AsyncTaskLoader<List<Note>> implements O
         super(context);
 
         mNotesManager = new NotesManager(DatabaseHelper.getDatabase());
-        mBroadcastManager = LocalBroadcastManager.getInstance(context);
         mNoteFilterPreferences = new NoteFilterPreferences(context);
     }
 
