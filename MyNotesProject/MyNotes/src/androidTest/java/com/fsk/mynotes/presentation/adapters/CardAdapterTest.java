@@ -63,11 +63,10 @@ public class CardAdapterTest {
 
 
     @Test
-    public void testSetNotesWithNonEmptyList() {
+    public void testSetNotesWithNonEmptyList() throws Exception {
         List<Note> expected = new ArrayList<>();
         for (int i=0; i<10; ++i) {
-            Note note = new Note();
-            note.setId(i);
+            Note note = new Note.Builder().setId(i).build();
             expected.add(note);
         }
 
@@ -91,17 +90,18 @@ public class CardAdapterTest {
 
 
     @Test
-    public void testViewBinding() {
+    public void testViewBinding() throws Exception{
 
         View root = LayoutInflater.from(mContext).inflate(R.layout.recycler_item_note, null);
         CardAdapter.CardViewHolder holder = new CardAdapter.CardViewHolder(root, null);
 
         List<Note> expected = new ArrayList<>();
         for (NoteColor color : NoteColor.values()) {
-            Note note = new Note();
-            note.setId(color.ordinal());
-            note.setColor(color);
-            note.setText(color.name());
+            Note note = new Note.Builder()
+                                .setId(color.ordinal())
+                                .setColor(color)
+                                .setText(color.name())
+                                .build();
             expected.add(note);
         }
 

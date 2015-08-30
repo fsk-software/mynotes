@@ -43,5 +43,4 @@ public abstract class Validators {
         assertThat(expected.getText(), is(actual.getText()));
         assertThat(expected.getColor(), is(actual.getColor()));
     }
-
 }

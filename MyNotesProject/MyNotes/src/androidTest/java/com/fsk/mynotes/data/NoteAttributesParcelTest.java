@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.fsk.mynotes.Validators;
 import com.fsk.mynotes.constants.NoteColor;
 
 import org.junit.Test;
@@ -15,10 +14,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 /**
- * Test the {@link com.fsk.mynotes.data.Note class}.
+ * Test the {@link NoteAttributes class}.
  */
 @RunWith(AndroidJUnit4.class)
-public class NoteParcelTest {
+public class NoteAttributesParcelTest {
 
     /**
      * The Parcel Tag.
@@ -31,15 +30,14 @@ public class NoteParcelTest {
      */
     @Test
     public void testNoteParceling() throws Exception{
-        Note expectedNote = new Note.Builder()
-                                    .setId(5)
-                                    .setColor(NoteColor.GREEN)
-                                    .setText("AAAA")
-                                    .build();
+        NoteAttributes expected = new NoteAttributes();
+        expected.setId(5);
+        expected.setColor(NoteColor.GREEN);
+        expected.setText("AAAA");
 
         //Create Bundle
         Bundle saveBundle = new Bundle();
-        saveBundle.putParcelable(PARCEL_TAG, expectedNote);
+        saveBundle.putParcelable(PARCEL_TAG, expected);
 
         //Create Parcel and Save Bundle in it.
         Parcel parcel = Parcel.obtain();
@@ -48,10 +46,10 @@ public class NoteParcelTest {
         //Extract Bundle from the Parcel
         parcel.setDataPosition(0);
         Bundle extractBundle = parcel.readBundle();
-        extractBundle.setClassLoader(Note.class.getClassLoader());
+        extractBundle.setClassLoader(NoteAttributes.class.getClassLoader());
 
-        Note actualNote = extractBundle.getParcelable(PARCEL_TAG);
-        Validators.validateNote(expectedNote, actualNote);
+        NoteAttributes actual = extractBundle.getParcelable(PARCEL_TAG);
+        validate(expected, actual);
     }
 
 
@@ -60,11 +58,11 @@ public class NoteParcelTest {
      */
     @Test
     public void testParcelingOfDefaultNote() throws Exception {
-        Note expectedNote = new Note.Builder().build();
+        NoteAttributes expected = new NoteAttributes();
 
         //Create Bundle
         Bundle saveBundle = new Bundle();
-        saveBundle.putParcelable(PARCEL_TAG, expectedNote);
+        saveBundle.putParcelable(PARCEL_TAG, expected);
 
         //Create Parcel and Save Bundle in it.
         Parcel parcel = Parcel.obtain();
@@ -73,18 +71,18 @@ public class NoteParcelTest {
         //Extract Bundle from the Parcel
         parcel.setDataPosition(0);
         Bundle extractBundle = parcel.readBundle();
-        extractBundle.setClassLoader(Note.class.getClassLoader());
+        extractBundle.setClassLoader(NoteAttributes.class.getClassLoader());
 
-        Note actualNote = extractBundle.getParcelable(PARCEL_TAG);
-        Validators.validateNote(expectedNote, actualNote);
+        NoteAttributes actual = extractBundle.getParcelable(PARCEL_TAG);
+        validate(expected, actual);
     }
 
     /**
-     * test {@link Note#describeContents()}
+     * test {@link NoteAttributes#describeContents()}
      */
     @Test
     public void testDescribeContents() throws Exception{
-        assertThat(new Note.Builder().build().describeContents(), is(0));
+        assertThat(new NoteAttributes().describeContents(), is(0));
     }
 
     /**
@@ -92,7 +90,19 @@ public class NoteParcelTest {
      */
     @Test
     public void testCreatorNewArray() {
-        Note notes[] = Note.CREATOR.newArray(5);
+        NoteAttributes notes[] = NoteAttributes.CREATOR.newArray(5);
         assertThat(notes.length, is(5));
     }
+
+    /**
+     * Validate the expected Note Attributes values match the actual values.
+     * @param expected the expected note attributes.
+     * @param actual the actual note attributes.
+     */
+    private void validate(NoteAttributes expected, NoteAttributes actual) {
+        assertThat(expected.getId(), is(actual.getId()));
+        assertThat(expected.getText(), is(actual.getText()));
+        assertThat(expected.getColor(), is(actual.getColor()));
+    }
+
 }

@@ -41,7 +41,7 @@ public class ColorFilterFragmentTest extends
         assertNotNull(fragment.mFilterRecyclerView);
         assertEquals(View.VISIBLE, fragment.mFilterRecyclerView.getVisibility());
 
-        assertNotNull(fragment.mNoteFilterCache);
+        assertNotNull(fragment.mNoteFilterPreferences);
         assertNotNull(fragment.mOnColorSelectChangeListener);
 
     }
@@ -51,7 +51,7 @@ public class ColorFilterFragmentTest extends
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         transaction.add(R.id.test_mock_fragment_activity_container, new ColorFilterFragment(), TAG);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
         getInstrumentation().waitForIdleSync();
 
         ColorFilterFragment returnValue =

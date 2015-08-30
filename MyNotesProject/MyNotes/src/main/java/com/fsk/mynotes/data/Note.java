@@ -39,10 +39,12 @@ public class Note extends Observable implements Parcelable, DatabaseStorable {
         }
     };
 
+
     /**
      * The id for notes that are not stored in the database.
      */
     public static final int NOT_STORED = NoteAttributes.UNKNOWN;
+
 
     /**
      * The current data for the note.
@@ -59,8 +61,11 @@ public class Note extends Observable implements Parcelable, DatabaseStorable {
     /**
      * Constructor
      *
-     * @param startingData the initial starting data for the note.
-     * @throws CloneNotSupportedException when the starting data cannot be cloned.
+     * @param startingData
+     *         the initial starting data for the note.
+     *
+     * @throws CloneNotSupportedException
+     *         when the starting data cannot be cloned.
      */
     Note(@NonNull NoteAttributes startingData) throws CloneNotSupportedException {
         Preconditions.checkNotNull(startingData);
@@ -138,6 +143,7 @@ public class Note extends Observable implements Parcelable, DatabaseStorable {
 
     /**
      * Determine if the Note has been modified without the changes being persisted.
+     *
      * @return true if the Note has been modified without the changes being persisted.
      */
     public boolean isDirty() {
@@ -147,7 +153,9 @@ public class Note extends Observable implements Parcelable, DatabaseStorable {
 
     /**
      * Notify any {@link java.util.Observer}(s) of change to the data.
-     * @param changed true if the data was changed.
+     *
+     * @param changed
+     *         true if the data was changed.
      */
     private void notifyObserversOnChange(boolean changed) {
         if (changed) {
@@ -155,6 +163,7 @@ public class Note extends Observable implements Parcelable, DatabaseStorable {
             notifyObservers();
         }
     }
+
 
     @Override
     public int describeContents() {
@@ -167,6 +176,7 @@ public class Note extends Observable implements Parcelable, DatabaseStorable {
         dest.writeParcelable(mOriginalData, flags);
         dest.writeParcelable(mCurrentData, flags);
     }
+
 
     /**
      * Convert the object into a {@link android.content.ContentValues} object for storage in the
@@ -237,7 +247,9 @@ public class Note extends Observable implements Parcelable, DatabaseStorable {
 
     /**
      * Reset the {@link #mOriginalData} to the current and update the id to the specified id.
-     * @param newId the new Id for the note.
+     *
+     * @param newId
+     *         the new Id for the note.
      */
     private void onPersistenceUpdate(long newId) {
         try {
@@ -267,9 +279,12 @@ public class Note extends Observable implements Parcelable, DatabaseStorable {
          *
          * @param color
          *         the color for the note.
+         *
+         * @return the builder to allow method chaining.
          */
-        public void setColor(@NonNull NoteColor color) {
+        public Builder setColor(@NonNull NoteColor color) {
             mNoteAttributes.setColor(color);
+            return this;
         }
 
 
@@ -278,26 +293,36 @@ public class Note extends Observable implements Parcelable, DatabaseStorable {
          *
          * @param text
          *         the text for the note.  If null, then an empty string is set.
+         *
+         * @return the builder to allow method chaining.
          */
-        public void setText(String text) {
+        public Builder setText(String text) {
             mNoteAttributes.setText(text);
+            return this;
         }
+
 
         /**
          * Set the note id.
          *
          * @param id
          *         the id for the note.  This must be {@link #NOT_STORED} or a natural number.
+         *
+         * @return the builder to allow method chaining.
          */
-        public void setId(long id) {
+        public Builder setId(long id) {
             mNoteAttributes.setId(id);
+            return this;
         }
 
 
         /**
          * Create a new {@link Note} with the specified data.
+         *
          * @return a new {@link Note} with the specified data.
-         * @throws CloneNotSupportedException when the note data cannot be created.
+         *
+         * @throws CloneNotSupportedException
+         *         when the note data cannot be created.
          */
         public Note build() throws CloneNotSupportedException {
             return new Note(mNoteAttributes);

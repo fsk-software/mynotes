@@ -1,11 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.hugo'
-//apply plugin: "jacoco"
-//
-//jacoco {
-//    version "0.7.1.201405082137"
-//}
-//
+
 
 android {
     compileSdkVersion 22
@@ -17,13 +12,10 @@ android {
 
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         debug {
-//            testCoverageEnabled = true
         }
 
         release {
@@ -57,43 +49,6 @@ android {
         disable 'InvalidPackage'
     }
 }
-
-
-//task jacocoTestReport(type: JacocoReport) {
-//
-//    def coverageSourceDirs = [
-//            'src/main/java'
-//    ]
-//
-//    group = "Reporting"
-//    description = "Generates Jacoco coverage reports"
-//    reports {
-//        xml {
-//            enabled = true
-//            destination "${buildDir}/reports/jacoco/jacoco.xml"
-//        }
-//        csv.enabled false
-//        html {
-//            enabled true
-//            destination "${buildDir}/jacocoHtml"
-//        }
-//    }
-//
-//    classDirectories = fileTree(
-//            dir: 'build/intermediates/classes/debug',
-//            excludes: ['**/R.class',
-//                       '**/R$*.class',
-//                       '**/BuildConfig.*',
-//                       '**/Manifest*.*',
-//                       '**/*Activity*.*',
-//                       '**/*Fragment*.*'
-//            ]
-//    )
-//
-//    sourceDirectories = files(coverageSourceDirs)
-//    additionalSourceDirs = files(coverageSourceDirs)
-//    executionData = files('build/outputs/code-coverage/connected/coverage.ec')
-//}
 
 
 dependencies {

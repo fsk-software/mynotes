@@ -1,39 +1,36 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.hugo'
+apply plugin: "jacoco"
 
 
 android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
 
+    jacoco {
+        version "0.7.1.201405082137"
+    }
+
     defaultConfig {
-        applicationId "com.fsk.mynotes"
         minSdkVersion 16
         targetSdkVersion 22
 
-        versionCode 6
-        versionName "2.1"
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "com.fsk.common.JacocoTestRunner"
+        //testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         debug {
+            testCoverageEnabled = true
         }
 
         release {
-            minifyEnabled true
-
-            // Library specific proguard files
-            proguardFiles 'proguard-guava.pro'
-            proguardFiles 'proguard-butterknife.pro'
-
-            //Default proguard file
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-
-
-    dexOptions {
-        incremental true
     }
 
     compileOptions {
@@ -63,15 +60,60 @@ android {
 }
 
 
-dependencies {
-    compile project(':CommonLibrary')
+task jacocoTestReport(type: JacocoReport) {
 
+    def coverageSourceDirs = [
+            'src/main/java'
+    ]
+
+    group = "Reporting"
+    description = "Generates Jacoco coverage reports"
+    reports {
+        xml {
+            enabled = true
+            destination "${buildDir}/reports/jacoco/jacoco.xml"
+        }
+        csv.enabled false
+        html {
+            enabled true
+            destination "${buildDir}/jacocoHtml"
+        }
+    }
+
+    classDirectories = fileTree(
+            dir: 'build/intermediates/classes/debug',
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*',
+                       '**/*Activity*.*',
+                       '**/*Fragment*.*'
+            ]
+    )
+
+    sourceDirectories = files(coverageSourceDirs)
+    additionalSourceDirs = files(coverageSourceDirs)
+    executionData = files('build/outputs/code-coverage/connected/coverage.ec')
+
+    doFirst {
+        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
+            if (file.name.contains('$$')) {
+                file.renameTo(file.path.replace('$$', '$'))
+            }
+        }
+    }
+}
+
+
+
+dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.google.guava:guava:18.0'
-    compile 'com.jakewharton:butterknife:6.1.0'
+
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.android.support:recyclerview-v7:22.2.0'
-    compile 'com.android.support:cardview-v7:22.2.0'
+
+    compile group: 'com.google.guava', name: 'guava', version: '18.0'
+    compile 'com.jakewharton:butterknife:6.1.0'
 
     //Unit test dependencies
     testCompile 'junit:junit:4.12'

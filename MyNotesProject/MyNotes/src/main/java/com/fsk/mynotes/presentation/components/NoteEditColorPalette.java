@@ -1,11 +1,14 @@
 package com.fsk.mynotes.presentation.components;
 
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -13,8 +16,8 @@ import android.widget.RadioGroup;
 import com.fsk.mynotes.R;
 import com.fsk.mynotes.constants.NoteColor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -78,26 +81,28 @@ public class NoteEditColorPalette extends FrameLayout {
 
 
     /**
-     * UI element to allow the user to select a single color.
+     * The currently selected color.
      */
-    RadioGroup mRadioGroup;
+    private NoteColor mSelectedColor = null;
 
 
     /**
-     * The set of the radio buttons is {@link #mRadioGroup}
+     * The radio buttons mapped to the appropriate note colors.
      */
-    final Set<RadioButton> mRadioButtons = new HashSet<>();
+    final Map<NoteColor, RadioButton> mRadioButtons = new HashMap<>();
 
 
     /**
      * A listener to change the note color in response to a user selecting a new color.
      */
-    final RadioGroup.OnCheckedChangeListener mOnCheckedChangeListener =
-            new RadioGroup.OnCheckedChangeListener() {
-
+    final RadioButton.OnCheckedChangeListener mOnCheckedChangeListener =
+            new RadioButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(final RadioGroup group, final int checkedId) {
-                    onColorSelected(getNoteColorForRadioButtonId(checkedId));
+                public void onCheckedChanged(final CompoundButton buttonView,
+                                             final boolean isChecked) {
+                    if (isChecked) {
+                        onColorSelected(getNoteColorForButton(buttonView));
+                    }
                 }
             };
 
@@ -155,6 +160,7 @@ public class NoteEditColorPalette extends FrameLayout {
      * @param defStyleRes
      *         I have no idea right now.
      */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public NoteEditColorPalette(final Context context, final AttributeSet attrs,
                                 final int defStyleAttr, final int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -173,36 +179,6 @@ public class NoteEditColorPalette extends FrameLayout {
                                       .inflate(R.layout.component_note_edit_palette, this, true);
         ButterKnife.inject(this, rootView);
 
-        mRadioGroup =
-                (RadioGroup) rootView.findViewById(R.id.component_note_edit_color_palette_group);
-        mRadioGroup.setOnCheckedChangeListener(mOnCheckedChangeListener);
-
-        initializeRadioButtons(rootView);
-
-    }
-
-
-    /**
-     * Update the selected color.  This will notify the {@link OnColorSelectedListener} of the color
-     * change and animate the background color change.
-     *
-     * @param color
-     *         The new color.
-     */
-    private void onColorSelected(@NonNull NoteColor color) {
-        if (mOnColorSelectedListener != null) {
-            mOnColorSelectedListener.onColorSelected(color);
-        }
-    }
-
-
-    /**
-     * Initialize the radio buttons for the root view.
-     *
-     * @param rootView
-     *         the root view to use for finding the radio buttons.
-     */
-    private void initializeRadioButtons(@NonNull View rootView) {
         for (NoteColor noteColor : NoteColor.values()) {
             int resourceId = 0;
             switch (noteColor) {
@@ -231,8 +207,26 @@ public class NoteEditColorPalette extends FrameLayout {
                 throw new IllegalStateException("This should never be null");
             }
 
-            mRadioButtons.add(radioButton);
-            radioButton.setTag(noteColor);
+            mRadioButtons.put(noteColor, radioButton);
+            radioButton.setOnCheckedChangeListener(mOnCheckedChangeListener);
+        }
+    }
+
+
+    /**
+     * Update the selected color.  This will notify the {@link OnColorSelectedListener} of the color
+     * change and animate the background color change. It also sets {@link #mSelectedColor}.
+     *
+     * @param color
+     *         The new color.
+     */
+    private void onColorSelected(@NonNull NoteColor color) {
+        if (mSelectedColor != color) {
+            mSelectedColor = color;
+
+            if (mOnColorSelectedListener != null) {
+                mOnColorSelectedListener.onColorSelected(color);
+            }
         }
     }
 
@@ -260,48 +254,31 @@ public class NoteEditColorPalette extends FrameLayout {
 
 
     /**
-     * Update the selected color to the specified color.
+     * Update the selected color..
      *
      * @param color
      *         the color to use as the selection.
      */
     public void updateSelectedColor(@NonNull NoteColor color) {
-        mRadioGroup.check(getRadioButtonForColor(color).getId());
-    }
-
-
-    /**
-     * Get the {@link RadioButton} for the specified color.
-     *
-     * @param noteColor
-     *         The note color to use for finding the radio button.
-     *
-     * @return the radio button associated with the note color.
-     */
-    RadioButton getRadioButtonForColor(@NonNull NoteColor noteColor) {
-        for (RadioButton candidate : mRadioButtons) {
-            if (candidate.getTag().equals(noteColor)) {
-                return candidate;
-            }
-        }
-        return null;
+        mRadioButtons.get(color).setChecked(true);
     }
 
 
     /**
      * Get the {@link NoteColor} for the button Id.
      *
-     * @param buttonId
-     *         the resource id of the radio button.
+     * @param button
+     *         the button to query about.
      *
-     * @return the {@link NoteColor} associated withe radio button with the specifed id.
+     * @return the {@link NoteColor} associated with the radio button.
      */
-    NoteColor getNoteColorForRadioButtonId(int buttonId) {
-        for (RadioButton candidate : mRadioButtons) {
-            if (candidate.getId() == buttonId) {
-                return (NoteColor) candidate.getTag();
+    NoteColor getNoteColorForButton(CompoundButton button) {
+        for (NoteColor color : mRadioButtons.keySet()) {
+            if (button == mRadioButtons.get(color)) {
+                return color;
             }
         }
+
         return null;
     }
 }

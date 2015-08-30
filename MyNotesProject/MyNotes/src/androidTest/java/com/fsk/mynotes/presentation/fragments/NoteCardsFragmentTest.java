@@ -58,7 +58,7 @@ public class NoteCardsFragmentTest extends
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         transaction.add(R.id.test_mock_fragment_activity_container, checkNewInstanceCreation(), TAG);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
         getInstrumentation().waitForIdleSync();
 
         NoteCardsFragment returnValue = (NoteCardsFragment) mFragmentManager.findFragmentByTag(TAG);

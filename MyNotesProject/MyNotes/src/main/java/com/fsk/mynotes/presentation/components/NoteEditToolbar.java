@@ -1,7 +1,9 @@
 package com.fsk.mynotes.presentation.components;
 
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -63,7 +65,7 @@ public class NoteEditToolbar extends FrameLayout {
      * The listener to the user being done selecting note colors. This will change the mode to
      * {@link Mode#OPTIONS_BAR}
      */
-    private final NoteEditColorPalette.OnDoneClickListener mOnColorPaletteDoneClickListener =
+    final NoteEditColorPalette.OnDoneClickListener mOnColorPaletteDoneClickListener =
             new NoteEditColorPalette.OnDoneClickListener() {
 
 
@@ -78,7 +80,7 @@ public class NoteEditToolbar extends FrameLayout {
      * The listener to the user requesting to change the note color. This will change the mode to
      * {@link Mode#PALETTE_BAR}
      */
-    private final NoteEditOptionsBar.OnPaletteClickListener mOnColorPaletteClickListener =
+    final NoteEditOptionsBar.OnPaletteClickListener mOnColorPaletteClickListener =
             new NoteEditOptionsBar.OnPaletteClickListener() {
                 @Override
                 public void onPaletteClicked() {
@@ -140,6 +142,7 @@ public class NoteEditToolbar extends FrameLayout {
      * @param defStyleRes
      *         I have no idea right now.
      */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public NoteEditToolbar(final Context context, final AttributeSet attrs, final int defStyleAttr,
                            final int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);

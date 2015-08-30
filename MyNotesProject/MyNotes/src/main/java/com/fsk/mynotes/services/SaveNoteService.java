@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import com.fsk.common.database.DatabaseHelper;
 import com.fsk.mynotes.constants.NoteExtraKeys;
 import com.fsk.mynotes.data.Note;
+import com.google.common.base.Preconditions;
 
 /**
  * A service that saves a note to persistent storage.
@@ -22,6 +23,9 @@ public class SaveNoteService extends IntentService {
      * @param note The note to save.
      */
     public static void startService(@NonNull Context context, @NonNull Note note) {
+        Preconditions.checkNotNull(context);
+        Preconditions.checkNotNull(note);
+
         Intent intent = new Intent(context, SaveNoteService.class);
         intent.putExtra(NoteExtraKeys.NOTE_KEY, note);
         context.startService(intent);

@@ -1,7 +1,9 @@
 package com.fsk.mynotes.presentation.components;
 
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -195,6 +197,7 @@ public class NoteEditOptionsBar extends FrameLayout {
      * @param defStyleRes
      *         I have no idea right now.
      */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public NoteEditOptionsBar(final Context context, final AttributeSet attrs,
                               final int defStyleAttr, final int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);

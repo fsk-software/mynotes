@@ -13,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 public abstract class RecyclerViewAdapter<VH extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<VH> {
 
-
     /**
      * Asynchronously post {@link #notifyDataSetChanged()} if the handler exists.
      *

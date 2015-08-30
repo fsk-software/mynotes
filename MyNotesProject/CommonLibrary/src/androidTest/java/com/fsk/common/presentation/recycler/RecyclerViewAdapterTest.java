@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
+import android.test.UiThreadTest;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -41,7 +42,7 @@ public class RecyclerViewAdapterTest {
     }
 
 
-    @Test
+    @UiThreadTest
     public void testMethodsWithNonNullHandler() {
         Handler handler = new Handler();
         LocalRecyclerViewAdapter adapter = new LocalRecyclerViewAdapter();

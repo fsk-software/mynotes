@@ -30,6 +30,7 @@ import com.fsk.mynotes.presentation.components.NoteEditOptionsBar;
 import com.fsk.mynotes.presentation.components.NoteEditToolbar;
 import com.fsk.mynotes.services.DeleteNoteService;
 import com.fsk.mynotes.services.SaveNoteService;
+import com.google.common.base.Preconditions;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -54,7 +55,9 @@ public class EditNoteActivity extends AppCompatActivity implements Observer {
      *
      * @return An intent that will start this activity.
      */
-    public static Intent createIntentForExistingNote(@NonNull Context context, Note note) {
+    public static Intent createIntentForExistingNote(@NonNull Context context, @NonNull Note note) {
+        Preconditions.checkNotNull(context);
+        Preconditions.checkNotNull(note);
 
         Intent intent = new Intent(context, EditNoteActivity.class);
         intent.putExtra(NoteExtraKeys.NOTE_KEY, note);
@@ -71,9 +74,8 @@ public class EditNoteActivity extends AppCompatActivity implements Observer {
      * @return An intent that will start this activity.
      */
     public static Intent createIntentForNewNote(@NonNull Context context) {
-
-        Intent intent = new Intent(context, EditNoteActivity.class);
-        return intent;
+        Preconditions.checkNotNull(context);
+        return new Intent(context, EditNoteActivity.class);
     }
 
 
@@ -224,11 +226,11 @@ public class EditNoteActivity extends AppCompatActivity implements Observer {
      * @param bundle
      *         the bundle containing the note data.
      */
-    void initializeNote(@NonNull Bundle bundle) {
+    void initializeNote( Bundle bundle) {
         mNote = null;
 
-        //read the note data if the key exists.
-        if (bundle.containsKey(NoteExtraKeys.NOTE_KEY)) {
+        //read the note data if the bundle and key exists.
+        if ((bundle != null) && bundle.containsKey(NoteExtraKeys.NOTE_KEY)) {
             mNote = bundle.getParcelable(NoteExtraKeys.NOTE_KEY);
         }
 
