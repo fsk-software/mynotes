@@ -6,6 +6,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
+import com.fsk.common.versions.Versions;
 import com.fsk.mynotes.R;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.Note;
@@ -37,7 +38,10 @@ public class NoteEditOptionsBarTest {
         validateConstruction(new NoteEditOptionsBar(mContext));
         validateConstruction(new NoteEditOptionsBar(mContext, null));
         validateConstruction(new NoteEditOptionsBar(mContext, null, 0));
-        validateConstruction(new NoteEditOptionsBar(mContext, null, 0, 0));
+
+        if (Versions.isAtLeastLollipop()) {
+            validateConstruction(new NoteEditOptionsBar(mContext, null, 0, 0));
+        }
     }
 
 

@@ -155,20 +155,33 @@ public class EditNoteActivityTest extends ActivityInstrumentationTestCase2<EditN
     }
 
             public void testChangeColor() throws Exception {
-                EditNoteActivity unitUnderTest = getActivity();
-                for (NoteColor color : NoteColor.values()) {
-                    unitUnderTest.changeColor(color);
-                    assertThat(color, is(unitUnderTest.mNote.getColor()));
-                }
+                final EditNoteActivity unitUnderTest = getActivity();
+
+                unitUnderTest.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        for (NoteColor color : NoteColor.values()) {
+                            unitUnderTest.changeColor(color);
+                            assertThat(color, is(unitUnderTest.mNote.getColor()));
+                        }
+                    }
+                });
             }
 
 
             public void testColorSelectListener() throws Exception {
-                EditNoteActivity unitUnderTest = getActivity();
-                for (NoteColor color : NoteColor.values()) {
-                    unitUnderTest.mOnColorSelectedListener.onColorSelected(color);
-                    assertThat(color, is(unitUnderTest.mNote.getColor()));
-                }
+                final EditNoteActivity unitUnderTest = getActivity();
+                unitUnderTest.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        for (NoteColor color : NoteColor.values()) {
+                            unitUnderTest.mOnColorSelectedListener.onColorSelected(color);
+                            assertThat(color, is(unitUnderTest.mNote.getColor()));
+                        }
+                    }
+                });
             }
 
 
