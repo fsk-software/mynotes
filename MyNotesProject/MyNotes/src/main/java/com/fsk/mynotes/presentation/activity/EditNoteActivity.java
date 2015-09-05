@@ -142,7 +142,7 @@ public class EditNoteActivity extends AppCompatActivity implements Observer {
 
 
                 @Override
-                public void onDeleteClicked() {
+                public void onPurgeClicked() {
                     deleteNote();
                 }
             };

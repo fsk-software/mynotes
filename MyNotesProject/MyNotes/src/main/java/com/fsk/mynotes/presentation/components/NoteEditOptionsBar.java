@@ -40,7 +40,7 @@ public class NoteEditOptionsBar extends FrameLayout {
         /**
          * The callback method that will listener to notify when the user clicks the purge icon.
          */
-        void onDeleteClicked();
+        void onPurgeClicked();
     }
 
 
@@ -96,7 +96,7 @@ public class NoteEditOptionsBar extends FrameLayout {
     @OnClick(R.id.component_note_edit_options_bar_purge)
     public void purgeButtonClicked(View view) {
         if (mOnPersistenceClickListener != null) {
-            mOnPersistenceClickListener.onDeleteClicked();
+            mOnPersistenceClickListener.onPurgeClicked();
         }
     }
 

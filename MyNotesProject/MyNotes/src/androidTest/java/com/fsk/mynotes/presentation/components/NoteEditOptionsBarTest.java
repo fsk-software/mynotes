@@ -194,7 +194,7 @@ public class NoteEditOptionsBarTest {
 
 
         @Override
-        public void onDeleteClicked() {
+        public void onPurgeClicked() {
             mDeleteCallbackReceived = true;
         }
     }

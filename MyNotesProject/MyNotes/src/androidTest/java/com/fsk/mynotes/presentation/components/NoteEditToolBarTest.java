@@ -155,7 +155,7 @@ public class NoteEditToolBarTest {
 
 
                 @Override
-                public void onDeleteClicked() {
+                public void onPurgeClicked() {
 
                 }
             }

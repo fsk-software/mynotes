@@ -205,7 +205,7 @@ public class EditNoteActivityTest extends ActivityInstrumentationTestCase2<EditN
                 unitUnderTest.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        unitUnderTest.mOnPersistenceClickListener.onDeleteClicked();
+                        unitUnderTest.mOnPersistenceClickListener.onPurgeClicked();
                     }
                 });
 
