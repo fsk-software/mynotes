@@ -29,36 +29,27 @@ public class OutlineHelperCompatTest {
 
     @Test
     public void testSetupWithNullView() {
-        try {
-            new OutlineHelperCompat().setTarget(null).setOutlineShape(OutlineShape.OVAL)
-                               .setup();
-            assert false;
-        }
-        catch (NullPointerException e) {
-            assert true;
-        }
+        OutlineHelperCompat helper = new OutlineHelperCompat();
+        helper.setTarget(null).setOutlineShape(OutlineShape.OVAL).setRoundRectRadius(-1).setup();
+        helper.invalidateOutline();
+        helper.updateViewOutline(null);
     }
 
     @Test
     public void testSetupWithNullShape() {
-        try {
-            new OutlineHelperCompat().setTarget(new View(mContext)).setup();
-            assert false;
-        }
-        catch (NullPointerException e) {
-            assert true;
-        }
+        OutlineHelperCompat helper = new OutlineHelperCompat();
+        helper.setTarget(new View(mContext)).setOutlineShape(null).setRoundRectRadius(-1).setup();
+        helper.invalidateOutline();
+        helper.updateViewOutline(null);
     }
 
     @Test
     public void testSetupWithNegativeRoundedRectCorners() {
-        try {
-            new OutlineHelperCompat().setTarget(new View(mContext)).setOutlineShape(OutlineShape.OVAL).setRoundRectRadius(-1).setup();
-            assert false;
-        }
-        catch (IllegalArgumentException e) {
-            assert true;
-        }
+
+        OutlineHelperCompat helper = new OutlineHelperCompat();
+        helper.setTarget(new View(mContext)).setOutlineShape(OutlineShape.OVAL).setRoundRectRadius(-1).setup();
+        helper.invalidateOutline();
+        helper.updateViewOutline(null);
     }
 
 

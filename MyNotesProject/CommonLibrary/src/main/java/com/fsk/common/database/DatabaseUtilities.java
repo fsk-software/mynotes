@@ -4,8 +4,9 @@ package com.fsk.common.database;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
-import com.fsk.common.threads.ThreadUtils;
-import com.google.common.base.Preconditions;
+import com.fsk.common.utils.threads.ThreadUtils;
+import com.fsk.common.utils.Preconditions;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -56,7 +57,7 @@ public final class DatabaseUtilities {
      *         when either of the parameters in null.
      * @throws java.lang.IllegalArgumentException
      *         when the items is empty.
-     * @throws com.fsk.common.threads.ThreadException
+     * @throws com.fsk.common.utils.threads.ThreadException
      *         when called from the UI thread.
      */
     public static void bulkSave(@NonNull DatabaseStorable[] items, @NonNull SQLiteDatabase db) {
@@ -82,7 +83,7 @@ public final class DatabaseUtilities {
      *         when either of the parameters in null.
      * @throws java.lang.IllegalArgumentException
      *         when the items is empty.
-     * @throws com.fsk.common.threads.ThreadException
+     * @throws com.fsk.common.utils.threads.ThreadException
      *         when called from the UI thread.
      */
     public static void bulkDelete(@NonNull DatabaseStorable[] items, @NonNull SQLiteDatabase db) {
@@ -108,7 +109,7 @@ public final class DatabaseUtilities {
      *         when either of the parameters in null.
      * @throws java.lang.IllegalArgumentException
      *         when the items is empty.
-     * @throws com.fsk.common.threads.ThreadException
+     * @throws com.fsk.common.utils.threads.ThreadException
      *         when called from the UI thread.
      */
     public static <T extends DatabaseStorable> void bulkSave(@NonNull List<T> items,
@@ -144,7 +145,7 @@ public final class DatabaseUtilities {
      *         when either of the parameters in null.
      * @throws java.lang.IllegalArgumentException
      *         when the items is empty.
-     * @throws com.fsk.common.threads.ThreadException
+     * @throws com.fsk.common.utils.threads.ThreadException
      *         when called from the UI thread.
      */
     public static <T extends DatabaseStorable> void bulkDelete(@NonNull List<T> items,
@@ -178,7 +179,7 @@ public final class DatabaseUtilities {
      *
      * @throws java.lang.NullPointerException
      *         when either of the parameters in null.
-     * @throws com.fsk.common.threads.ThreadException
+     * @throws com.fsk.common.utils.threads.ThreadException
      *         when called from the UI thread.
      */
     public static void save(@NonNull DatabaseStorable item, @NonNull SQLiteDatabase db) {
@@ -208,7 +209,7 @@ public final class DatabaseUtilities {
      *
      * @throws java.lang.NullPointerException
      *         when either of the parameters in null.
-     * @throws com.fsk.common.threads.ThreadException
+     * @throws com.fsk.common.utils.threads.ThreadException
      *         when called from the UI thread.
      */
     public static void delete(@NonNull DatabaseStorable item, @NonNull SQLiteDatabase db) {

@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.fsk.common.threads.ThreadUtils;
+import com.fsk.common.utils.threads.ThreadUtils;
 import com.fsk.mynotes.MyNotesApplication;
 import com.fsk.mynotes.constants.NoteColor;
 

@@ -6,7 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 
-import com.google.common.base.Preconditions;
+import com.fsk.common.utils.Preconditions;
+
 
 /**
  * A Helper class to manage the database access and setup.

@@ -1,4 +1,4 @@
-package com.fsk.common.threads;
+package com.fsk.common.utils.threads;
 
 
 import android.os.Looper;
@@ -15,7 +15,7 @@ public class ThreadUtils {
      * @param thread
      *         The expected thread
      *
-     * @throws com.fsk.common.threads.ThreadException
+     * @throws com.fsk.common.utils.threads.ThreadException
      *         when the execution thread is not the expected thread.
      */
     public void checkOnThread(@NonNull Thread thread) {
@@ -33,7 +33,7 @@ public class ThreadUtils {
      * @param thread
      *         The thread that should be currently executing the method.
      *
-     * @throws com.fsk.common.threads.ThreadException
+     * @throws com.fsk.common.utils.threads.ThreadException
      *         when the execution thread is the specified thread.
      */
     public void checkOffThread(@NonNull Thread thread) {
@@ -47,7 +47,7 @@ public class ThreadUtils {
     /**
      * Check that the current execution thread is not the UI thread.
      *
-     * @throws com.fsk.common.threads.ThreadException
+     * @throws com.fsk.common.utils.threads.ThreadException
      *         when the execution thread is the UI thread.
      */
     public void checkOffUIThread() {
@@ -58,7 +58,7 @@ public class ThreadUtils {
     /**
      * Check that the current execution thread is the UI thread.
      *
-     * @throws com.fsk.common.threads.ThreadException
+     * @throws com.fsk.common.utils.threads.ThreadException
      *         when the execution thread is not the UI thread.
      */
     public void checkOnUIThread() {

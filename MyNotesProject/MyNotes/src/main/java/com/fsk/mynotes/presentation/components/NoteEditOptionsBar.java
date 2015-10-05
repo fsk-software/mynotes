@@ -14,9 +14,10 @@ import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.ViewSwitcher;
 
+import com.fsk.common.utils.Strings;
 import com.fsk.mynotes.R;
 import com.fsk.mynotes.data.Note;
-import com.google.common.base.Strings;
+
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

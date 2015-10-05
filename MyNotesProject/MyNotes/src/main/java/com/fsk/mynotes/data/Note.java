@@ -9,11 +9,11 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.fsk.common.database.DatabaseStorable;
-import com.fsk.common.threads.ThreadUtils;
+import com.fsk.common.utils.threads.ThreadUtils;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel.Columns;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel.Tables;
-import com.google.common.base.Preconditions;
+
 
 import java.util.Observable;
 
@@ -68,8 +68,6 @@ public class Note extends Observable implements Parcelable, DatabaseStorable {
      *         when the starting data cannot be cloned.
      */
     Note(@NonNull NoteAttributes startingData) throws CloneNotSupportedException {
-        Preconditions.checkNotNull(startingData);
-
         mOriginalData = startingData;
         mCurrentData = startingData.clone();
     }
@@ -209,7 +207,7 @@ public class Note extends Observable implements Parcelable, DatabaseStorable {
     /**
      * Save the note to the database.
      *
-     * @throws com.fsk.common.threads.ThreadException
+     * @throws com.fsk.common.utils.threads.ThreadException
      *         when call from the UI thread.
      */
     @Override
@@ -227,7 +225,7 @@ public class Note extends Observable implements Parcelable, DatabaseStorable {
     /**
      * Delete the note from the database.
      *
-     * @throws com.fsk.common.threads.ThreadException
+     * @throws com.fsk.common.utils.threads.ThreadException
      *         when call from the UI thread.
      */
     @Override

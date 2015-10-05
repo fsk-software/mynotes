@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.fsk.mynotes.constants.NoteColor;
-import com.google.common.base.Preconditions;
+
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,8 +37,6 @@ public class NoteFilterPreferences {
      *         context is not stored.
      */
     public NoteFilterPreferences(@NonNull Context context) {
-        Preconditions.checkNotNull(context);
-
         mSharedPreferences = context.getSharedPreferences(CACHE_NAME, Context.MODE_PRIVATE);
     }
 
@@ -62,7 +60,6 @@ public class NoteFilterPreferences {
      *         true to enable the filter.
      */
     public void enableColor(@NonNull NoteColor color, boolean enable) {
-        Preconditions.checkNotNull(color);
         mSharedPreferences.edit().putBoolean(color.name(), enable).apply();
     }
 
@@ -77,7 +74,6 @@ public class NoteFilterPreferences {
      * @return true if the color is enabled.
      */
     public boolean isColorEnabled(@NonNull NoteColor color) {
-        Preconditions.checkNotNull(color);
         return mSharedPreferences.getBoolean(color.name(), true);
     }
 

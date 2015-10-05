@@ -3,8 +3,8 @@ package com.fsk.common.database;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.fsk.common.threads.ThreadUtils;
-import com.fsk.common.threads.ThreadException;
+import com.fsk.common.utils.threads.ThreadUtils;
+import com.fsk.common.utils.threads.ThreadException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +24,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
  * Unit Tests for the {@link com.fsk.common.database.DatabaseUtilitiesBaseTest}
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ThreadUtils.class, DatabaseHelper.class})
+@PrepareForTest({ThreadUtils.class, DatabaseUtilities.class, DatabaseHelper.class})
 public abstract class DatabaseUtilitiesBaseTest {
 
     /**
@@ -35,10 +35,17 @@ public abstract class DatabaseUtilitiesBaseTest {
     @Mock
     SQLiteDatabase mMockDatabase;
 
+    @Mock
+    ThreadUtils mMockThreadUtils;
+
     @Before
-    public void prepareMocks() {
+    public void prepareMocks() throws Exception {
+
         PowerMockito.mockStatic(ThreadUtils.class);
         PowerMockito.mockStatic(DatabaseHelper.class);
+        PowerMockito.whenNew(ThreadUtils.class).withNoArguments().thenReturn(mMockThreadUtils);
+
+        doNothing().when(mMockThreadUtils).checkOffUIThread();
         when(DatabaseHelper.getDatabase()).thenReturn(mMockDatabase);
         when(DatabaseHelper.needsInitializing()).thenReturn(false);
     }
@@ -77,12 +84,10 @@ public abstract class DatabaseUtilitiesBaseTest {
 
     protected void configureThreadCheckMock(final boolean failCheck) {
         if (failCheck) {
-            doThrow(new ThreadException()).when(ThreadUtils.class);
-            new ThreadUtils().checkOffUIThread();
+            doThrow(new ThreadException()).when(mMockThreadUtils).checkOffUIThread();
         }
         else {
-            doNothing().when(ThreadUtils.class);
-            new ThreadUtils().checkOffUIThread();
+            doNothing().when(mMockThreadUtils).checkOffUIThread();
         }
     }
 

@@ -5,9 +5,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import com.fsk.common.utils.Preconditions;
+import com.fsk.common.utils.Strings;
 import com.fsk.mynotes.constants.NoteColor;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
+
+
 
 
 /**

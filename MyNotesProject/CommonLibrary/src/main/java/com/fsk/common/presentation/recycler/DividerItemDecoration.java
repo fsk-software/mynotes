@@ -6,7 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.google.common.base.Preconditions;
+import com.fsk.common.utils.Preconditions;
+
 
 /**
  * An item decoration to mimic a divider between the items.

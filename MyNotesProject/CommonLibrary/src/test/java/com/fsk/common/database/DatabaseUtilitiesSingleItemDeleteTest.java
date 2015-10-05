@@ -1,7 +1,7 @@
 package com.fsk.common.database;
 
 
-import com.fsk.common.threads.ThreadException;
+import com.fsk.common.utils.threads.ThreadException;
 
 import org.junit.Test;
 

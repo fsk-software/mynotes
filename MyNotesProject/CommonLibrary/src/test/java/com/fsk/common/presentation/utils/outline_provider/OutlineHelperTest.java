@@ -70,8 +70,7 @@ public class OutlineHelperTest {
     @Test
     public void testSetupWithNullShape() {
         try {
-            new OutlineHelper().setTarget(mMockedView).setup();
-            assert false;
+            new OutlineHelper().setTarget(mMockedView).setOutlineShape(null).setup();
         }
         catch (NullPointerException e) {
         }

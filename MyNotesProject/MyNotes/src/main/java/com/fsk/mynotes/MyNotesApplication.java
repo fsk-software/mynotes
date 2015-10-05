@@ -4,12 +4,14 @@ package com.fsk.mynotes;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.fsk.common.database.DatabaseHelper;
+import com.fsk.common.utils.Preconditions;
+import com.fsk.common.utils.Strings;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel;
-import com.google.common.base.Preconditions;
 
 /**
  * Custom Application class that setups the Application wide local resources (ie. Database).
@@ -27,7 +29,27 @@ public class MyNotesApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sApplicationContext = getApplicationContext();
+        startStrictModeForDebugging();
         prepareDatabase(this);
+    }
+
+
+    /**
+     * Start strict mode only when the app is built in debug mode.
+     */
+    private void startStrictModeForDebugging() {
+            String packageName = Strings.nullToEmpty(sApplicationContext.getPackageName());
+            if (packageName.endsWith(".debug")) {
+                StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                        .detectAll()
+                        .penaltyLog()
+                        .penaltyDialog()
+                        .build());
+
+                StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll()
+                        .penaltyLog()
+                        .build());
+            }
     }
 
 

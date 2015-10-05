@@ -8,7 +8,8 @@ import android.util.AttributeSet;
 import android.widget.Checkable;
 
 import com.fsk.common.R;
-import com.google.common.base.Preconditions;
+import com.fsk.common.utils.Preconditions;
+
 
 /*
  * A helper to simplify the common behaviors for a View tied to a checkable state.

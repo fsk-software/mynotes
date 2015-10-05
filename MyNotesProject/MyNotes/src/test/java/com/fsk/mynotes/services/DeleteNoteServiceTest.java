@@ -72,12 +72,6 @@ public class DeleteNoteServiceTest {
         catch (NullPointerException e) {}
 
         try {
-            DeleteNoteService.startService(mMockContext, null);
-            assert false;
-        }
-        catch (NullPointerException e) {}
-
-        try {
             DeleteNoteService.startService(null, null);
             assert false;
         }

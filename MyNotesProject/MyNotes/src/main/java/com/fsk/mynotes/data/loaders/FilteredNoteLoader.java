@@ -11,7 +11,6 @@ import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.Note;
 import com.fsk.mynotes.data.NotesManager;
 import com.fsk.mynotes.data.cache.NoteFilterPreferences;
-import com.google.common.base.MoreObjects;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,8 +147,10 @@ public class FilteredNoteLoader extends AsyncTaskLoader<List<Note>> implements O
         if (!mObserverRegistered) {
             mNoteFilterPreferences.registerListener(mNoteFilterPreferenceListener);
 
-            for (Note note : MoreObjects.firstNonNull(mNotes, new ArrayList<Note>())) {
-                note.addObserver(this);
+            if (mNotes != null) {
+                for (Note note : mNotes) {
+                    note.addObserver(this);
+                }
             }
 
             mObserverRegistered = true;
@@ -163,10 +164,11 @@ public class FilteredNoteLoader extends AsyncTaskLoader<List<Note>> implements O
     private void unregisterReceivers() {
         mObserverRegistered = false;
 
-        for (Note note : MoreObjects.firstNonNull(mNotes, new ArrayList<Note>())) {
-            note.deleteObserver(this);
+        if (mNotes != null) {
+            for (Note note : mNotes) {
+                note.deleteObserver(this);
+            }
         }
-
         mNoteFilterPreferences.unregisterListener(mNoteFilterPreferenceListener);
     }
 

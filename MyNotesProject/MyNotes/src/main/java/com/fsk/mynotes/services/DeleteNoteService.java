@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.fsk.common.database.DatabaseHelper;
+import com.fsk.common.utils.Preconditions;
 import com.fsk.mynotes.constants.NoteExtraKeys;
 import com.fsk.mynotes.data.Note;
 
@@ -24,6 +25,9 @@ public class DeleteNoteService extends IntentService {
      *         The note to delete.
      */
     public static void startService(@NonNull Context context, @NonNull Note note) {
+        Preconditions.checkNotNull(context);
+        Preconditions.checkNotNull(note);
+
         Intent intent = new Intent(context, DeleteNoteService.class);
         intent.putExtra(NoteExtraKeys.NOTE_KEY, note);
         context.startService(intent);

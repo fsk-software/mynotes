@@ -6,11 +6,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
 import com.fsk.common.database.DatabaseUtilities;
-import com.fsk.common.threads.ThreadUtils;
+import com.fsk.common.utils.threads.ThreadUtils;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel.Columns;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel.Tables;
-import com.google.common.base.Preconditions;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,6 @@ public class NotesManager {
      *         will not return data.
      */
     public NotesManager(@NonNull SQLiteDatabase database) {
-        Preconditions.checkNotNull(database);
         mDatabase = database;
     }
 
@@ -47,7 +46,7 @@ public class NotesManager {
      *
      * @return a non-null List of {@link com.fsk.mynotes.data.Note}(s).
      *
-     * @throws com.fsk.common.threads.ThreadException
+     * @throws com.fsk.common.utils.threads.ThreadException
      *         when call from the UI thread.
      */
     public List<Note> getAllNotes() throws Exception{
@@ -62,6 +61,7 @@ public class NotesManager {
         else {
             returnValue = new ArrayList<>();
         }
+        cursor.close();
 
         return returnValue;
     }
@@ -73,12 +73,11 @@ public class NotesManager {
      * @return a non-null List of {@link com.fsk.mynotes.data.Note}(s) that contain the specified
      * colors.
      *
-     * @throws com.fsk.common.threads.ThreadException
+     * @throws com.fsk.common.utils.threads.ThreadException
      *         when call from the UI thread.
      */
     public List<Note> getNotesWithColors(@NonNull List<NoteColor> colors) throws Exception {
         new ThreadUtils().checkOffUIThread();
-        Preconditions.checkNotNull(colors);
 
         List<Note> returnValue = new ArrayList<>();
         if (!colors.isEmpty()) {
@@ -99,6 +98,7 @@ public class NotesManager {
                 returnValue = getNotesFromCursor(cursor);
 
             }
+            cursor.close();
         }
 
         return returnValue;
@@ -110,7 +110,7 @@ public class NotesManager {
      *
      * @return the {@link com.fsk.mynotes.data.Note} with the specified id or null.
      *
-     * @throws com.fsk.common.threads.ThreadException
+     * @throws com.fsk.common.utils.threads.ThreadException
      *         when call from the UI thread.
      */
     public Note getNote(long noteId) throws Exception{
@@ -125,6 +125,7 @@ public class NotesManager {
             returnValue = createNoteFromCursor(cursor);
         }
 
+        cursor.close();
         return returnValue;
     }
 
@@ -143,6 +144,8 @@ public class NotesManager {
             returnValue.add(createNoteFromCursor(cursor));
             cursor.moveToNext();
         }
+        cursor.close();
+
         return returnValue;
     }
 

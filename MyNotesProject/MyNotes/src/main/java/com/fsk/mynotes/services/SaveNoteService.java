@@ -7,9 +7,10 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.fsk.common.database.DatabaseHelper;
+import com.fsk.common.utils.Preconditions;
 import com.fsk.mynotes.constants.NoteExtraKeys;
 import com.fsk.mynotes.data.Note;
-import com.google.common.base.Preconditions;
+
 
 /**
  * A service that saves a note to persistent storage.

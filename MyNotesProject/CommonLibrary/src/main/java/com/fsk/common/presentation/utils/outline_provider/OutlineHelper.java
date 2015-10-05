@@ -7,7 +7,8 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewOutlineProvider;
 
-import com.google.common.base.Preconditions;
+import com.fsk.common.utils.Preconditions;
+
 
 /**
  * A builder to setup the outline for a target view.
@@ -65,7 +66,7 @@ public class OutlineHelper {
      * Set the rounded rectangle corner radius.
      *
      * @param radius
-     *         The corner radius in device dependent pixels.  It must be a natural number.
+     *         The corner radius in device dependent pixels.
      *
      * @return This instance to support call chaining.
      */
@@ -80,7 +81,6 @@ public class OutlineHelper {
      */
     @TargetApi(21)
     public void invalidateOutline() {
-        Preconditions.checkNotNull(mTarget);
         mTarget.invalidateOutline();
     }
 

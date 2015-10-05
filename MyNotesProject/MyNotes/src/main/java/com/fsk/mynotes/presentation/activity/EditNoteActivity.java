@@ -21,6 +21,7 @@ import com.fsk.common.presentation.SimpleTextWatcher;
 import com.fsk.common.presentation.utils.animations.BackgroundAnimatorHelper;
 import com.fsk.common.presentation.utils.animations.SimpleAnimatorListener;
 import com.fsk.common.versions.Versions;
+import com.fsk.common.utils.Preconditions;
 import com.fsk.mynotes.R;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.constants.NoteExtraKeys;
@@ -30,7 +31,7 @@ import com.fsk.mynotes.presentation.components.NoteEditOptionsBar;
 import com.fsk.mynotes.presentation.components.NoteEditToolbar;
 import com.fsk.mynotes.services.DeleteNoteService;
 import com.fsk.mynotes.services.SaveNoteService;
-import com.google.common.base.Preconditions;
+
 
 import java.util.Observable;
 import java.util.Observer;
@@ -56,7 +57,6 @@ public class EditNoteActivity extends AppCompatActivity implements Observer {
      * @return An intent that will start this activity.
      */
     public static Intent createIntentForExistingNote(@NonNull Context context, @NonNull Note note) {
-        Preconditions.checkNotNull(context);
         Preconditions.checkNotNull(note);
 
         Intent intent = new Intent(context, EditNoteActivity.class);

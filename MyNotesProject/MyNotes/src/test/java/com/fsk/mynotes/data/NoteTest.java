@@ -8,7 +8,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.fsk.common.database.DatabaseHelper;
-import com.fsk.common.threads.ThreadUtils;
+import com.fsk.common.utils.threads.ThreadUtils;
 import com.fsk.mynotes.MyNotesApplication;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.database.MyNotesDatabaseModel;

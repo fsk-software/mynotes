@@ -140,7 +140,7 @@ public class FilterColorAdapterTest extends AndroidTestCase {
 
     @Test
     public void testOnLongPressListener() {
-        Looper.prepare();
+        //Looper.prepare();
         FilterColorAdapter adapter = new FilterColorAdapter(getContext());
         ToggleButton button = new ToggleButton(getContext());
 

@@ -13,9 +13,10 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.fsk.common.presentation.recycler.RecyclerViewAdapter;
+import com.fsk.common.utils.Preconditions;
 import com.fsk.mynotes.R;
 import com.fsk.mynotes.constants.NoteColor;
-import com.google.common.base.Preconditions;
+
 
 import java.util.HashSet;
 import java.util.Set;
