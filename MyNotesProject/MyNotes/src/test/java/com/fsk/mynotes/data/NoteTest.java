@@ -8,10 +8,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.fsk.common.database.DatabaseHelper;
-import com.fsk.common.utils.threads.ThreadUtils;
+import com.fsk.common.utils.threads.ThreadValidator;
 import com.fsk.mynotes.MyNotesApplication;
 import com.fsk.mynotes.constants.NoteColor;
-import com.fsk.mynotes.data.database.MyNotesDatabaseModel;
+import com.fsk.mynotes.data.database.NotesDatabaseSchema;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,8 +40,8 @@ import static org.mockito.Mockito.when;
  * Test the {@link NoteAttributes class}.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ DatabaseHelper.class, SQLiteDatabase.class, ContentValues.class,
-        ThreadUtils.class, MyNotesApplication.class, Note.class, NoteAttributes.class })
+@PrepareForTest({DatabaseHelper.class, SQLiteDatabase.class, ContentValues.class,
+                 ThreadValidator.class, MyNotesApplication.class, Note.class, NoteAttributes.class })
 public class NoteTest {
 
     @Mock
@@ -53,7 +53,7 @@ public class NoteTest {
 
 
     @Mock
-    private ThreadUtils mMockThreadUtils;
+    private ThreadValidator mMockThreadValidator;
 
 
     @Mock
@@ -68,14 +68,14 @@ public class NoteTest {
     public void prepareForTest() throws Exception {
         doNothing().when(mMockObserver).update((Observable) anyObject(), anyObject());
 
-        PowerMockito.whenNew(ThreadUtils.class).withNoArguments().thenReturn(mMockThreadUtils);
-        doNothing().when(mMockThreadUtils).checkOffUIThread();
+        PowerMockito.whenNew(ThreadValidator.class).withNoArguments().thenReturn(mMockThreadValidator);
+        doNothing().when(mMockThreadValidator).validateNotRunningOnMainThread();
 
         PowerMockito.mockStatic(DatabaseHelper.class);
         when(DatabaseHelper.getDatabase()).thenReturn(mMockDatabase);
 
         when(mMockDatabase
-                     .insertWithOnConflict(eq(MyNotesDatabaseModel.Tables.NOTES), eq((String) null),
+                     .insertWithOnConflict(eq(NotesDatabaseSchema.Tables.NOTES), eq((String) null),
                                            (ContentValues) anyObject(),
                                            eq(SQLiteDatabase.CONFLICT_REPLACE))).thenReturn(1L);
 
@@ -206,8 +206,8 @@ public class NoteTest {
      */
     @Test
     public void testSavingDefaultNote() throws Exception {
-        doNothing().when(mMockContentValues).put(MyNotesDatabaseModel.Columns.NOTE_TEXT, "");
-        doNothing().when(mMockContentValues).put(MyNotesDatabaseModel.Columns.NOTE_COLOR, 0);
+        doNothing().when(mMockContentValues).put(NotesDatabaseSchema.Columns.NOTE_TEXT, "");
+        doNothing().when(mMockContentValues).put(NotesDatabaseSchema.Columns.NOTE_COLOR, 0);
 
         Note note = new Note(new NoteAttributes());
         assertThat((long) Note.NOT_STORED, is(note.getId()));
@@ -215,11 +215,11 @@ public class NoteTest {
 
 
         assertThat(note.getId(), is(1L));
-        verify(mMockContentValues).put(MyNotesDatabaseModel.Columns.NOTE_TEXT, "");
-        verify(mMockContentValues).put(MyNotesDatabaseModel.Columns.NOTE_COLOR, 0);
+        verify(mMockContentValues).put(NotesDatabaseSchema.Columns.NOTE_TEXT, "");
+        verify(mMockContentValues).put(NotesDatabaseSchema.Columns.NOTE_COLOR, 0);
 
         verify(mMockDatabase)
-                .insertWithOnConflict(eq(MyNotesDatabaseModel.Tables.NOTES), eq((String) null),
+                .insertWithOnConflict(eq(NotesDatabaseSchema.Tables.NOTES), eq((String) null),
                                       (ContentValues) anyObject(),
                                       eq(SQLiteDatabase.CONFLICT_REPLACE));
 
@@ -236,7 +236,7 @@ public class NoteTest {
 
         assertThat(note.getId(), is(1L));
         verify(mMockDatabase)
-                .insertWithOnConflict(eq(MyNotesDatabaseModel.Tables.NOTES), eq((String) null),
+                .insertWithOnConflict(eq(NotesDatabaseSchema.Tables.NOTES), eq((String) null),
                                       (ContentValues) anyObject(),
                                       eq(SQLiteDatabase.CONFLICT_REPLACE));
 
@@ -255,8 +255,8 @@ public class NoteTest {
 
         note.delete(mMockDatabase);
 
-        verify(mMockDatabase, never()).delete(eq(MyNotesDatabaseModel.Tables.NOTES),
-                                              eq(MyNotesDatabaseModel.Columns.NOTE_ID + " = ?"),
+        verify(mMockDatabase, never()).delete(eq(NotesDatabaseSchema.Tables.NOTES),
+                                              eq(NotesDatabaseSchema.Columns.NOTE_ID + " = ?"),
                                               AdditionalMatchers.aryEq(new String[] { "-1" }));
 
         assertThat((long) Note.NOT_STORED, is(note.getId()));
@@ -271,14 +271,14 @@ public class NoteTest {
         noteAttributes.setId(1);
         Note note = new Note(noteAttributes);
 
-        when(mMockDatabase.delete(eq(MyNotesDatabaseModel.Tables.NOTES),
-                                  eq(MyNotesDatabaseModel.Columns.NOTE_ID + " = ?"),
+        when(mMockDatabase.delete(eq(NotesDatabaseSchema.Tables.NOTES),
+                                  eq(NotesDatabaseSchema.Columns.NOTE_ID + " = ?"),
                                   (String[]) anyObject())).thenReturn(0);
 
         note.delete(mMockDatabase);
 
-        verify(mMockDatabase).delete(eq(MyNotesDatabaseModel.Tables.NOTES),
-                                     eq(MyNotesDatabaseModel.Columns.NOTE_ID + " = ?"),
+        verify(mMockDatabase).delete(eq(NotesDatabaseSchema.Tables.NOTES),
+                                     eq(NotesDatabaseSchema.Columns.NOTE_ID + " = ?"),
                                      (String[]) anyObject());
 
         assertThat(note.getId(), is(1L));
@@ -294,14 +294,14 @@ public class NoteTest {
         Note note = new Note(noteAttributes);
         note.addObserver(mMockObserver);
 
-        when(mMockDatabase.delete(eq(MyNotesDatabaseModel.Tables.NOTES),
-                                  eq(MyNotesDatabaseModel.Columns.NOTE_ID + " = ?"),
+        when(mMockDatabase.delete(eq(NotesDatabaseSchema.Tables.NOTES),
+                                  eq(NotesDatabaseSchema.Columns.NOTE_ID + " = ?"),
                                   (String[]) anyObject())).thenReturn(1);
 
         note.delete(mMockDatabase);
 
-        verify(mMockDatabase).delete(eq(MyNotesDatabaseModel.Tables.NOTES),
-                                     eq(MyNotesDatabaseModel.Columns.NOTE_ID + " = ?"),
+        verify(mMockDatabase).delete(eq(NotesDatabaseSchema.Tables.NOTES),
+                                     eq(NotesDatabaseSchema.Columns.NOTE_ID + " = ?"),
                                      (String[]) anyObject());
 
         assertThat(note.getId(), is((long) Note.NOT_STORED));
@@ -320,11 +320,11 @@ public class NoteTest {
         note.createContentValues();
 
         verify(mMockContentValues)
-                .put(MyNotesDatabaseModel.Columns.NOTE_ID, noteAttributes.getId());
+                .put(NotesDatabaseSchema.Columns.NOTE_ID, noteAttributes.getId());
         verify(mMockContentValues)
-                .put(MyNotesDatabaseModel.Columns.NOTE_COLOR, noteAttributes.getColor().ordinal());
+                .put(NotesDatabaseSchema.Columns.NOTE_COLOR, noteAttributes.getColor().ordinal());
         verify(mMockContentValues)
-                .put(MyNotesDatabaseModel.Columns.NOTE_TEXT, noteAttributes.getText());
+                .put(NotesDatabaseSchema.Columns.NOTE_TEXT, noteAttributes.getText());
     }
 
 
@@ -338,11 +338,11 @@ public class NoteTest {
         note.createContentValues();
 
         verify(mMockContentValues, never())
-                .put(MyNotesDatabaseModel.Columns.NOTE_ID, noteAttributes.getId());
+                .put(NotesDatabaseSchema.Columns.NOTE_ID, noteAttributes.getId());
         verify(mMockContentValues)
-                .put(MyNotesDatabaseModel.Columns.NOTE_COLOR, noteAttributes.getColor().ordinal());
+                .put(NotesDatabaseSchema.Columns.NOTE_COLOR, noteAttributes.getColor().ordinal());
         verify(mMockContentValues)
-                .put(MyNotesDatabaseModel.Columns.NOTE_TEXT, noteAttributes.getText());
+                .put(NotesDatabaseSchema.Columns.NOTE_TEXT, noteAttributes.getText());
     }
 
 }

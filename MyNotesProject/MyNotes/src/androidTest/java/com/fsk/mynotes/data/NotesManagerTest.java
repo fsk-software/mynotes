@@ -9,7 +9,7 @@ import android.test.RenamingDelegatingContext;
 import com.fsk.common.database.DatabaseHelper;
 import com.fsk.mynotes.Validators;
 import com.fsk.mynotes.constants.NoteColor;
-import com.fsk.mynotes.data.database.MyNotesDatabaseModel;
+import com.fsk.mynotes.data.database.NotesDatabaseSchema;
 
 import org.junit.After;
 import org.junit.Before;
@@ -49,7 +49,7 @@ public class NotesManagerTest {
     public void prepareForTest() {
         mContext = new RenamingDelegatingContext(
                 InstrumentationRegistry.getInstrumentation().getTargetContext(), "test_");
-        DatabaseHelper.initialize(mContext, new MyNotesDatabaseModel());
+        DatabaseHelper.initialize(mContext, new NotesDatabaseSchema());
         clearNotesTable();
     }
 
@@ -259,6 +259,6 @@ public class NotesManagerTest {
      * Clear all rows in the Notes database table.
      */
     private void clearNotesTable() {
-        DatabaseHelper.getDatabase().delete(MyNotesDatabaseModel.Tables.NOTES, null, null);
+        DatabaseHelper.getDatabase().delete(NotesDatabaseSchema.Tables.NOTES, null, null);
     }
 }

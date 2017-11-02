@@ -16,7 +16,7 @@ public class FilteredNoteLoaderTest extends LoaderTestCase {
 //    @Override
 //    public void setUp() throws Exception {
 //        super.setUp();
-//        DatabaseHelper.initialize(getContext(), new MyNotesDatabaseModel());
+//        DatabaseHelper.initialize(getContext(), new NotesDatabaseSchema());
 //
 //        mNoteFilterCache = new NoteFilterCache(getContext());
 //        clearPersistentData();
@@ -34,7 +34,7 @@ public class FilteredNoteLoaderTest extends LoaderTestCase {
 //     * Clear the database and Preference cache.
 //     */
 //    private void clearPersistentData() {
-//        DatabaseHelper.getDatabase().delete(MyNotesDatabaseModel.Tables.NOTES, null, null);
+//        DatabaseHelper.getDatabase().delete(NotesDatabaseSchema.Tables.NOTES, null, null);
 //        new NoteFilterCache(getContext()).clear();
 //    }
 //

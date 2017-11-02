@@ -41,10 +41,10 @@ public class DividerItemDecorationTest {
         expected.bottom = 3;
 
         DividerItemDecoration decoration = new DividerItemDecoration(expected);
-        assertThat(expected.left, sameInstance(decoration.mDividerRect.left));
-        assertThat(expected.top, is(decoration.mDividerRect.top));
-        assertThat(expected.right, is(decoration.mDividerRect.right));
-        assertThat(expected.bottom, is(decoration.mDividerRect.bottom));
+        assertThat(expected.left, sameInstance(decoration.dividerRect.left));
+        assertThat(expected.top, is(decoration.dividerRect.top));
+        assertThat(expected.right, is(decoration.dividerRect.right));
+        assertThat(expected.bottom, is(decoration.dividerRect.bottom));
 
         Rect actual = new Rect();
         decoration.getItemOffsets(actual, null, null, null);
@@ -97,10 +97,10 @@ public class DividerItemDecorationTest {
                                    expectedVertical).thenReturn(expectedRect);
         DividerItemDecoration decoration =
                 new DividerItemDecoration(expectedVertical, expectedHorizontal);
-        assertThat(expectedHorizontal, is(decoration.mDividerRect.left));
-        assertThat(expectedVertical, is(decoration.mDividerRect.top));
-        assertThat(expectedHorizontal, is(decoration.mDividerRect.right));
-        assertThat(expectedVertical, is(decoration.mDividerRect.bottom));
+        assertThat(expectedHorizontal, is(decoration.dividerRect.left));
+        assertThat(expectedVertical, is(decoration.dividerRect.top));
+        assertThat(expectedHorizontal, is(decoration.dividerRect.right));
+        assertThat(expectedVertical, is(decoration.dividerRect.bottom));
 
         decoration.getItemOffsets(actual, null, null, null);
         assertThat(expectedHorizontal, is(actual.left));
@@ -137,10 +137,10 @@ public class DividerItemDecorationTest {
         PowerMockito.whenNew(Rect.class).withArguments(expected, expected, expected, expected)
                     .thenReturn(expectedRect);
         DividerItemDecoration decoration = new DividerItemDecoration(expected);
-        assertThat(expected, is(decoration.mDividerRect.left));
-        assertThat(expected, is(decoration.mDividerRect.top));
-        assertThat(expected, is(decoration.mDividerRect.right));
-        assertThat(expected, is(decoration.mDividerRect.bottom));
+        assertThat(expected, is(decoration.dividerRect.left));
+        assertThat(expected, is(decoration.dividerRect.top));
+        assertThat(expected, is(decoration.dividerRect.right));
+        assertThat(expected, is(decoration.dividerRect.bottom));
 
         decoration.getItemOffsets(actual, null, null, null);
         assertThat(expected, is(actual.left));

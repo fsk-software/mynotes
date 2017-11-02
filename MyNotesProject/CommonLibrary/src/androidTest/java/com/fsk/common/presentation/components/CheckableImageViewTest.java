@@ -6,7 +6,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.Checkable;
 
-import com.fsk.common.presentation.utils.checkable_helper.OnCheckedChangeListener;
+import com.fsk.common.presentation.utils.checkable.OnCheckedChangeListener;
 
 import org.junit.Before;
 import org.junit.Test;

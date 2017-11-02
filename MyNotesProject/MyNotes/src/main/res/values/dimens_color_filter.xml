@@ -2,7 +2,6 @@
 <resources>
 
     <dimen name="color_filter_item_short_side">30dp</dimen>
-    <dimen name="color_filter_item_long_side">90dp</dimen>
 
     <dimen name="note_edit_color_filter_item_short_side">15dp</dimen>
     <dimen name="note_edit_color_filter_item_long_side">30dp</dimen>

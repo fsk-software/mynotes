@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.fsk.common.utils.threads.ThreadUtils;
+import com.fsk.common.utils.threads.ThreadValidator;
 import com.fsk.mynotes.MyNotesApplication;
 import com.fsk.mynotes.constants.NoteColor;
 
@@ -34,7 +34,7 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
  * Test the {@link NoteFilterPreferences}.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({LocalBroadcastManager.class, ThreadUtils.class, MyNotesApplication.class, Intent.class})
+@PrepareForTest({LocalBroadcastManager.class, ThreadValidator.class, MyNotesApplication.class, Intent.class})
 public class NoteFilterPreferencesTest {
 
     @Mock

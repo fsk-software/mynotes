@@ -6,7 +6,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
-import com.fsk.common.versions.Versions;
+import com.fsk.common.Versions;
 import com.fsk.mynotes.R;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.Note;
@@ -150,7 +150,7 @@ public class NoteEditOptionsBarTest {
     @Test
     public void testOnPaletteClick() {
         final NoteEditOptionsBar unitUnderTest = new NoteEditOptionsBar(mContext);
-        View view = unitUnderTest.findViewById(R.id.component_note_edit_options_bar_color_palette);
+        View view = unitUnderTest.findViewById(R.id.activity_note_edit_options_bar_color_palette);
         unitUnderTest.paletteButtonClicked(view);
 
         LocalOnPaletteClickListener listener = new LocalOnPaletteClickListener();

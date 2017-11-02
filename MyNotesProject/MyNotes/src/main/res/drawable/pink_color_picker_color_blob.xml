@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="oval">
+    <size
+        android:width="@dimen/picker_color_blob_diameter"
+        android:height="@dimen/picker_color_blob_diameter"/>
+
+    <solid android:color="@color/note_pink"/>
+</shape>

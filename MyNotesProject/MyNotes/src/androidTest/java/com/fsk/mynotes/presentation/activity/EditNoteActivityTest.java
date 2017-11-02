@@ -66,7 +66,7 @@ public class EditNoteActivityTest extends ActivityInstrumentationTestCase2<EditN
         EditNoteActivity unitUnderTest = getActivity();
         assertThat(unitUnderTest.mEditText, is(notNullValue()));
         assertThat(unitUnderTest.mNote, is(notNullValue()));
-        assertThat(unitUnderTest.mNoteContainerView, is(notNullValue()));
+        assertThat(unitUnderTest.mNoteContainerDarkBorderView, is(notNullValue()));
         assertThat(unitUnderTest.mToolbar, is(notNullValue()));
         assertThat(unitUnderTest.mUpdateToolbarRunnable, is(notNullValue()));
         assertThat(unitUnderTest.mTextWatcher, is(notNullValue()));

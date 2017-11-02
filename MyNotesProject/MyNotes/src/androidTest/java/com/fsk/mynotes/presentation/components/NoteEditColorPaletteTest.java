@@ -8,7 +8,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.UiThreadTest;
 import android.view.View;
 
-import com.fsk.common.versions.Versions;
+import com.fsk.common.Versions;
 import com.fsk.mynotes.R;
 import com.fsk.mynotes.constants.NoteColor;
 

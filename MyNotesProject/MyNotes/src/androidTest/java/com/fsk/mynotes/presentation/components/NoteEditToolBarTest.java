@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.fsk.common.versions.Versions;
+import com.fsk.common.Versions;
 import com.fsk.mynotes.constants.NoteColor;
 import com.fsk.mynotes.data.Note;
 

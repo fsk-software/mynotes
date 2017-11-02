@@ -2,80 +2,71 @@
 <resources>
 
     <!-- Common attributes for the primary toolbar in the main activity -->
-    <style name="ToolbarParent">
+    <style name="Toolbar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:theme">@style/DarkToolbarTheme</item>
     </style>
 
     <!-- Common attributes for the primary toolbar in the main activity -->
-    <style name="MainToolbarParent" parent="Toolbar">
+    <style name="MainToolbar" parent="Toolbar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/activity_toolbar_height</item>
         <item name="android:background">?attr/colorPrimary</item>
         <item name="android:theme">@style/DarkToolbarTheme</item>
+        <item name="android:elevation">@dimen/toolbar_elevation</item>
     </style>
 
     <!-- Common attributes for the primary toolbar in the main activity -->
-    <style name="NoteEditToolbarParent">
+    <style name="NoteEditToolbar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">50dp</item>
         <item name="android:paddingLeft">15dp</item>
         <item name="android:paddingRight">15dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:elevation">@dimen/toolbar_elevation</item>
     </style>
 
-    <!-- Common attributes for the color filter toolbar in the main activity -->
-    <style name="ColorFilterToolbarParent">
-        <item name="android:background">@android:color/white</item>
-    </style>
 
     <!-- Common attributes for the add note button in main activity -->
-    <style name="FloatingButton">
+    <style name="AddNoteButton">
         <item name="android:layout_width">@dimen/add_button_size</item>
         <item name="android:layout_height">@dimen/add_button_size</item>
-    </style>
-
-    <style name="MainActivityAddNoteButton" parent="FloatingButton">
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_marginTop">@dimen/add_button_top_margin</item>
         <item name="android:layout_marginRight">10dp</item>
+        <item name="android:background">@drawable/add_button_background</item>
+        <item name="android:elevation">@dimen/add_note_button_elevation</item>
+        <item name="android:stateListAnimator">@animator/color_filter_item_selector</item>
     </style>
 
-    <!-- The common attributes for the add note button include -->
-    <style name="AddNoteButtonParent">
-        <item name="android:background">@drawable/add_button_background</item>
+    <!-- The common attributes for the color filter container -->
+    <style name="ColorFilterContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:elevation">@dimen/color_filter_toolbar_elevation</item>
+
+        <item name="android:divider">?android:attr/listDivider</item>
+        <item name="android:dividerPadding">5dip</item>
+        <item name="android:showDividers">middle</item>
     </style>
+
 
     <!-- The common attributes for the color filter items -->
-    <style name="ColorFilterItemParent">
+    <style name="ColorFilterItem">
         <item name="android:textOn"> </item>
         <item name="android:textOff"> </item>
-    </style>
-
-    <!-- The common attributes for the color filter items -->
-    <style name="ColorPickerItemParent">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_marginLeft">15dp</item>
-    </style>
-
-    <!-- The common parent for a note card -->
-    <style name="CardItemParent">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-    
-    <style name="SingleNoteEditItemParent">
-        <item name="android:minHeight">75dp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:gravity">left|top</item>
-        <item name="android:padding">10dp</item>
-        <item name="android:hint">@string/note_hint</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:stateListAnimator">@animator/color_filter_item_selector</item>
     </style>
 
 
-    <style name="EditToolbarOptionParent" >
+    <style name="EditToolbarOption">
+        <item name="android:stateListAnimator">@animator/edit_toolbar_option_press_anim</item>
     </style>
 
 </resources>
