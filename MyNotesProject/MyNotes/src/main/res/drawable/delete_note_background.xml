@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Exists to support Pre-Lollipop Versions with a single NoteColors enum -->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/delete_note_selector"/>
-</layer-list>

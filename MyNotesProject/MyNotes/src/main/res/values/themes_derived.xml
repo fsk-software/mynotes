@@ -1,7 +1,0 @@
-<resources>
-
-    <style name="AppTheme" parent="AppThemeParent" />
-
-    <style name="SingleNoteTheme" parent="SingleNoteThemeParent" />
-
-</resources>

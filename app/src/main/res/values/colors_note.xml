@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="note_blue" type="color">#99CCFF</item>
+    <item name="note_gray" type="color">#C4C4C4</item>
+    <item name="note_green" type="color">#9BED9B</item>
+    <item name="note_pink" type="color">#FFB2D1</item>
+    <item name="note_purple" type="color">#D1B2F0</item>
+    <item name="note_yellow" type="color">#ffff99</item>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheckBox
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/colorFilterCheckbox"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textColor="@color/colorTextPrimary"
+    android:paddingLeft="10dp"
+    android:minWidth="200dp"
+    android:layout_margin="5dp"
+    android:stateListAnimator="@animator/color_filter_elevation_selector" />

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+        app:startDestination="@id/notesFragment">
+
+    <fragment
+            android:id="@+id/notesFragment"
+            android:name="fsk.com.mynotes.ui.notes.NotesFragment"
+            android:label="NotesFragment" >
+        <action
+            android:id="@+id/action_nav_to_edit_note"
+            app:destination="@id/noteFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/noteFragment"
+        android:name="fsk.com.mynotes.ui.note.NoteFragment"
+        android:label="NoteFragment">
+
+        <argument
+            android:name="noteId"
+            app:argType="long" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/colorFilterDialog"
+        android:name="fsk.com.mynotes.ui.colorfilter.ColorFilterDialogFragment" />
+
+</navigation>
