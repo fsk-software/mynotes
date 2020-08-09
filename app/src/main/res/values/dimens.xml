@@ -1,10 +1,5 @@
 <resources>
 
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="note_item_elevation">5dp</dimen>
-
-    <dimen name="note_selected_elevation">5dp</dimen>
-    <dimen name="note_unselected_elevation">0dp</dimen>
-
-    <dimen name="note_circle_diameter">10dp</dimen>
+    <dimen name="note_selected_elevation">@dimen/elevation_high</dimen>
+    <dimen name="note_unselected_elevation">@dimen/elevation_none</dimen>
 </resources>

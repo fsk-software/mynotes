@@ -1,7 +1,8 @@
-package fsk.com.mynotes.di.qualifiers
+package fsk.com.mynotes.ui.note.di
 
 import javax.inject.Qualifier
 
 @Qualifier
+@MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class ActivityContext
+annotation class NoteId

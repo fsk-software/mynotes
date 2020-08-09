@@ -17,26 +17,28 @@ import io.reactivex.subjects.PublishSubject
 /**
  * The adapter to display a card.
  */
-class NotesAdapter : ListAdapter<Note, NotesAdapter.CardViewHolder>(NoteDiffCallback()) {
-
-    private val noteClickedSubject: PublishSubject<Note> = PublishSubject.create()
-    val noteClickedObservable: Observable<Note> get() = noteClickedSubject
+internal class NotesAdapter : ListAdapter<Note, NotesAdapter.CardViewHolder>(NoteDiffCallback()) {
 
     companion object {
         private class NoteDiffCallback : DiffUtil.ItemCallback<Note>() {
 
             override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem == newItem
             }
 
             override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-                return oldItem.id == newItem.id &&
-                        oldItem.color == newItem.color &&
-                        oldItem.text == newItem.text &&
-                        oldItem.title == newItem.title
+                return oldItem == newItem
             }
         }
     }
+
+    private val onNoteClickedPublisher: PublishSubject<Int> = PublishSubject.create()
+
+    /**
+     * Use to monitor for clicks on a note.
+     * It emits the position within the adapter of the clicked note.
+     */
+    val getOnNoteClickedUpdates: Observable<Int> = onNoteClickedPublisher
 
     /**
      * The view holder to hold the card UI components.
@@ -45,44 +47,53 @@ class NotesAdapter : ListAdapter<Note, NotesAdapter.CardViewHolder>(NoteDiffCall
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
 
-        lateinit var data: Note
+        /**
+         * The text view to display the note text.
+         */
+        val titleView: TextView = itemView.findViewById(R.id.noteTitleText)
 
         /**
          * The text view to display the note text.
          */
-        val textView: TextView = itemView.findViewById(R.id.recycler_item_card_text)
-
+        val textView: TextView = itemView.findViewById(R.id.noteContentText)
 
         /**
          * The card view that will change color to reflect the note color.
          */
-        val cardView: CardView = itemView.findViewById(R.id.recycler_item_card_view)
+        val cardView: CardView = itemView.findViewById(R.id.noteCardView)
 
         init {
-            cardView.setOnClickListener{noteClickedSubject.onNext(data)}
+            cardView.setOnClickListener { onNoteClickedPublisher.onNext(adapterPosition) }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): CardViewHolder =
+    /**
+     * Get the note at the specified adapter position
+     *
+     * @param position the position of the item to retrieve
+     */
+    fun getNote(position: Int): Note = getItem(position)
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): CardViewHolder =
         CardViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.recycler_item_note, parent, false)
+                .inflate(R.layout.item_note, parent, false)
         )
 
 
-    override fun onBindViewHolder(holder: CardViewHolder,
-                                  position: Int) {
+    override fun onBindViewHolder(
+        holder: CardViewHolder,
+        position: Int
+    ) {
         val note = getItem(position)
 
-        //We can't change a cards color in the normal way, but google did supply a special method
-        //to do it. Directly, calling setBackgroundResource() will work on the newest lollipop
-        //builds (v2) but crashes everywhere else.
-//
-//        holder.cardView.setCardBackgroundColor(
-//                note.color.getColorArgb(holder.cardView.context))
-//        holder.cardView.tag = note
-//        holder.textView.setText(note.text)
-//        ViewCompat.setTransitionName(holder.cardView, note.id.toString())
+        holder.apply {
+            cardView.setBackgroundResource(note.color.colorResId)
+            textView.text = note.text
+            titleView.text = note.title
+        }
     }
 }

@@ -8,7 +8,10 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import fsk.com.mynotes.R
 
-class EmptyItemDecoration : RecyclerView.ItemDecoration() {
+/**
+ * Decoration that displays a message to the user when there are not notes in the recycler view.
+ */
+internal class EmptyItemDecoration : RecyclerView.ItemDecoration() {
 
     private var view: View? = null
     private var lastParentHeight: Int = -1
@@ -36,7 +39,8 @@ class EmptyItemDecoration : RecyclerView.ItemDecoration() {
             canvas = Canvas(bitmap!!)
 
             val widthSpec = View.MeasureSpec.makeMeasureSpec(parent.width, View.MeasureSpec.EXACTLY)
-            val heightSpec = View.MeasureSpec.makeMeasureSpec(parent.height, View.MeasureSpec.EXACTLY)
+            val heightSpec =
+                View.MeasureSpec.makeMeasureSpec(parent.height, View.MeasureSpec.EXACTLY)
             view?.apply {
                 measure(widthSpec, heightSpec)
                 layout(0, 0, parent.width, parent.height)

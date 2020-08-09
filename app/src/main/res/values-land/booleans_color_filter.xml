@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Indicates the expected orientation of the color filter toolbar -->
-    <bool name="color_filter_toolbar_vertical">false</bool>
-</resources>

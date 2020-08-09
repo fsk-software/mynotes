@@ -9,25 +9,34 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding3.view.clicks
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
+import com.uber.autodispose.autoDispose
 import dagger.android.support.DaggerDialogFragment
 import fsk.com.mynotes.R
-import fsk.com.mynotes.extensions.plusAssign
-import io.reactivex.disposables.CompositeDisposable
+import fsk.com.mynotes.data.preferences.NoteFilterPreferences
 import kotlinx.android.synthetic.main.dialog_color_filter.colorFilterFab
 import kotlinx.android.synthetic.main.dialog_color_filter.colorFilterRecycler
 import javax.inject.Inject
 
 
+/**
+ * Dialog to display the color filter options.
+ * Color selection changes are saved into persistent memory directory.
+ * See [NoteFilterPreferences] to monitor note color selections.
+ */
 class ColorFilterDialogFragment : DaggerDialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    val viewModel: ColorFilterViewModel by viewModels {
+    private val viewModel: ColorFilterViewModel by viewModels {
         viewModelFactory
     }
 
-    private lateinit var disposable: CompositeDisposable
+    private val scopeProvider: AndroidLifecycleScopeProvider by lazy {
+        AndroidLifecycleScopeProvider.from(this)
+    }
+
     private val colorFilterAdapter = ColorFilterAdapter()
 
     override fun onCreateView(
@@ -40,29 +49,26 @@ class ColorFilterDialogFragment : DaggerDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
-        colorFilterRecycler.adapter = colorFilterAdapter
-        colorFilterRecycler.addItemDecoration(
-            DividerItemDecoration(colorFilterRecycler.context, LinearLayoutManager.VERTICAL)
-        )
-
-        disposable = CompositeDisposable()
-
-        disposable +=
-            viewModel.selectedColorsObservable.subscribe { colorFilterAdapter.setSelectedColors(it) }
-
-        disposable +=
-            colorFilterFab.clicks().subscribe {
-                dismissAllowingStateLoss()
-            }
-
-        disposable += colorFilterAdapter.colorCheckedObservable.subscribe { pair ->
-            viewModel.updateSelectedColor(pair.first, pair.second)
+        colorFilterRecycler.apply {
+            adapter = colorFilterAdapter
+            addItemDecoration(
+                DividerItemDecoration(
+                    colorFilterRecycler.context,
+                    LinearLayoutManager.VERTICAL
+                )
+            )
         }
-        colorFilterAdapter.setSelectedColors(viewModel.selectedColors)
-    }
 
-    override fun onDestroyView() {
-        disposable.clear()
-        super.onDestroyView()
+        viewModel.getSelectedColorUpdates
+            .autoDispose(scopeProvider)
+            .subscribe { colorFilterAdapter.setSelectedColors(it) }
+
+        colorFilterFab.clicks()
+            .autoDispose(scopeProvider)
+            .subscribe { dismissAllowingStateLoss() }
+
+        colorFilterAdapter.getOnColorSelectionUpdates
+            .autoDispose(scopeProvider)
+            .subscribe { pair -> viewModel.updateSelectedColor(pair.first, pair.second) }
     }
 }

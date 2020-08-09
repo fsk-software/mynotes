@@ -1,5 +1,50 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/selectColor"
+        android:icon="@drawable/ic_color_palette"
+        android:title="@string/color"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/yellow"
+                android:icon="@drawable/ic_note"
+                android:title="@string/yellow"
+                app:iconTint="@color/note_yellow" />
+
+            <item
+                android:id="@+id/blue"
+                android:icon="@drawable/ic_note"
+                android:title="@string/blue"
+                app:iconTint="@color/note_blue" />
+
+            <item
+                android:id="@+id/green"
+                android:icon="@drawable/ic_note"
+                android:title="@string/green"
+                app:iconTint="@color/note_green" />
+
+            <item
+                android:id="@+id/pink"
+                android:icon="@drawable/ic_note"
+                android:title="@string/pink"
+                app:iconTint="@color/note_pink" />
+
+            <item
+                android:id="@+id/grey"
+                android:icon="@drawable/ic_note"
+                android:title="@string/grey"
+                app:iconTint="@color/note_grey" />
+
+            <item
+                android:id="@+id/purple"
+                android:icon="@drawable/ic_note"
+                android:title="@string/purple"
+                app:iconTint="@color/note_purple" />
+
+        </menu>
+    </item>
 
     <item
         android:id="@+id/delete"

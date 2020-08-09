@@ -12,30 +12,5 @@ class MainActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-//        if (savedInstanceState == null) {
-//            supportFragmentManager.beginTransaction()
-//                .replace(R.id.container, NotesFragment.newInstance())
-//                .commitNow()
-//        }
     }
-
-//
-//    /**
-//     * Edit the specified note.
-//     *
-//     * @param view
-//     *         The clicked note view.
-//     * @param note
-//     *         the note to edit.
-//     */
-//    private fun editNote(view: View,
-//                         note: Note) {
-//        val notePair = Pair.create(view, note.id.toString())
-//        val options =
-//            ActivityOptionsCompat.makeSceneTransitionAnimation(this, notePair)
-//        startActivity(createEditNoteActivityIntent(note), options.toBundle())
-//    }
-//
-
 }

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">MyNotes</string>
-    <string name="action_settings">Settings</string>
     <string name="no_notes_found">No Notes found. \n\nPlease add a new note or update the filters</string>
     <string name="all_colors_selected">all colors</string>
     <string name="color_filter_tooltip">Color Filter. Currently, displaying %1$s!</string>
@@ -10,5 +9,5 @@
     <string name="note_content_hint">Note</string>
     <string name="delete">delete</string>
     <string name="colors">colors</string>
-
+    <string name="color">color</string>
 </resources>

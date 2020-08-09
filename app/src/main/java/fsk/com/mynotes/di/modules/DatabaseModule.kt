@@ -6,19 +6,24 @@ import dagger.Module
 import dagger.Provides
 import fsk.com.mynotes.data.database.NotesDatabase
 import fsk.com.mynotes.data.database.note.NoteDao
+import fsk.com.mynotes.di.qualifiers.ApplicationContext
 import fsk.com.mynotes.di.scopes.ApplicationScope
 
 
+/**
+ * Module to support injecting the database and its supporting objects.
+ */
 @Module
 class DatabaseModule {
 
     @Provides
     @ApplicationScope
-    fun providesDatabase(context: Context): NotesDatabase =
+    fun providesDatabase(@ApplicationContext context: Context): NotesDatabase =
         Room.databaseBuilder(
             context,
             NotesDatabase::class.java,
-            NotesDatabase.FILENAME)
+            NotesDatabase.FILENAME
+        )
             .build()
 
     @Provides

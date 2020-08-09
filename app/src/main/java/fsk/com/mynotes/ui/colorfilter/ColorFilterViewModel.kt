@@ -1,35 +1,37 @@
 package fsk.com.mynotes.ui.colorfilter
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import fsk.com.mynotes.data.NoteColor
-import fsk.com.mynotes.data.preferences.AppPreferences
-import io.reactivex.Observable
+import fsk.com.mynotes.data.preferences.NoteFilterPreferences
+import io.reactivex.Flowable
 import javax.inject.Inject
 
+/**
+ * View Model to manage the color filter interactions.
+ */
 class ColorFilterViewModel @Inject constructor(
-    val context: Context,
-    val appPreferences: AppPreferences
+    private val noteFilterPreferences: NoteFilterPreferences
 ) : ViewModel() {
-    val selectedColorsObservable: Observable<Set<NoteColor>> get() = appPreferences.selectedColorsObservable
 
-    val selectedColors: Set<NoteColor> get() = appPreferences.getSelectedColors()
+    /**
+     * Use to monitor changes the selected colors.  It emits a set of updated colors.
+     */
+    internal val getSelectedColorUpdates: Flowable<Set<NoteColor>> =
+        noteFilterPreferences.getSelectedColorUpdates
 
-    private fun removeSelectedColor(noteColor: NoteColor) {
-        appPreferences.removeSelectedColor(noteColor)
-    }
-
-    private fun addSelectedColor(noteColor: NoteColor) {
-        appPreferences.addSelectedColor(noteColor)
-    }
-
-
-    fun updateSelectedColor(noteColor: NoteColor, selected: Boolean) {
-        if (selected) {
-            addSelectedColor(noteColor)
-        }
-        else {
-            removeSelectedColor(noteColor)
+    /**
+     * Update the selected colors.  Subscribe to [getSelectedColorUpdates] to receive changes.
+     *
+     * @param noteColorOrdinal the ordinal of the note color to update
+     * @param selected true if the note color is selected.
+     */
+    internal fun updateSelectedColor(noteColorOrdinal: Int, selected: Boolean) {
+        NoteColor.values()[noteColorOrdinal].also {
+            if (selected) {
+                noteFilterPreferences.addSelectedColor(it)
+            } else {
+                noteFilterPreferences.removeSelectedColor(it)
+            }
         }
     }
 }

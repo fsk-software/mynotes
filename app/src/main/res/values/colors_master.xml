@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Blue-greys -->
+    <color name="blueGrey">#607D8B</color>
+    <color name="blueGreyDark">#455A64</color>
+
+    <!-- Oranges -->
+    <color name="orange">#FF9800</color>
+
+</resources>
