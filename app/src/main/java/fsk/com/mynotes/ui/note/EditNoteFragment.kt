@@ -17,6 +17,7 @@ import com.uber.autodispose.autoDispose
 import dagger.android.support.DaggerFragment
 import fsk.com.mynotes.R
 import fsk.com.mynotes.data.NoteColor
+import fsk.com.mynotes.ui.extensions.getNoteArgb
 import fsk.com.mynotes.ui.note.di.NoteId
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -109,7 +110,7 @@ class EditNoteFragment : DaggerFragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .autoDispose(scopeProvider)
             .subscribe { note ->
-                editNoteCardView.setCardBackgroundColor(viewModel.getNoteArgb())
+                editNoteCardView.setCardBackgroundColor(requireContext().getNoteArgb(note.color))
                 noteTitleEditText.setText(note.title)
                 noteContentEditText.setText(note.text)
             }

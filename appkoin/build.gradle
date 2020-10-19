@@ -1,0 +1,112 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+kapt {
+    generateStubs = true
+}
+
+android {
+    compileSdkVersion 30
+    defaultConfig {
+        applicationId "fsk.com.koin.mynotes"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
+                        "room.incremental"     : "true",
+                        "room.expandProjection": "true"]
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+dependencies {
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //rxJava
+    implementation "com.jakewharton.rxbinding3:rxbinding-core:$versions.rx.rxBinding"
+    implementation "com.jakewharton.rxbinding3:rxbinding-appcompat:$versions.rx.rxBinding"
+    implementation "io.reactivex.rxjava2:rxjava:$versions.rx.rxJava2"
+    implementation "io.reactivex.rxjava2:rxandroid:$versions.rx.rxAndroid"
+    implementation "io.reactivex.rxjava2:rxkotlin:$versions.rx.rxKotlin"
+    implementation "com.uber.autodispose:autodispose:$versions.rx.autodispose"
+    implementation "com.uber.autodispose:autodispose-android:$versions.rx.autodispose"
+    implementation "com.uber.autodispose:autodispose-android-archcomponents:$versions.rx.autodispose"
+
+    //Koin
+    implementation "org.koin:koin-android:$versions.koin"
+    implementation "org.koin:koin-android-viewmodel:$versions.koin"
+
+    //Room
+    implementation "androidx.room:room-runtime:$versions.room"
+    kapt "androidx.room:room-compiler:$versions.room"
+    implementation "androidx.room:room-rxjava2:$versions.room"
+
+    testImplementation "androidx.room:room-testing:$versions.room"
+
+    //misc
+    implementation "com.jakewharton.threetenabp:threetenabp:$versions.threetenabp"
+    implementation "com.jakewharton.timber:timber:$versions.timber"
+
+    //moshi
+    implementation "com.squareup.moshi:moshi:$versions.moshi"
+    implementation "com.squareup.moshi:moshi-kotlin:$versions.moshi"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshi"
+
+    //Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$versions.androidx.navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$versions.androidx.navigation"
+
+    //androidx
+    implementation "androidx.appcompat:appcompat:$versions.androidx.appCompat"
+    implementation "androidx.core:core-ktx:$versions.androidx.ktx"
+    implementation "androidx.constraintlayout:constraintlayout:$versions.androidx.constraintLayout"
+
+    //lifecycle
+    implementation "androidx.lifecycle:lifecycle-extensions:$versions.androidx.lifecycle"
+    kapt "androidx.lifecycle:lifecycle-common-java8:$versions.androidx.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$versions.androidx.lifecycle"
+
+    implementation "com.google.android.material:material:$versions.material"
+    implementation "com.google.android:flexbox:$versions.flexbox"
+
+    //test
+    testImplementation "junit:junit:$versions.test.unit.junit"
+
+    //android tests
+    androidTestImplementation "androidx.test:runner:$versions.test.android.runner"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$versions.test.android.espresso"
+
+    implementation project(":common")
+}

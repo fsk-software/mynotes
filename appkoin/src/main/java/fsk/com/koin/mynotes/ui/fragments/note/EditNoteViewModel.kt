@@ -1,0 +1,82 @@
+package fsk.com.koin.mynotes.ui.fragments.note
+
+import androidx.lifecycle.ViewModel
+import fsk.com.koin.mynotes.data.NoteColor
+import fsk.com.koin.mynotes.data.database.note.Note
+import fsk.com.koin.mynotes.data.database.note.NoteDao
+import io.reactivex.Completable
+import io.reactivex.Single
+
+/**
+ * View model to manage the [EditNoteFragment]
+ */
+class EditNoteViewModel(
+    private val initialNoteId: Long,
+    private val noteDao: NoteDao
+) : ViewModel() {
+
+    private lateinit var note: Note
+
+    /**
+     * Asynchronously, load the note from storage
+     *
+     * @return a Single containing the loaded note.
+     */
+    internal fun loadNote(): Single<Note> {
+        return noteDao.getNoteById(initialNoteId)
+            .flatMap {
+                note = it
+                Single.just(note)
+            }
+            .onErrorReturn {
+                it.printStackTrace()
+                note = Note()
+                note
+            }
+    }
+
+    /**
+     * Asynchronously, delete the note from storage.
+     *
+     * @return a completable to monitor the operation.
+     */
+    internal fun deleteNote(): Completable = noteDao.delete(note)
+
+    /**
+     * Asynchronously, update the note color.  This persists the note to storage.
+     *
+     * @return a completable to monitor the operation.
+     */
+    internal fun changeNoteColor(color: NoteColor): Completable {
+        note.color = color
+        return saveNote()
+    }
+
+    /**
+     * Asynchronously, update the note text.  This persists the note to storage.
+     *
+     * @return a completable to monitor the operation.
+     */
+    internal fun updateText(text: String): Completable {
+        note.text = text
+        return saveNote()
+    }
+
+    /**
+     * Asynchronously, update the note title.  This persists the note to storage.
+     *
+     * @return a completable to monitor the operation.
+     */
+    internal fun updateTitle(title: String): Completable {
+        note.title = title
+        return saveNote()
+    }
+
+    private fun saveNote(): Completable =
+        note.id?.let {
+            noteDao.update(note)
+        } ?: noteDao.insert(note).flatMapCompletable {
+            note.id = it
+            Completable.complete()
+        }
+}

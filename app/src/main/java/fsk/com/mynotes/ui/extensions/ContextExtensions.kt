@@ -1,4 +1,4 @@
-package fsk.com.mynotes.extensions
+package fsk.com.mynotes.ui.extensions
 
 import android.content.Context
 import androidx.core.content.ContextCompat

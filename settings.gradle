@@ -1,2 +1,4 @@
+include ':appkoin'
+include ':common'
 rootProject.name='MyNotes'
 include ':app'

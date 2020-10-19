@@ -1,0 +1,35 @@
+//This file contains the version numbers that are shared between multiple gradle files
+ext.versions = [
+        'androidx'   : [
+                'navigation'      : '2.3.1',
+                'appCompat'       : '1.2.0',
+                'ktx'             : '1.3.2',
+                'constraintLayout': '2.0.2',
+                'lifecycle'       : '2.2.0'
+        ],
+        'dagger'     : '2.26',
+        'flexbox'    : '2.0.0',
+        'koin'       : '2.1.6',
+        'kotlin'     : "1.4.10",
+        'material'   : '1.2.1',
+        'moshi'      : '1.9.3',
+        'rx'         : [
+                'rxJava2'    : '2.2.19',
+                'rxKotlin'   : '2.4.0',
+                'rxAndroid'  : '2.1.1',
+                'rxBinding'  : '3.1.0',
+                'autodispose': '1.4.0'
+        ],
+        'room'       : '2.2.5',
+        'threetenabp': '1.2.4',
+        'timber'     : '4.7.1',
+        'test'       : [
+                'unit'  : [
+                        'junit': '4.13'
+                ],
+                'android': [
+                        'runner'  : '1.3.0',
+                        'espresso': '3.3.0'
+                ]
+        ]
+]

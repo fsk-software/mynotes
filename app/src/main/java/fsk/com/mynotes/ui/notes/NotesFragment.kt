@@ -16,8 +16,10 @@ import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.autoDispose
 import dagger.android.support.DaggerFragment
 import fsk.com.mynotes.R
+import fsk.com.mynotes.data.NoteColor
 import fsk.com.mynotes.data.database.note.Note
 import fsk.com.mynotes.ui.common.GridMiddleDividerItemDecoration
+import fsk.com.mynotes.ui.extensions.getNoteColorName
 import kotlinx.android.synthetic.main.fragment_notes.notes_add_fab
 import kotlinx.android.synthetic.main.fragment_notes.notes_recycler
 import javax.inject.Inject
@@ -42,6 +44,8 @@ class NotesFragment : DaggerFragment() {
         AndroidLifecycleScopeProvider.from(this)
     }
     private val cardAdapter = NotesAdapter()
+
+    private var colorsTooltip: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -86,7 +90,10 @@ class NotesFragment : DaggerFragment() {
 
         viewModel.getSelectedColorsUpdates
             .autoDispose(scopeProvider)
-            .subscribe { activity?.invalidateOptionsMenu() }
+            .subscribe {
+                colorsTooltip = createToolTipForColors(it)
+                activity?.invalidateOptionsMenu()
+            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -95,7 +102,7 @@ class NotesFragment : DaggerFragment() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.color_filter).title = viewModel.selectedColorsToolTip
+        menu.findItem(R.id.color_filter).title = colorsTooltip
         super.onPrepareOptionsMenu(menu)
     }
 
@@ -111,5 +118,17 @@ class NotesFragment : DaggerFragment() {
     private fun gotoEditNote(note: Note?) {
         findNavController(this)
             .navigate(NotesFragmentDirections.actionNavToEditNote(note?.id ?: -1))
+    }
+
+    private fun createToolTipForColors(selectedColors: Set<NoteColor>): String {
+        val colorString = if (selectedColors.size == NoteColor.values().size) {
+            requireContext().getString(R.string.all_colors_selected)
+        } else {
+            val builder = StringBuilder()
+            selectedColors.forEach { builder.appendLine(requireContext().getNoteColorName(it)) }
+            builder.toString()
+        }
+
+        return requireContext().getString(R.string.color_filter_tooltip, colorString)
     }
 }
